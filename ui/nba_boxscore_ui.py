@@ -3,60 +3,20 @@ from tabulate import tabulate
 
 import os, sys
 sys.path.append(os.path.join('.', 'api_functions'))
-from nbagameboxscore import get_boxscore_data
+from nbagameboxscore import BoxScore #get_boxscore_data
 
 
 
-class BoxScore(Widget):
+class BoxScoreUI(Widget):
     """A class to represent an NBA box score.
 
     Attributes:
-        date: Date in YYYYMMDD format.
-        gameId: gameId for the box score of given game.
-
-        raw_data: dictionary of the raw json data.
-
-        _internal: raw_data key of of iternal data.
-
-        basic_game_data: raw_data key of base game data.
-        vTeam_game_data:  visiting team basic game data.
-        vTeam_game_data: visiting team basic game data.
-
-        previous_matchup: raw_data key of stats from previous matchup.
-
-        stats: raw_data key of the games stats.
-        player_stats: list of game stats of each player in the game.
-        vTeam_player_stats: list of all player stats for visiting team.
-        hTeam_player_stats: list of all player stats for home team.
-        vTeam_totals: dict of the totals of all stats for visiting team.
-        hTeam_totals: dict of the totals of all stats for home team.
-
         boxscore_headers: Display headers for boxscore UI.
         data_headers: dict keys corosponding to boxscore headers.
         boxscore_totals: display
     """
     def __init__(self, date=None, gameId=None):
-        self.date = date
-        self.gameId = gameId
-
-        self.raw_data = get_boxscore_data(date=self.date, gameId=self.gameId)
-        self._internal = self.raw_data['_internal']
-
-        self.basic_game_data = self.raw_data['basicGameData']
-        self.vTeam_game_data = self.basic_game_data['vTeam']
-        self.hTeam_game_data = self.basic_game_data['hTeam']
-
-        self.previous_matchup = self.raw_data['previousMatchup']
-
-        self.stats = self.raw_data['stats']
-        self.player_stats = self.stats['activePlayers']
-        self.vTeam_player_stats = [player for player in self.player_stats \
-            if player['teamId'] == self.player_stats[0]['teamId']]
-        self.hTeam_player_stats = [player for player in self.player_stats \
-            if player['teamId'] == self.player_stats[-1]['teamId']]
-
-        self.vTeam_totals = self.stats['vTeam']['totals']
-        self.hTeam_totals = self.stats['hTeam']['totals']
+        self.B = BoxScore(date, gameId)
 
 
 
@@ -95,13 +55,13 @@ class BoxScore(Widget):
 
         """
         if visitors:
-            table = self.create_table(self.vTeam_player_stats, \
-                self.vTeam_totals)
+            table = self.create_table(self.B.vTeam_player_stats, \
+                self.B.vTeam_totals)
             print(tabulate(table, self.boxscore_headers, tablefmt = 'psql'))
 
         if home:
-            table = self.create_table(self.hTeam_player_stats, \
-                self.hTeam_totals)
+            table = self.create_table(self.B.hTeam_player_stats, \
+                self.B.hTeam_totals)
             print(tabulate(table, self.boxscore_headers, tablefmt = 'psql'))
 
 
@@ -173,11 +133,11 @@ class BoxScore(Widget):
             visitors: bool, to display the away teams score
         """
         if visitors:
-            print(self.vTeam_game_data['triCode'], end=' ')
-            print(self.vTeam_game_data['score'])
+            print(self.B.vTeam_game_data['triCode'], end=' ')
+            print(self.B.vTeam_game_data['score'])
         if home:
-            print(self.hTeam_game_data['triCode'], end=' ')
-            print(self.hTeam_game_data['score'])
+            print(self.B.hTeam_game_data['triCode'], end=' ')
+            print(self.B.hTeam_game_data['score'])
 
 
 
@@ -186,6 +146,6 @@ class BoxScore(Widget):
 
 if __name__ == '__main__':
     print('Create Box Score Object')
-    boxscore = BoxScore()
+    boxscore = BoxScoreUI()
     print('Display Box Score Widget\n')
     boxscore.display()
