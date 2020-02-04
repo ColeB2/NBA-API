@@ -34,8 +34,6 @@ class BoxScore(Widget):
         boxscore_headers: Display headers for boxscore UI.
         data_headers: dict keys corosponding to boxscore headers.
         boxscore_totals: display
-
-
     """
     def __init__(self, date=None, gameId=None):
         self.date = date
@@ -77,8 +75,25 @@ class BoxScore(Widget):
 
     '''BOXSCORE'''
     def display(self, score=True, home=True, visitors=True):
-        if score: self.display_score()
+        """Prints the score and boxscore of the game to the console.
 
+        Args:
+            score: boolean, to display the score of the game.
+            home: boolean, to display home team boxscore
+            visitors: boolean, to display away team boxscore.
+        """
+        if score: self.display_score(home=home, visitors=visitors)
+        if visitors: self.display_boxscore(visitors=visitors)
+        if home: self.display_boxscore(home=home)
+
+    def display_boxscore(self, home=False, visitors=False):
+        """Prints the boxscore of the game to the console.
+
+        Args:
+            home: boolean, to display home team boxscore.
+            visitors: boolean, to display visitor team boxscore.
+
+        """
         if visitors:
             table = self.create_table(self.vTeam_player_stats, \
                 self.vTeam_totals)
@@ -88,6 +103,7 @@ class BoxScore(Widget):
             table = self.create_table(self.hTeam_player_stats, \
                 self.hTeam_totals)
             print(tabulate(table, self.boxscore_headers, tablefmt = 'psql'))
+
 
     def create_table(self, data, team_totals):
         """
@@ -124,6 +140,11 @@ class BoxScore(Widget):
         return table
 
     def totals_footer(self, team_totals):
+        """Creates a list of totals to be added to the footer of boxscore.
+
+        Args:
+            team_totals: dict of given teams totals for the game.
+        """
         separator =  ['==','=======================', '=====',
         '======', '======', '======', '===','===','===',
         '===', '===', '===',
@@ -142,12 +163,15 @@ class BoxScore(Widget):
 
         return [separator, footer]
 
-    def test(self):
-        pass
-
     '''SCOREBOARD'''
     def display_score(self, home=True, visitors=True):
-        """Prints the triCode and score of game on separate lines."""
+        """
+        Prints the triCode and score of game on separate lines to the console.
+
+        Args:
+            home: bool, to display the home teams score
+            visitors: bool, to display the away teams score
+        """
         if visitors:
             print(self.vTeam_game_data['triCode'], end=' ')
             print(self.vTeam_game_data['score'])
