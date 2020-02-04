@@ -1,3 +1,7 @@
+"""
+nbagameboxscore.py - Contains functions and classes to handle the data from the
+data.nba.net ... _boxscore.json endpoint
+"""
 from functions import get_data
 from nbaschedule import get_last_gameId
 
