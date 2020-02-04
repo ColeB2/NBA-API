@@ -130,4 +130,6 @@ dmypy.json
 
 setup.py
 build/
+
 information.txt
+ex.py
