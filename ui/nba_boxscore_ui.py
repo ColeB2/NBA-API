@@ -3,7 +3,7 @@ from tabulate import tabulate
 
 import os, sys
 sys.path.append(os.path.join('.', 'api_functions'))
-from nbagameboxscore import BoxScore #get_boxscore_data
+from nbagameboxscore import BoxScore
 
 
 
