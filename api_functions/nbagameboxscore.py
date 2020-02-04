@@ -20,7 +20,7 @@ def get_boxscore_data(date=None, gameId=None):
     data = get_data(url)
     return data
 
-class BoxScore():
+class BoxScore(object):
     """A class to sort and hold data for NBA _boxscore endpoint
 
     Attributes:

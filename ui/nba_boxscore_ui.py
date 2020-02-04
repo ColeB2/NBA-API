@@ -18,8 +18,6 @@ class BoxScoreUI(Widget):
     def __init__(self, date=None, gameId=None):
         self.B = BoxScore(date, gameId)
 
-
-
         self.boxscore_headers = ['NO', 'Name', 'MIN', 'FG', '3PT', 'FT','OR',
           'DR', 'TR', 'AST', 'STL', 'BLK', 'TOV', 'PF',  '+/-', 'PTS']
 
@@ -33,7 +31,8 @@ class BoxScoreUI(Widget):
          'totReb', 'assists', 'steals', 'blocks', 'turnovers', 'pFouls',
          'plusMinus', 'points']
 
-    '''BOXSCORE'''
+
+    '''BOXSCORE UI'''
     def display(self, score=True, home=True, visitors=True):
         """Prints the score and boxscore of the game to the console.
 
@@ -123,7 +122,7 @@ class BoxScoreUI(Widget):
 
         return [separator, footer]
 
-    '''SCOREBOARD'''
+    '''GAME SCORE UI'''
     def display_score(self, home=True, visitors=True):
         """
         Prints the triCode and score of game on separate lines to the console.
