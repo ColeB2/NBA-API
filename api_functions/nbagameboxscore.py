@@ -3,7 +3,7 @@ nbagameboxscore.py - Contains functions and classes to handle the data from the
 data.nba.net ... _boxscore.json endpoint
 """
 from functions import get_data
-from nbaschedule import get_last_gameId
+from nbaschedule import Schedule as S
 
 def get_boxscore_data(date=None, gameId=None):
     """Gets raw json data for given game.
@@ -15,8 +15,7 @@ def get_boxscore_data(date=None, gameId=None):
         Dictionary of raw json data from the data.nba.net boxscore endpoint
     """
     if not date or not gameId:
-        x = get_last_gameId()
-        gameId, date = get_last_gameId()
+        gameId, date = S().last_game_id_date
 
     url_start = 'http://data.nba.net/prod/v1/'
     url = str(url_start) + str(date) + '/' + str(gameId) + '_boxscore.json'
