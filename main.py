@@ -4,11 +4,15 @@ import urllib.request
 
 import os, sys
 sys.path.append(os.path.join('.', 'ui'))
-print(sys.path)
+
 from nba_boxscore_ui import BoxScoreUI
-from api_functions import nbagameboxscore
+from nba_schedule_ui import ScheduleUI
 
 
 if __name__ == '__main__':
+    
     B = BoxScoreUI()
     B.display()
+
+    S = ScheduleUI()
+    S.display(True, True)
