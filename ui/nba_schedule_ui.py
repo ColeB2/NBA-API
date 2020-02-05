@@ -1,5 +1,4 @@
 from ui_functions import Widget
-from tabulate import tabulate
 import calendar
 
 import os, sys
@@ -17,30 +16,89 @@ class ScheduleUI(Widget):
     """
     def __init__(self, season=None, team=None):
         self.S = Schedule(season, team)
+        self.regular_season = self.S.standard[len(self.S.standard)-82:]
+        self.offset = len(self.regular_season) - len(self.S.standard)
+        self.last_game_idx = self.S.last_game_idx + self.offset
 
 
-    def display(self, game_num=None):
+    def display(self, last_x=False, next_x=False, full_schedule=False):
         '''FIX HARD CODING'''
-        """Prints the schedule of selected team to the console.
+        """Main display call, to display specified schedules.
 
         Args:
-            game_num: number of games wanting to display, default = All
+            last_x: Boolean, decides whether to display last x games.
+            next_x: Boolean, decides whether to display next x games.
+            full_schedule: Boolean, decides whether to display full schedule.
         """
-        if not game_num: game_num = len(self.S.regular_season)
-        for game in enumerate(self.S.regular_season):
-            if game[0] >= game_num:
-                break
-            print(calendar.month_abbr[int(game[1]['startDateEastern'][4:6])], end=' ')
-            print(game[1]['startDateEastern'][6:], end=' ')
-            print(game[1]['startDateEastern'][:4],end= ' ')
+        if full_schedule: self.display_season_schedule()
+        if last_x: self.display_last_x_games()
+        if next_x: self.display_next_x_games()
 
-            print(game[1]['gameUrlCode'][9:12],end= ' ')
-            print(game[1]['vTeam']['score'], end= ' ')
-            print(game[1]['gameUrlCode'][12:],end= ' ')
-            print(game[1]['hTeam']['score'])
+    def display_game_information(self, game):
+        """Method used to print approrpiate information to the console. Prints,
+        date, team tricode and score.
+
+        Args:
+            game: index value of game to be printed
+        """
+        print(calendar.month_abbr[int( \
+              self.regular_season[game]['startDateEastern'][4:6])], end=' ')
+        print(self.regular_season[game]['startDateEastern'][6:], end=' ')
+        print(self.regular_season[game]['startDateEastern'][:4],end= ' ')
+
+        print(self.regular_season[game]['gameUrlCode'][9:12],end= ' ')
+        print(self.regular_season[game]['vTeam']['score'], end= ' ')
+        print(self.regular_season[game]['gameUrlCode'][12:],end= ' ')
+        print(self.regular_season[game]['hTeam']['score'])
+
+    def display_season_schedule(self):
+        """Method used to display all regular season games to the console."""
+        for game in enumerate(self.regular_season):
+            self.display_game_information(game[0])
+        print()
+
+    def _display_x_helper(self, x, next=True):
+        """Method used by display_last/next_x_games, sets direction of based on
+        boolean value, and calls display_game_information to display games, if
+        the order specified.
+
+        Args:
+            x: number of games to be displayed
+            next: Boolean value, on whether to display next x games, vs last x
+            games
+        """
+        if next:
+            dir = 1
+        else:
+            dir = -1
+
+        for game in range(self.last_game_idx, self.last_game_idx+(dir*x), dir):
+            self.display_game_information(game)
+        print()
+
+    def display_last_x_games(self, x=5):
+        """Method used to display last x number of games to the console. Does so
+        by calling _display_x_helper.
+        Args:
+            x: number of games to be displayed.
+        """
+        self._display_x_helper(x, next=False)
+
+    def display_next_x_games(self, x=5):
+        """Method used to display next x number of games to the console. Does so
+        by calling display_x_helper.
+
+
+        Args:
+            x: number of games to be displayed.
+        """
+        self._display_x_helper(x, next=True)
+
+
+
+
 
 
 if __name__ == '__main__':
     S = ScheduleUI()
-    S.display()
-    pass
+    S.display(True, True, True)

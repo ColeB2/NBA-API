@@ -31,11 +31,8 @@ class Schedule():
 
     """
     def __init__(self, season=None, team=None):
-        #self.season = season
         self.season = season if season != None else get_season()
-        #if season == None: self.season = get_season() else self.season = season
         self.team = team if team != None else get_team()
-        #if team == None: self.team = get_team()
 
         self.raw_data = get_schedule_data(season=self.season, team=self.team)
         self._internal = self.raw_data['_internal']
@@ -43,8 +40,6 @@ class Schedule():
         self.league = self.raw_data['league']
 
         self.standard = self.league['standard'] #list of all games
-        self.regular_season = self.standard[len(self.standard)-82:]
-        #slice standard in a way to remove preseason games from data set
 
         self.last_game_idx = self.league['lastStandardGamePlayedIndex']
         self.last_game = self.standard[self.last_game_idx]
