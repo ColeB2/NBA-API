@@ -61,18 +61,15 @@ class ScheduleUI(Widget):
         """Method used by display_last/next_x_games, sets direction of based on
         boolean value, and calls display_game_information to display games, if
         the order specified.
+        Utilizes Schedule.get_x_games() to retrieve the information.
 
         Args:
             x: number of games to be displayed
             next: Boolean value, on whether to display next x games, vs last x
             games
         """
-        if next:
-            dir = 1
-        else:
-            dir = -1
-
-        for game in range(self.last_game_idx, self.last_game_idx+(dir*x), dir):
+        games = self.S.get_x_games(x=x, next=next, last_game=self.last_game_idx)
+        for game in games:
             self.display_game_information(game)
         print()
 

@@ -70,6 +70,25 @@ class Schedule():
     def get_last_x_games(self, x):
         pass
 
+    def get_x_games(self, x=5, next=True, last_game=None):
+        """Method used to get data of next/last x games.
+
+        Args:
+            x: number of games to be retrieve
+            next: Boolean value, set direction of, either next or last x games.
+            last_game: index of last game played.
+
+        Returns:
+            List of the all the games index.
+
+        """
+        if not last_game: last_game = self.last_game_idx
+        dir = 1 if next else -1
+        games = []
+        for game in range(last_game, last_game+(dir*x), dir):
+            games.append(game)
+        return games
+
 if __name__ == '__main__':
     S = Schedule()
 
@@ -106,3 +125,4 @@ if __name__ == '__main__':
 
     print('\n-----LastGame----------------------------------------------------')
     print(S.last_game)
+    print(S.get_x_games())
