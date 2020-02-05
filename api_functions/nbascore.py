@@ -1,8 +1,8 @@
-from functions import get_data
+from functions import get_data, get_today_date
 
-'''TDOO: REMOVE UI Elements, '''
-def get_score(gameId, date='20200120'):
-    '''
+
+def get_score_data(date=None):
+    """
     Gets the score of a given game given the gameId and the date
     Used in conjunction with get_today_gameId or get_last_gameId to aquire said
     gameId, and date
@@ -16,49 +16,50 @@ def get_score(gameId, date='20200120'):
     scores = get_last_gameId()
     my_score = get_score(gameId=scores[0], date=scores[1])
     returns     : score as well as prints to console
-    '''
+    """
+    if not date: date = get_today_date()
 
     url_start = 'http://data.nba.net/prod/v1/'
     url = str(url_start) + str(date) + str('/scoreboard.json')
 
     data = get_data(url)
-    x = data['games']
+    return data
 
-    score = None
-    found = False
-    for game in x:
-        if gameId == game['gameId']:
-            y = game
-            score = (game['hTeam']['triCode'], game['hTeam']['score'],
-                     game['vTeam']['triCode'], game['vTeam']['score'])
-            found = True
-    if found == False:
-        print('Game not Found')
+class ScoreBoard():
+    """A class to sort and hold data for NBA /scoredbord.json endpoint
 
-    return score
+    Attributes:
+
+    """
+    def __init__(self, date=None):
+        self.date = date if date != None else get_today_date()
+
+        self.raw_data = get_score_data(date=self.date)
+        self._internal = self.raw_data['_internal']
+
+        self.num_games = self.raw_data['numGames']
+
+        self.games = self.raw_data['games'] #list of games
 
 if __name__ == '__main__':
-    print('Importing get_today_gameId, get_last_gameId')
-    from nbaschedule import get_today_gameId, get_last_gameId
+    from nbaschedule import Schedule
+    S = Schedule()
 
-    print("Checking Raptors/Hawk game, gameId: '0021900640', date='20200120'")
-    raptors_hawks = '0021900640'
+    SB = ScoreBoard(date=20200204)
+    print('-----RAW DATA BREAKDOWN, DICT KEYS---------------------------------')
+    print(SB.raw_data.keys())
 
-    my_score = get_score(gameId=raptors_hawks, date='20200120')
-    print(my_score)
-    print()
+    print('\n-----_internal---------------------------------------------------')
+    print(SB._internal)
 
-    print('getting today game id from defaul favourite team')
-    x = get_today_gameId()
-    print(x)
-    print('Score for today game')
-    my_score = get_score(gameId=x[0], date=x[1])
-    print(my_score)
-    print()
+    print('\n-----num_games---------------------------------------------------')
+    print(SB.num_games)
 
-    print('getting last game id')
-    z = get_last_gameId('2019', 'raptors')
-    print("Score for: '2019, 'raptors'")
-    my_score = get_score(gameId=z[0], date=z[1])
-    print(my_score)
-    print()
+    print('\n-----games-------------------------------------------------------')
+    print(SB.games)
+
+    print('Games Keys:')
+    print(SB.games[0].keys())
+
+    print('Test')
+    print(SB.games[0]['vTeam'])
