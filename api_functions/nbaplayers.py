@@ -4,7 +4,7 @@ import sys, os
 sys.path.append(os.path.abspath(os.path.join('.', 'config')))
 from getconfiginfo import get_season
 
-def get_player_info(season=None):
+def get_player_data(season=None):
     """Gets raw json data for all players
     """
     if not season: season = get_season()
@@ -35,12 +35,22 @@ class PlayerInfo(object):
     """
 
     def __init__(self):
-        self.raw_data = get_player_info()
+        self.raw_data = get_player_data()
         self._internal = self.raw_data['_internal']
 
         self.league = self.raw_data['league']
 
         self.standard = self.league['standard']
+
+    def get_player_name(self, personId):
+        """Retrieves player name via their personId
+        """
+        for player in self.standard:
+            if player['personId'] == personId:
+                first = str(player['firstName'])
+                last = str(player['lastName'])
+        return (first, last)
+
 
 
 if __name__ == '__main__':
