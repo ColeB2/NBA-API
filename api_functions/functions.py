@@ -11,7 +11,7 @@ def get_data(url):
         url: URL of endpoint we want to retrieve data from
 
     Returns:
-        Full dumn of json data from the given url
+        Full dump of json data from the given url
     """
     with urllib.request.urlopen(url) as nba_url:
         data = json.loads(nba_url.read().decode())

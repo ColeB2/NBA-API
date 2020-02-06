@@ -14,44 +14,30 @@ from getconfiginfo import get_season
 
 
 
-def get_team_url(identifier):
-    '''
-    Gets the teamUrl name via some sort of identifier
+def get_team_data(season=None):
+    """Gets raw json data for all teams.
 
-    param      : get_team_url(identifier)
-    identifiers: City, Full Team Name, tri code, nickname, teamId
-    city       : Atlanta
-    fullName   : Chicago Bulls
-    tricode    : DAL
-    nickname   : 76ers
-    teamId     : 1610612744
-    example    : get_team_url('ToRoNtO')
+    Args:
+        season: Year of season start date. Ex: 2019 for the 2019/2020 season.
 
-    returns    : urlName which is used in various urls to find teams games,
-    stats, schedules etc. ex: raptors, hawks, sixers
-    example    : 'raptors'
-    '''
-    season_year = get_season()
-    url = 'http://data.nba.net/prod/v2/' + str(season_year) + '/teams.json'
+    Returns:
+        Dict of raw json data from data.nba.net.../teams.json endpoint
+    """
+    if not season: season = get_season()
+    url = 'http://data.nba.net/prod/v2/' + str(season) + '/teams.json'
 
     data = get_data(url)
-    x = data['league']
-    y = x['standard']
+    return data
 
-    team_url = str()
-    for team_dict in y:
-        #print(team_dict)
-        for value in team_dict:
-            team_id = team_dict[value]
-            try:
-                if team_id.lower() == str(identifier).lower():
-                    team_url = team_dict['urlName']
-            except AttributeError:
-                pass
+class TeamInfo(object):
+    """A class to sort and hold data from NBA's /team.json endpoint
+
+    Attributes:
 
 
-
-    return team_url if team_url else 'Invalid Identifier'
+    """
+    def __init__(self):
+        pass
 
 
 
