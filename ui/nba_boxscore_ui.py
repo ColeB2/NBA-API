@@ -11,6 +11,7 @@ class BoxScoreUI(Widget):
     """A class to represent an NBA box score.
 
     Attributes:
+        B: BoxScore class which holds all stats/methods for boxscore
         boxscore_headers: Display headers for boxscore UI.
         data_headers: dict keys corosponding to boxscore headers.
         boxscore_totals: display
@@ -64,7 +65,7 @@ class BoxScoreUI(Widget):
             print(tabulate(table, self.boxscore_headers, tablefmt = 'psql'))
 
 
-    def create_table(self, data, team_totals):
+    def create_table(self, data, team_totals, first=True):
         """
         Creates a list, which is used to create table using the tabulate module.
 
@@ -73,6 +74,7 @@ class BoxScoreUI(Widget):
               :ex: self.vTeam_player_stats
             team_totals: totals of given team, to display totals footer.
               :ex: self.hTeam_totals
+            first: Boolean to chose between Full first name, or initial.
 
 
         Returns:
@@ -85,8 +87,12 @@ class BoxScoreUI(Widget):
             for index, stat in enumerate(self.data_headers):
                 if type(stat) is tuple:
                     if stat[0] == 'firstName':
-                        stat_str = str(player[stat[0]]) +  \
-                             ' ' + str(player[stat[1]])
+                        if first:
+                            stat_str = str(player[stat[0]]) +  \
+                                 ' ' + str(player[stat[1]])
+                        else:
+                            stat_str = str(player[stat[0]][0:1]) + '. ' \
+                                 ' ' + str(player[stat[1]])
                     else:
                         stat_str = str(player[stat[0]]) +  \
                              '-' + str(player[stat[1]])
