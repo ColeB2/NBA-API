@@ -2,20 +2,13 @@ from functions import get_data, get_today_date
 
 
 def get_score_data(date=None):
-    """
-    Gets the score of a given game given the gameId and the date
-    Used in conjunction with get_today_gameId or get_last_gameId to aquire said
-    gameId, and date
+    """Gets raw json data of all scores on a given date for all teams.
 
-    param  : get_score(gameId, date)
-    gameId : numberical code for give game, ex '0021900640'
-    date   : date in YYYYMMDD format for given game
+    Args:
+        date: YYYYYMMDD format for day you want scores of.
 
-    EXAMPLE USES:
-    req import  : from nbaschedule import get_last_gameId, get_today_gameId
-    scores = get_last_gameId()
-    my_score = get_score(gameId=scores[0], date=scores[1])
-    returns     : score as well as prints to console
+    Returns:
+        Dict of raw json data from data.nba.net.../scoreboard.json endpoint
     """
     if not date: date = get_today_date()
 

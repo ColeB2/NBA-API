@@ -12,7 +12,7 @@ def get_boxscore_data(date=None, gameId=None):
         date: The date of the given game using YYYYMMDD format.
         gameId: The gameId for given game. Acquired using a get_gameId fucntion.
     Returns:
-        Dictionary of raw json data from the data.nba.net boxscore endpoint
+        Dict of raw json data from the data.nba.net _boxscore.json endpoint
     """
     if not date or not gameId:
         gameId, date = S().last_game_id_date

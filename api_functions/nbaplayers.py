@@ -6,6 +6,13 @@ from getconfiginfo import get_season
 
 def get_player_data(season=None):
     """Gets raw json data for all players
+
+    Args:
+        season: Start date of season of which player data you want. Ex 2019,
+        for the 2019/2020 seaason.
+
+    Returns:
+        Dict of raw json data from data.nba.net.../players.json endpoint
     """
     if not season: season = get_season()
 
@@ -13,20 +20,7 @@ def get_player_data(season=None):
     url = str(url_start) + str(season) + '/players.json'
 
     data = get_data(url)
-
     return data
-
-
-    player_name = str()
-    data = get_data(url)
-    x = data['league']
-    y = x['standard']
-    for i in range(len(y)):
-        if y[i]['personId'] == personId:
-            first_name = str(y[i]['firstName'])
-            last_name = str(y[i]['lastName'])
-            player_name = first_name + ' ' + last_name
-    return player_name
 
 class PlayerInfo(object):
     """A class to sort and hold data for NBA players.json enpoint

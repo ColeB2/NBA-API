@@ -13,7 +13,7 @@ def get_schedule_data(season=None, team=None):
         team: teamUrl for given team -> team name, ex: raptors, sixers
 
     Returns:
-        Dictionary of raw json data from data.nba.net schedule endpoint
+        Dict of raw json data from data.nba.net.../schedule.json endpoint
     """
     if not season: season = get_season()
     if not team: team = get_team()
