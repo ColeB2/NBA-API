@@ -39,8 +39,9 @@ class PlayerInfo(object):
     def get_player_name(self, personId):
         """Retrieves player name via their personId
         """
+        first, last = str(), str()
         for player in self.standard:
-            if player['personId'] == personId:
+            if player['personId'] == str(personId):
                 first = str(player['firstName'])
                 last = str(player['lastName'])
         return (first, last)
@@ -65,3 +66,6 @@ if __name__ == '__main__':
 
     print('standard keys')
     print(PI.standard[0].keys())
+
+    print('BASIC METHOD TEST')
+    print(PI.get_player_name('1627783'))
