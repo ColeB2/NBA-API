@@ -56,3 +56,4 @@ if __name__ == '__main__':
 
     print('Test')
     print(SB.games[0]['vTeam'])
+    print(SB.games[0]['hTeam'])
