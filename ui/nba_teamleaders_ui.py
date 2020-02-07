@@ -21,14 +21,34 @@ class TeamLeadersUI(Widget):
         self.data_headers = ['ppg', 'trpg', 'apg', 'fgp', 'tpp', 'ftp', 'bpg',
         'spg', 'tpg', 'pfpg']
 
+    def display(self, horiz=True):
+        """Prints the team leaders of chosen team to the console.
+
+        Args:
+            horiz: Boolean, decides whether to print horizontal or not.
+        """
+        table = self.create_table(horiz)
+        print(tabulate(table, tablefmt='psql'))
+
+
     def set_horizontal_headers(self):
+        """Handles the headers to create a horizontal table for tabulate
+        function.
+
+        Args:
+        """
         headers = self.headers.copy()
         for i in enumerate(self.headers):
             idx = self.data_headers[i[0]]
             headers[i[0]] += ': ' + str(self.TL.leaders[idx][0]['value'])
         return headers
 
-    def create_table(self, headers, horiz=True):
+    def create_table(self, horiz=True):
+        """Creates a table to be used with tabulate to pretty print to console.
+
+        Args:
+            horiz: Boolean, decides whether to print horizontal or not.
+        """
         if horiz: headers = self.set_horizontal_headers()
         table = list()
         table.append(headers)
@@ -42,5 +62,4 @@ class TeamLeadersUI(Widget):
 
 if __name__ == '__main__':
     TL = TeamLeadersUI()
-    #TL.create_table()
-    print(tabulate(TL.create_table(TL.headers), tablefmt='psql' ))
+    TL.display()
