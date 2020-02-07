@@ -16,6 +16,7 @@ class ScheduleUI(Widget):
     """
     def __init__(self, season=None, team=None):
         self.S = Schedule(season, team)
+        
         self.regular_season = self.S.standard[len(self.S.standard)-82:]
         self.offset = len(self.regular_season) - len(self.S.standard)
         self.last_game_idx = self.S.last_game_idx + self.offset
