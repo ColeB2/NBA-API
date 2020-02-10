@@ -85,7 +85,7 @@ class ScheduleUI(Widget):
         """
         self._display_x_helper(x, next=False, prev_game=True)
 
-    def display_next_x_games(self, x=5):
+    def display_next_x_games(self, x=3):
         """Method used to display next x number of games to the console. Does so
         by calling display_x_helper.
 
