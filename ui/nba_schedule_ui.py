@@ -16,7 +16,7 @@ class ScheduleUI(Widget):
     """
     def __init__(self, season=None, team=None):
         self.S = Schedule(season, team)
-        
+
         self.regular_season = self.S.standard[len(self.S.standard)-82:]
         self.offset = len(self.regular_season) - len(self.S.standard)
         self.last_game_idx = self.S.last_game_idx + self.offset
@@ -58,7 +58,7 @@ class ScheduleUI(Widget):
             self.display_game_information(game[0])
         print()
 
-    def _display_x_helper(self, x, next=True):
+    def _display_x_helper(self, x, next=True, prev_game=True):
         """Method used by display_last/next_x_games, sets direction of based on
         boolean value, and calls display_game_information to display games, if
         the order specified.
@@ -68,8 +68,11 @@ class ScheduleUI(Widget):
             x: number of games to be displayed
             next: Boolean value, on whether to display next x games, vs last x
             games
+            prev_game: Boolean value, whether to include previous game or not in
+            search.
         """
-        games = self.S.get_x_games(x=x, next=next, last_game=self.last_game_idx)
+        games = self.S.get_x_games(x=x, next=next,
+            last_game=self.last_game_idx, prev_game=prev_game)
         for game in games:
             self.display_game_information(game)
         print()
@@ -80,7 +83,7 @@ class ScheduleUI(Widget):
         Args:
             x: number of games to be displayed.
         """
-        self._display_x_helper(x, next=False)
+        self._display_x_helper(x, next=False, prev_game=True)
 
     def display_next_x_games(self, x=5):
         """Method used to display next x number of games to the console. Does so
@@ -90,7 +93,7 @@ class ScheduleUI(Widget):
         Args:
             x: number of games to be displayed.
         """
-        self._display_x_helper(x, next=True)
+        self._display_x_helper(x, next=True, prev_game=False)
 
 
 
