@@ -14,7 +14,15 @@ class ScheduleUI(Widget):
         schedule_headers: display headers for schedule UI
 
     """
-    def __init__(self, season=None, team=None):
+    def __init__(self, season=None, team=None, last=True,
+        next=True, full=False):
+        self.season = season
+        self.team = team
+
+        self.last = last
+        self.next = next
+        self.full = full
+
         self.S = Schedule(season, team)
 
         self.regular_season = self.S.standard[len(self.S.standard)-82:]
@@ -22,7 +30,7 @@ class ScheduleUI(Widget):
         self.last_game_idx = self.S.last_game_idx + self.offset
 
 
-    def display(self, last_x=False, next_x=False, full_schedule=False):
+    def display(self):
         '''FIX HARD CODING'''
         """Main display call, to display specified schedules.
 
@@ -31,9 +39,9 @@ class ScheduleUI(Widget):
             next_x: Boolean, decides whether to display next x games.
             full_schedule: Boolean, decides whether to display full schedule.
         """
-        if full_schedule: self.display_season_schedule()
-        if last_x: self.display_last_x_games()
-        if next_x: self.display_next_x_games()
+        if self.full: self.display_season_schedule()
+        if self.last: self.display_last_x_games()
+        if self.next: self.display_next_x_games()
 
     def display_game_information(self, game):
         """Method used to print approrpiate information to the console. Prints,
@@ -101,5 +109,5 @@ class ScheduleUI(Widget):
 
 
 if __name__ == '__main__':
-    S = ScheduleUI()
-    S.display(True, True, True)
+    S = ScheduleUI(full=True)
+    S.display()
