@@ -1,5 +1,6 @@
 from ui_functions import Widget
 from tabulate import tabulate
+import pyfiglet
 
 import os, sys
 sys.path.append(os.path.join('.', 'api_functions'))
@@ -34,15 +35,16 @@ class BoxScoreUI(Widget):
 
 
     '''BOXSCORE UI'''
-    def display(self, score=True, home=True, visitors=True):
+    def display(self, score=True, fancy=True, home=True, visitors=True):
         """Prints the score and boxscore of the game to the console.
 
         Args:
-            score: boolean, to display the score of the game.
+            score: boolean, to display the score of game or not.
+            fancy: boolean, to display the score in ascii or not.
             home: boolean, to display home team boxscore
             visitors: boolean, to display away team boxscore.
         """
-        if score: self.display_score(home=home, visitors=visitors)
+        if score: self.display_score(fancy=fancy)
         if visitors: self.display_boxscore(visitors=visitors)
         if home: self.display_boxscore(home=home)
 
@@ -129,20 +131,28 @@ class BoxScoreUI(Widget):
         return [separator, footer]
 
     '''GAME SCORE UI'''
-    def display_score(self, home=True, visitors=True):
+    def display_score(self, fancy=True):
         """
         Prints the triCode and score of game on separate lines to the console.
 
         Args:
-            home: bool, to display the home teams score
-            visitors: bool, to display the away teams score
+            fancy: bool, on whether to use ascii score or not
         """
-        if visitors:
+        if fancy:
+            text = pyfiglet.figlet_format(
+                self.B.vTeam_game_data['triCode'] + '   ' +\
+                self.B.vTeam_game_data['score']   + '   ' + \
+                self.B.hTeam_game_data['triCode'] + '   ' + \
+                self.B.hTeam_game_data['score'],
+                font='small')
+            print(text)
+        else:
             print(self.B.vTeam_game_data['triCode'], end=' ')
             print(self.B.vTeam_game_data['score'])
-        if home:
             print(self.B.hTeam_game_data['triCode'], end=' ')
             print(self.B.hTeam_game_data['score'])
+
+
 
 
 
