@@ -19,7 +19,7 @@ if __name__ == '__main__':
     SB.display()
 
     B = BoxScoreUI()
-    B.display()
+    B.display(combined=True)
 
     S = ScheduleUI(next=True, last=True, full=False)
     S.display()

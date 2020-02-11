@@ -35,18 +35,30 @@ class BoxScoreUI(Widget):
 
 
     '''BOXSCORE UI'''
-    def display(self, score=True, fancy=True, home=True, visitors=True):
+    def display(self, combined=False, score=True, ascii=True,
+        home=True, visitors=True):
         """Prints the score and boxscore of the game to the console.
 
         Args:
-            score: boolean, to display the score of game or not.
-            fancy: boolean, to display the score in ascii or not.
-            home: boolean, to display home team boxscore
-            visitors: boolean, to display away team boxscore.
+            combined: Bool, combine score @ top or above respective boxscores.
+            score: Bool, to display the score of game or not.
+            fancy: Bool, to display the score in ascii or not.
+            home: Bool, to display home team boxscore
+            visitors: Bool, to display away team boxscore.
         """
-        if score: self.display_score(fancy=fancy)
-        if visitors: self.display_boxscore(visitors=visitors)
-        if home: self.display_boxscore(home=home)
+        if combined:
+            if score: self.display_score(ascii=ascii, combined=combined)
+            if visitors: self.display_boxscore(visitors=visitors)
+            if home: self.display_boxscore(home=home)
+        else:
+            if score:
+                self.display_score(ascii=ascii, combined=combined,
+                    team_data=self.B.vTeam_game_data)
+            if visitors: self.display_boxscore(visitors=True)
+            if score:
+                self.display_score(ascii=ascii, combined=combined,
+                    team_data=self.B.hTeam_game_data)
+            if home: self.display_boxscore(home=True)
 
     def display_boxscore(self, home=False, visitors=False):
         """Prints the boxscore of the game to the console.
@@ -131,28 +143,42 @@ class BoxScoreUI(Widget):
         return [separator, footer]
 
     '''GAME SCORE UI'''
-    def display_score(self, fancy=True):
+    def ascii_score(self, *team):
+        text_str = ''
+        for team_data in team:
+            text_str += team_data['triCode'] + '   ' + \
+            team_data['score'] + '   '
+
+        text = pyfiglet.figlet_format(text_str, font='small')
+        return text
+
+    def display_score(self, ascii=True, combined=True, team_data=None):
         """
         Prints the triCode and score of game on separate lines to the console.
 
         Args:
-            fancy: bool, on whether to use ascii score or not
+            ascii: Bool, whether to use ascii score or not
+            combined: Bool, whether to combine scores, or put them with respect
+                of their own boxscores.
+            team_data: team data, if combined is false, required to display
+                proper team data at proper spot.
         """
-        if fancy:
-            text = pyfiglet.figlet_format(
-                self.B.vTeam_game_data['triCode'] + '   ' +\
-                self.B.vTeam_game_data['score']   + '   ' + \
-                self.B.hTeam_game_data['triCode'] + '   ' + \
-                self.B.hTeam_game_data['score'],
-                font='small')
-            print(text)
+        if combined:
+            if ascii:
+                print(self.ascii_score(self.B.vTeam_game_data,
+                                       self.B.hTeam_game_data))
+            else:
+                print(self.B.vTeam_game_data['triCode'], end=' ')
+                print(self.B.vTeam_game_data['score'])
+                print(self.B.hTeam_game_data['triCode'], end=' ')
+                print(self.B.hTeam_game_data['score'])
+
         else:
-            print(self.B.vTeam_game_data['triCode'], end=' ')
-            print(self.B.vTeam_game_data['score'])
-            print(self.B.hTeam_game_data['triCode'], end=' ')
-            print(self.B.hTeam_game_data['score'])
-
-
+            if ascii:
+                print(self.ascii_score(team_data))
+            else:
+                print(team_data['triCode'], end=' ')
+                print(team_data['score'])
 
 
 
