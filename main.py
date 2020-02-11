@@ -21,6 +21,5 @@ if __name__ == '__main__':
     B = BoxScoreUI()
     B.display()
 
-    S = ScheduleUI()
-    S.display(True)
-    S.display(False, True)
+    S = ScheduleUI(next=True, last=True, full=False)
+    S.display()

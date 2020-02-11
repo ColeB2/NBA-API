@@ -17,34 +17,52 @@ class ScoreBoardUI():
     Attributes:
     """
     def __init__(self, date=None):
+        self.date = date
+
         self.SB = ScoreBoard()
         self.YSB = ScoreBoard(date=get_yesterday_date())
 
 
     def display(self, horiz=True):
-        #tableY = self.set_horizontal_headers(self.YSB)
-        tableT = self.set_horiz_headers(self.YSB, self.SB)
-        self.format_date(tableT)
-        print(tableT)
-        #print(calendar.month_abbr[int(self.SB.date[4:6])], end=' ')
-        #print(self.SB.date[6:] + ' ' + self.SB.date[:4])
+        """Prints the scoreboard of games for today, and yesterday to the
+        console
+
+        Args:
+            horiz: boolean on whether to display scoreboard horizontally if
+            false, will display it vertically.
+
+        """
+        self.horizontal_display() if horiz else self.vertical_display()
     """HORIZONTAL DISPLAY"""
-    def format_date(self, table):
-        """Formats date string to fit the CLI of scoreboard"""
-        date = calendar.month_abbr[int(self.YSB.date[4:6])]
-        date = date + ' ' + self.YSB.date[6:] + ' ' + self.YSB.date[:4]
-        #print(len(tabulate(table)))
+
+    def format_date(self,date):
+        """formats the date from YYYYMMDD format into MMM DD YYYY format
+        """
+        date = calendar.month_abbr[int(date[4:6])] + ' ' + \
+            date[6:] + ' ' + date[:4]
+        return date
+
+    def display_date(self, table):
+        """Formats date string to fit the CLI of scoreboard and prints to
+        command line"""
+        date_str = self.format_date(self.YSB.date)
         x = table.find('***')
-        #print(x)
         y = table.find('\n')
-        #print(y)
-        while len(date) <= x-y+2:
-            date = date + ' '
-        date = date + calendar.month_abbr[int(self.SB.date[4:6])]
-        date = date + ' ' + self.SB.date[6:] + ' ' + self.SB.date[:4]
-        print(date)
+        while len(date_str) <= x-y+2:
+            date_str = date_str + ' '
+        date_str += self.format_date(self.SB.date)
+        print(date_str)
 
     def set_horiz_headers(self, *data):
+        """Sets the heads for a horizontal display so they can be used by the
+        tabulate function.
+
+        Args:
+
+        Kwargs
+            data: Raw scoreboard data created from the ScoreBoard class. Can be
+            both just for todays date scores, and yesterdays scores.
+        """
         top_team, bot_team = [], []
         for idx in range(len(data)):
             for game in data[idx].games:
@@ -56,16 +74,29 @@ class ScoreBoardUI():
             if len(data) >= 2 and idx < len(data)-1:
                 top_team.append('***')
                 bot_team.append('***')
+        return [top_team, bot_team]
 
+    def create_horiz_table(self, data):
+        """Creates the tabulate table given the headers from set_horiz_headers.
+
+        Args:
+            data: Data from set_horiz_headers
+        """
         table = []
-        table.append(top_team)
-        table.append(bot_team)
+        for headers in data:
+            table.append(headers)
         return tabulate(table, tablefmt='psql')
 
 
 
     def horizontal_display(self):
-        print(tabulate(table, tablefmt='psql'))
+        """Main display method used to display a horizontal version of a
+        scoreboard to the command line.
+        """
+        headers = self.set_horiz_headers(self.YSB, self.SB)
+        table = self.create_horiz_table(headers)
+        self.display_date(table)
+        print(table)
 
     """VERTICAL DISPLAY"""
     def vertical_display(self, today=True, yesterday=False):
@@ -73,9 +104,7 @@ class ScoreBoardUI():
             print(game['hTeam']['triCode'],game['hTeam']['score'], end=' ')
             print(game['vTeam']['triCode'], game['vTeam']['score'])
 
-    def create_horiz_table(self):
-        vTeam_headers = []
-        hTeam_headers = []
+
 
 
 
