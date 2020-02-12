@@ -67,9 +67,6 @@ class Schedule():
 
         return gameId, game_date
 
-    def get_last_x_games(self, x):
-        pass
-
     def get_x_games(self, x=5, next=True, last_game=None, prev_game=True):
         """Method used to get data of next/last x games.
 
