@@ -170,8 +170,7 @@ class ScheduleUI(Widget):
 
 
 
-
-        if fave_score > opp_score:
+        if fave_score != '' and int(fave_score) > int(opp_score):
             res = 'W'
         else:
             res = 'L'
@@ -181,7 +180,10 @@ class ScheduleUI(Widget):
             X = self.convert_time(game_time)
             res = str(X)
 
-        return res + ' ' + fave_score + '-' + opp_score
+        dash = '-' if fave_score != '' else ''
+
+
+        return res + ' ' + fave_score + dash + opp_score
 
     def get_date(self, game_data):
         date_str = calendar.month_abbr[int(
