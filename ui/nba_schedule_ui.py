@@ -2,6 +2,9 @@ from ui_functions import Widget
 from tabulate import tabulate
 import calendar
 
+from datetime import datetime
+from dateutil import tz
+
 import os, sys
 sys.path.append(os.path.join('.', 'api_functions'))
 from nbaschedule import Schedule
@@ -165,14 +168,34 @@ class ScheduleUI(Widget):
             fave_score = game_data['vTeam']['score']
             opp_score = game_data['hTeam']['score']
 
-        if fave_score > opp_score:
+
+        if fave_score == '' and opp_score == '':
+            from_zone = tz.tzutc()
+            to_zone = tz.tzlocal()
+            game_time = game_data['startTimeUTC']
+            x = central.strftime("%I:%M %p %Z")'''
+            X = self.convert_time(game_time)
+            res = str(X)
+
+        elif fave_score > opp_score:
             res = 'W'
         else:
             res = 'L'
 
-
-
         return res + ' ' + fave_score + '-' + opp_score
+
+    def get_date(self, game_data):
+        date_str = calendar.month_abbr[int(
+            game_data['startDateEastern'][4:6])] + '/' + \
+            game_data['startDateEastern'][6:] + '/' +  \
+            game_data['startDateEastern'][2:4]
+
+        return date_str
+
+
+
+
+
 
 
     def set_horiz_headers(self):
@@ -187,6 +210,7 @@ class ScheduleUI(Widget):
         for game_idx in games:
             game = self.S.standard[game_idx]
 
+            date_str = self.get_date(game)
             loc = self.home_or_away(game)
             opp = self.get_opponent(game, loc)
             vs_str = loc + ' ' + opp
@@ -194,8 +218,10 @@ class ScheduleUI(Widget):
             print(res_str)
             print(vs_str)
 
+            date.append(date_str)
             vs_info.append(vs_str)
             res_info.append(res_str)
+        table.append(date)
         table.append(vs_info)
         table.append(res_info)
         print(tabulate(table, tablefmt='psql'))
