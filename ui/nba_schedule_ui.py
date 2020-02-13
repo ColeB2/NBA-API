@@ -41,12 +41,14 @@ class ScheduleUI(Widget):
             horiz: Bool, To choose horizontal display
             last: Boolean, decides whether to display last x games.
             next: Boolean, decides whether to display next x games.
-            full: Boolean, decides whether to display full schedule.
+            full: Boolean, decides whether to display full schedule. Only uses
+                vertical display
         """
         if horiz: self.horizontal_display()
+        if not horiz:
+            if last: self.display_last_x_games()
+            if next: self.display_next_x_games()
         if full: self.display_season_schedule()
-        if last: self.display_last_x_games()
-        if next: self.display_next_x_games()
 
     def display_season_schedule(self):
         """Method used to display all regular season games to the console."""
@@ -115,7 +117,7 @@ class ScheduleUI(Widget):
 
 
     '''Horizontal Display'''
-    def home_or_away(self, game_data):
+    def get_home_listing(self, game_data):
         """Finds out if chosen team is home team or not then returns a
         corrospoding string, 'VS' or '@'
 
@@ -193,34 +195,31 @@ class ScheduleUI(Widget):
 
         return date_str
 
-    def set_horiz_headers(self):
-        pass
-
-    def horizontal_display(self):
-        table = []
+    def set_horiz_headers(self, data):
         date = []
-        vs_info = []
-        res_info = []
-        games = self.S.get_x_games()
-        for game_idx in games:
+        vs_info= []
+        result_info = []
+        for game_idx in data:
             game = self.S.standard[game_idx]
 
             date_str = self.get_date(game)
-            loc = self.home_or_away(game)
-            opp = self.get_opponent(game, loc)
-            vs_str = loc + ' ' + opp
-            res_str = self.get_result(game, loc)
-
+            home_listing_str = self.get_home_listing(game)
+            opponent_str = self.get_opponent(game, home_listing_str)
+            vs_str   = home_listing_str + ' ' + opponent_str
+            result_str = self.get_result(game, home_listing_str)
 
             date.append(date_str)
             vs_info.append(vs_str)
-            res_info.append(res_str)
-        table.append(date)
-        table.append(vs_info)
-        table.append(res_info)
-        print(tabulate(table, tablefmt='psql'))
+            result_info.append(result_str)
 
+        return date, vs_info, result_info
 
+    def get_headers(self):
+        games = self.S.get_x_games()
+        games.extend(self.S.get_x_games(x=6, next=False, prev_game=False))
+        games.sort
+        headers = self.set_horiz_headers(games)
+        return headers
 
 
 

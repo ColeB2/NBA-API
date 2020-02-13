@@ -52,9 +52,9 @@ class ScoreBoardUI(Widget):
         """Formats date string to fit the CLI of scoreboard and prints to
         command line"""
         date_str = self.format_date(self.YSB.date)
-        x = table.find('***')
+        x = table.find('0')
         y = table.find('\n')
-        while len(date_str) <= x-y+2:
+        while len(date_str) <= x-y-3:
             date_str = date_str + ' '
         date_str += self.format_date(self.SB.date)
         print(date_str)
@@ -73,7 +73,8 @@ class ScoreBoardUI(Widget):
             list of lists, which contains game status, and home/away info.
         """
         info = []
-        top_team, bot_team = [], []
+        top_team = []
+        bot_team = []
         for idx in range(len(data)):
             for game in data[idx].games:
                 home = str(game['hTeam']['triCode'] + ' ' + game['hTeam']['score'])
@@ -86,10 +87,6 @@ class ScoreBoardUI(Widget):
                 status = self.get_status(game)
                 info.append(status)
 
-            if len(data) >= 2 and idx < len(data)-1:
-                top_team.append('***')
-                bot_team.append('***')
-                info.append('***')
         return [info, top_team, bot_team]
 
     def period_suffix(self, period):
@@ -133,31 +130,10 @@ class ScoreBoardUI(Widget):
 
         return status_str
 
-    def create_horiz_table(self, data):
-        """Creates the tabulate table given the headers from set_horiz_headers.
-
-        Args:
-            data: Data from set_horiz_headers
-
-        Returns:
-            tabulate object, which is a formatted string, to create a command
-            line table.
-        """
-        table = []
-        for headers in data:
-            table.append(headers)
-        return tabulate(table, tablefmt='psql')
-
-
-
-    def horizontal_display(self):
-        """Main display method used to display a horizontal version of a
-        scoreboard to the command line.
-        """
+    def get_headers(self):
         headers = self.set_horiz_headers(self.YSB, self.SB)
-        table = self.create_horiz_table(headers)
-        self.display_date(table)
-        print(table)
+        return headers
+
 
     """VERTICAL DISPLAY"""
     def vertical_display(self, today=True, yesterday=False):

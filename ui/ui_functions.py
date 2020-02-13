@@ -4,6 +4,7 @@ functions used to format and print to command line
 '''
 from datetime import datetime
 from dateutil import tz
+from tabulate import tabulate
 
 
 class Widget():
@@ -23,6 +24,28 @@ class Widget():
         local_time = local_time.strftime('%I:%M %p')
 
         return local_time
+
+    def create_horiz_table(self, data):
+        """Creates the tabulate table given the headers from set_horiz_headers.
+
+        Args:
+            data: Data from set_horiz_headers
+
+        Returns:
+            tabulate object, which is a formatted string, to create a command
+            line table.
+        """
+        table = []
+        for headers in data:
+            table.append(headers)
+        return tabulate(table, tablefmt='psql')
+
+    def horizontal_display(self):
+        headers = self.get_headers()
+        table = self.create_horiz_table(headers)
+        print(table)
+
+
 
 
 
