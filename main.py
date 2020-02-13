@@ -12,8 +12,8 @@ from nba_scores_ui import ScoreBoardUI
 
 
 if __name__ == '__main__':
-    TL = TeamLeadersUI()
-    TL.display()
+    S = ScheduleUI(next=True, last=True, full=False)
+    S.display()
 
     SB = ScoreBoardUI()
     SB.display()
@@ -21,5 +21,5 @@ if __name__ == '__main__':
     B = BoxScoreUI()
     B.display(combined=True)
 
-    S = ScheduleUI(next=True, last=True, full=False)
-    S.display()
+    TL = TeamLeadersUI()
+    TL.display()
