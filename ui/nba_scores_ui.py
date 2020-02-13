@@ -33,8 +33,10 @@ class ScoreBoardUI(Widget):
 
         """
         self.horizontal_display() if horiz else self.vertical_display()
-    """HORIZONTAL DISPLAY"""
 
+
+
+    """HORIZONTAL DISPLAY"""
     def format_date(self,date):
         """formats the date from YYYYMMDD format into MMM DD YYYY format
 
@@ -131,8 +133,11 @@ class ScoreBoardUI(Widget):
         return status_str
 
     def get_headers(self):
+        """Sets up proper parameters to pass on to set_horiz_headers method,
+        which creates the headers, so this method can return them."""
         headers = self.set_horiz_headers(self.YSB, self.SB)
         return headers
+
 
 
     """VERTICAL DISPLAY"""

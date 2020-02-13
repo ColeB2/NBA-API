@@ -40,6 +40,14 @@ class Widget():
             table.append(headers)
         return tabulate(table, tablefmt='psql')
 
+    def set_horiz_headers(self):
+        """Abstract Method to be created"""
+        pass
+
+    def get_headers(self):
+        """Abstract Method to be created"""
+        pass
+
     def horizontal_display(self):
         headers = self.get_headers()
         table = self.create_horiz_table(headers)

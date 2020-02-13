@@ -57,66 +57,8 @@ class ScheduleUI(Widget):
         print()
 
 
-    '''Vertical Display'''
-    def display_game_information(self, game):
-        """Method used to print approrpiate information to the console. Prints,
-        date, team tricode and score.
 
-        Args:
-            game: index value of game to be printed
-        """
-        print(calendar.month_abbr[int( \
-              self.regular_season[game]['startDateEastern'][4:6])], end='/')
-        print(self.regular_season[game]['startDateEastern'][6:], end='/')
-        print(self.regular_season[game]['startDateEastern'][2:4],end= ' ')
-
-        print(self.regular_season[game]['gameUrlCode'][9:12],end= ' ')
-        print(self.regular_season[game]['vTeam']['score'], end= ' ')
-        print(self.regular_season[game]['gameUrlCode'][12:],end= ' ')
-        print(self.regular_season[game]['hTeam']['score'])
-
-
-
-    def _display_x_helper(self, x, next=True, prev_game=True):
-        """Method used by display_last/next_x_games, sets direction of based on
-        boolean value, and calls display_game_information to display games, if
-        the order specified.
-        Utilizes Schedule.get_x_games() to retrieve the information.
-
-        Args:
-            x: number of games to be displayed
-            next: Boolean value, on whether to display next x games, vs last x
-            games
-            prev_game: Boolean value, whether to include previous game or not in
-            search.
-        """
-        games = self.S.get_x_games(x=x, next=next,
-            last_game=self.last_game_idx, prev_game=prev_game)
-        for game in games:
-            self.display_game_information(game)
-        print()
-
-    def display_last_x_games(self, x=5):
-        """Method used to display last x number of games to the console. Does so
-        by calling _display_x_helper.
-        Args:
-            x: number of games to be displayed.
-        """
-        self._display_x_helper(x, next=False, prev_game=True)
-
-    def display_next_x_games(self, x=3):
-        """Method used to display next x number of games to the console. Does so
-        by calling display_x_helper.
-
-
-        Args:
-            x: number of games to be displayed.
-        """
-        self._display_x_helper(x, next=True, prev_game=False)
-
-
-
-    '''Horizontal Display'''
+    """Horizontal Display"""
     def get_home_listing(self, game_data):
         """Finds out if chosen team is home team or not then returns a
         corrospoding string, 'VS' or '@'
@@ -215,11 +157,74 @@ class ScheduleUI(Widget):
         return date, vs_info, result_info
 
     def get_headers(self):
+        """Sets up proper parameters to pass on to set_horiz_headers method,
+        which creates the headers, so this method can return them."""
         games = self.S.get_x_games()
         games.extend(self.S.get_x_games(x=6, next=False, prev_game=False))
-        games.sort
+        games.sort()
         headers = self.set_horiz_headers(games)
         return headers
+
+
+
+
+    """Vertical Display
+    TODO: refactor, and remove hard coding"""
+    def display_game_information(self, game):
+        """Method used to print approrpiate information to the console. Prints,
+        date, team tricode and score.
+
+        Args:
+            game: index value of game to be printed
+        """
+        print(calendar.month_abbr[int( \
+              self.regular_season[game]['startDateEastern'][4:6])], end='/')
+        print(self.regular_season[game]['startDateEastern'][6:], end='/')
+        print(self.regular_season[game]['startDateEastern'][2:4],end= ' ')
+
+        print(self.regular_season[game]['gameUrlCode'][9:12],end= ' ')
+        print(self.regular_season[game]['vTeam']['score'], end= ' ')
+        print(self.regular_season[game]['gameUrlCode'][12:],end= ' ')
+        print(self.regular_season[game]['hTeam']['score'])
+
+
+
+    def _display_x_helper(self, x, next=True, prev_game=True):
+        """Method used by display_last/next_x_games, sets direction of based on
+        boolean value, and calls display_game_information to display games, if
+        the order specified.
+        Utilizes Schedule.get_x_games() to retrieve the information.
+
+        Args:
+            x: number of games to be displayed
+            next: Boolean value, on whether to display next x games, vs last x
+            games
+            prev_game: Boolean value, whether to include previous game or not in
+            search.
+        """
+        games = self.S.get_x_games(x=x, next=next,
+            last_game=self.last_game_idx, prev_game=prev_game)
+        for game in games:
+            self.display_game_information(game)
+        print()
+
+    def display_last_x_games(self, x=5):
+        """Method used to display last x number of games to the console. Does so
+        by calling _display_x_helper.
+        Args:
+            x: number of games to be displayed.
+        """
+        self._display_x_helper(x, next=False, prev_game=True)
+
+    def display_next_x_games(self, x=3):
+        """Method used to display next x number of games to the console. Does so
+        by calling display_x_helper.
+
+
+        Args:
+            x: number of games to be displayed.
+        """
+        self._display_x_helper(x, next=True, prev_game=False)
 
 
 
