@@ -34,19 +34,19 @@ class ScheduleUI(Widget):
         self.last_game_idx = self.S.last_game_idx + self.offset
 
 
-    def display(self):
-        '''FIX HARD CODING'''
+    def display(self, horiz=True, full=False, last=False, next=False):
         """Main display call, to display specified schedules.
 
         Args:
-            last_x: Boolean, decides whether to display last x games.
-            next_x: Boolean, decides whether to display next x games.
-            full_schedule: Boolean, decides whether to display full schedule.
+            horiz: Bool, To choose horizontal display
+            last: Boolean, decides whether to display last x games.
+            next: Boolean, decides whether to display next x games.
+            full: Boolean, decides whether to display full schedule.
         """
-        if self.full: self.display_season_schedule()
-        if self.last: self.display_last_x_games()
-        if self.next: self.display_next_x_games()
-        self.horizontal_display()
+        if horiz: self.horizontal_display()
+        if full: self.display_season_schedule()
+        if last: self.display_last_x_games()
+        if next: self.display_next_x_games()
 
     def display_season_schedule(self):
         """Method used to display all regular season games to the console."""
@@ -169,18 +169,17 @@ class ScheduleUI(Widget):
             opp_score = game_data['hTeam']['score']
 
 
-        if fave_score == '' and opp_score == '':
-            from_zone = tz.tzutc()
-            to_zone = tz.tzlocal()
-            game_time = game_data['startTimeUTC']
-            x = central.strftime("%I:%M %p %Z")'''
-            X = self.convert_time(game_time)
-            res = str(X)
 
-        elif fave_score > opp_score:
+
+        if fave_score > opp_score:
             res = 'W'
         else:
             res = 'L'
+
+        if fave_score == '' and opp_score == '':
+            game_time = game_data['startTimeUTC']
+            X = self.convert_time(game_time)
+            res = str(X)
 
         return res + ' ' + fave_score + '-' + opp_score
 
@@ -191,12 +190,6 @@ class ScheduleUI(Widget):
             game_data['startDateEastern'][2:4]
 
         return date_str
-
-
-
-
-
-
 
     def set_horiz_headers(self):
         pass
@@ -215,8 +208,7 @@ class ScheduleUI(Widget):
             opp = self.get_opponent(game, loc)
             vs_str = loc + ' ' + opp
             res_str = self.get_result(game, loc)
-            print(res_str)
-            print(vs_str)
+
 
             date.append(date_str)
             vs_info.append(vs_str)
@@ -232,5 +224,5 @@ class ScheduleUI(Widget):
 
 
 if __name__ == '__main__':
-    S = ScheduleUI(full=True)
-    S.display()
+    S = ScheduleUI()
+    S.display(horiz=True)

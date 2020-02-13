@@ -11,7 +11,7 @@ from functions import get_yesterday_date
 TODO: Fix Hardcoding, universal date formatter
 '''
 
-class ScoreBoardUI():
+class ScoreBoardUI(Widget):
     """A class to represent an 'around the league' scoreboard for all teams.
 
     Attributes:
@@ -116,7 +116,7 @@ class ScoreBoardUI():
         status_str = str()
         if game_data['isGameActivated'] == False:
             if game_data['hTeam']['score'] == '':
-                status_str = game_data['startTimeEastern']
+                status_str = self.convert_time(game_data['startTimeUTC'])
             else:
                 status_str = 'FINAL'
         else:
