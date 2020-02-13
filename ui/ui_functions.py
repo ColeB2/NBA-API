@@ -12,19 +12,7 @@ class Widget():
         pass
 
 
-    def convert_time(self, utc_time):
-        """converts UTC timezone string to local time zone string.
-        """
-        from_zone = tz.tzutc()
-        to_zone = tz.tzlocal()
-
-        utc_time = datetime.strptime(utc_time, '%Y-%m-%dT%H:%M:%S.%fZ')
-        utc_time= utc_time.replace(tzinfo=from_zone)
-        local_time = utc_time.astimezone(to_zone)
-        local_time = local_time.strftime('%I:%M %p')
-
-        return local_time
-
+    """HORIZONTAL DISPLAY METHODS"""
     def create_horiz_table(self, data):
         """Creates the tabulate table given the headers from set_horiz_headers.
 
@@ -52,6 +40,24 @@ class Widget():
         headers = self.get_headers()
         table = self.create_horiz_table(headers)
         print(table)
+
+
+    """VERTICAL DISPLAY METHODS"""
+
+
+    """UTILITY METHODS"""
+    def convert_time(self, utc_time):
+        """converts UTC timezone string to local time zone string.
+        """
+        from_zone = tz.tzutc()
+        to_zone = tz.tzlocal()
+
+        utc_time = datetime.strptime(utc_time, '%Y-%m-%dT%H:%M:%S.%fZ')
+        utc_time= utc_time.replace(tzinfo=from_zone)
+        local_time = utc_time.astimezone(to_zone)
+        local_time = local_time.strftime('%I:%M %p')
+
+        return local_time
 
 
 

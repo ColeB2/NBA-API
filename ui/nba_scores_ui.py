@@ -36,7 +36,7 @@ class ScoreBoardUI(Widget):
 
 
 
-    """HORIZONTAL DISPLAY"""
+    """HORIZONTAL DISPLAY METHODS"""
     def format_date(self,date):
         """formats the date from YYYYMMDD format into MMM DD YYYY format
 
@@ -140,7 +140,7 @@ class ScoreBoardUI(Widget):
 
 
 
-    """VERTICAL DISPLAY"""
+    """VERTICAL DISPLAY METHODS"""
     def vertical_display(self, today=True, yesterday=False):
         for game in self.SB.games:
             print(game['hTeam']['triCode'],game['hTeam']['score'], end=' ')

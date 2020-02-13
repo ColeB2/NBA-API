@@ -58,7 +58,7 @@ class ScheduleUI(Widget):
 
 
 
-    """Horizontal Display"""
+    """HORIZONTAL DISPLAY METHODS"""
     def get_home_listing(self, game_data):
         """Finds out if chosen team is home team or not then returns a
         corrospoding string, 'VS' or '@'
@@ -168,7 +168,7 @@ class ScheduleUI(Widget):
 
 
 
-    """Vertical Display
+    """VERTICAL DISPLAY METHODS
     TODO: refactor, and remove hard coding"""
     def display_game_information(self, game):
         """Method used to print approrpiate information to the console. Prints,
