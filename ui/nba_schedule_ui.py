@@ -123,14 +123,6 @@ class ScheduleUI(Widget):
 
         return res + ' ' + fave_score + dash + opp_score
 
-    def get_date(self, game_data):
-        date_str = calendar.month_abbr[int(
-            game_data['startDateEastern'][4:6])] + '/' + \
-            game_data['startDateEastern'][6:] + '/' +  \
-            game_data['startDateEastern'][2:4]
-
-        return date_str
-
     def set_horiz_headers(self, data):
         date = []
         vs_info= []
@@ -138,7 +130,7 @@ class ScheduleUI(Widget):
         for game_idx in data:
             game = self.S.standard[game_idx]
 
-            date_str = self.get_date(game)
+            date_str = self.format_date(game['startDateEastern'])
             home_listing_str = self.get_home_listing(game)
             opponent_str = self.get_opponent(game, home_listing_str)
             vs_str   = home_listing_str + ' ' + opponent_str

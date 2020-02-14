@@ -5,6 +5,7 @@ functions used to format and print to command line
 from datetime import datetime
 from dateutil import tz
 from tabulate import tabulate
+import calendar
 
 
 class Widget():
@@ -14,10 +15,11 @@ class Widget():
 
     """HORIZONTAL DISPLAY METHODS"""
     def create_horiz_table(self, data):
-        """Creates the tabulate table given the headers from set_horiz_headers.
+        """Creates the tabulate table given the headers from a classes
+        set_horiz_headers.
 
         Args:
-            data: Data from set_horiz_headers
+            data: Data froman objects set_horiz_headers methods
 
         Returns:
             tabulate object, which is a formatted string, to create a command
@@ -37,9 +39,17 @@ class Widget():
         pass
 
     def horizontal_display(self, *extra):
+        """Calls appropriate methods to create appropiate table to display
+        horiontally across the CLI.
+
+        Kwargs:
+            *extra: funcions that can be called before the table gets printed.
+        """
         headers = self.get_headers()
         table = self.create_horiz_table(headers)
-        if extra: table
+        if extra:
+            for func in extra:
+                func()
         print(table)
 
 
@@ -59,6 +69,19 @@ class Widget():
         local_time = local_time.strftime('%I:%M %p')
 
         return local_time
+
+    def format_date(self, date):
+        """Formats date given in YYYYMMDD format into a MMM/DD/YY format
+
+        Args:
+            date: str, date given in YYYYMMDD format
+
+        Returns:
+            string, formatted in MMM/DD/YY format"""
+        date_str = calendar.month_abbr[int(date[4:6])] + \
+            '/' + date[6:] + '/' + date[2:4]
+        return date_str
+
 
 
 

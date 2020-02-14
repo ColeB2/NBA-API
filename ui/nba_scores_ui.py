@@ -32,13 +32,15 @@ class ScoreBoardUI(Widget):
             false, will display it vertically.
 
         """
-        self.display_date()
-        self.horizontal_display() if horiz else self.vertical_display()
+        if horiz:
+            self.horizontal_display(self.horizontal_display_date)
+        else:
+            self.vertical_display()
 
 
 
     """HORIZONTAL DISPLAY METHODS"""
-    def format_date(self,date):
+    def format_date_spacing(self,date, games):
         """formats the date from YYYYMMDD format into MMM DD YYYY format
 
         Args:
@@ -47,16 +49,17 @@ class ScoreBoardUI(Widget):
         Returns:
             string, formatted in abbreviated, MMM DD YYYY format
         """
-        date = calendar.month_abbr[int(date[4:6])] + ' ' + \
-            date[6:] + ' ' + date[:4]
+        for i in range(len(games)):
+            date = date + 9*' '
+        date += '  '
         return date
 
-    def display_date(self):
-        """Formats date string to fit the CLI of scoreboard and prints to
-        command line"""
+
+    def horizontal_display_date(self):
+        """Calls the methods needed to format the date string before being
+        displayed above the league wide scoreboard"""
         date_str = self.format_date(self.YSB.date)
-        for i in range(len(self.YSB.games)):
-            date_str = date_str + 9*' '
+        date_str = self.format_date_spacing(date_str, self.YSB.games)
         date_str += self.format_date(self.SB.date)
         print(date_str)
 
