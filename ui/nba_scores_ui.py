@@ -32,6 +32,7 @@ class ScoreBoardUI(Widget):
             false, will display it vertically.
 
         """
+        self.display_date()
         self.horizontal_display() if horiz else self.vertical_display()
 
 
@@ -50,14 +51,12 @@ class ScoreBoardUI(Widget):
             date[6:] + ' ' + date[:4]
         return date
 
-    def display_date(self, table):
+    def display_date(self):
         """Formats date string to fit the CLI of scoreboard and prints to
         command line"""
         date_str = self.format_date(self.YSB.date)
-        x = table.find('0')
-        y = table.find('\n')
-        while len(date_str) <= x-y-3:
-            date_str = date_str + ' '
+        for i in range(len(self.YSB.games)):
+            date_str = date_str + 9*' '
         date_str += self.format_date(self.SB.date)
         print(date_str)
 
@@ -112,9 +111,11 @@ class ScoreBoardUI(Widget):
         Returns:
             string, which represents the current status of the game.
         """
+        ##score == ' or '0' as sometimes it sets score to 0 before game starts.
         status_str = str()
         if game_data['isGameActivated'] == False:
-            if game_data['hTeam']['score'] == '':
+            if game_data['hTeam']['score'] == '' or \
+               game_data['hTeam']['score'] == '0':
                 status_str = self.convert_time(game_data['startTimeUTC'])
             else:
                 status_str = 'FINAL'
@@ -137,6 +138,10 @@ class ScoreBoardUI(Widget):
         which creates the headers, so this method can return them."""
         headers = self.set_horiz_headers(self.YSB, self.SB)
         return headers
+
+    def horizontal_displayX(self):
+        x = super().horizontal_display()
+        print(x)
 
 
 

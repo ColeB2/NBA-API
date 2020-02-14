@@ -50,12 +50,6 @@ class ScheduleUI(Widget):
             if next: self.display_next_x_games()
         if full: self.display_season_schedule()
 
-    def display_season_schedule(self):
-        """Method used to display all regular season games to the console."""
-        for game in enumerate(self.regular_season):
-            self.display_game_information(game[0])
-        print()
-
 
 
     """HORIZONTAL DISPLAY METHODS"""
@@ -170,6 +164,13 @@ class ScheduleUI(Widget):
 
     """VERTICAL DISPLAY METHODS
     TODO: refactor, and remove hard coding"""
+
+    def display_season_schedule(self):
+        """Method used to display all regular season games to the console."""
+        for game in enumerate(self.regular_season):
+            self.display_game_information(game[0])
+        print()
+
     def display_game_information(self, game):
         """Method used to print approrpiate information to the console. Prints,
         date, team tricode and score.

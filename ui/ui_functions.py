@@ -36,9 +36,10 @@ class Widget():
         """Abstract Method to be created"""
         pass
 
-    def horizontal_display(self):
+    def horizontal_display(self, *extra):
         headers = self.get_headers()
         table = self.create_horiz_table(headers)
+        if extra: table
         print(table)
 
 
