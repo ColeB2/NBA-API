@@ -90,4 +90,5 @@ class Widget():
 if __name__ == '__main__':
     time = '2020-02-13T02:00:00.000Z'
     W = Widget()
-    W.convert_time(time)
+    print(W.convert_time(time))
+    print(W.format_date(time))
