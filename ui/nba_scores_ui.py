@@ -5,11 +5,9 @@ import calendar
 import os, sys
 sys.path.append(os.path.join('.', 'api_functions'))
 from nbascore import ScoreBoard
-from functions import get_yesterday_date
+from functions import get_date_before
 
-'''
-TODO: Fix Hardcoding, universal date formatter
-'''
+
 
 class ScoreBoardUI(Widget):
     """A class to represent an 'around the league' scoreboard for all teams.
@@ -19,8 +17,8 @@ class ScoreBoardUI(Widget):
     def __init__(self, date=None):
         self.date = date
 
-        self.SB = ScoreBoard()
-        self.YSB = ScoreBoard(date=get_yesterday_date())
+        self.SB = ScoreBoard(date=date)
+        self.YSB = ScoreBoard(date=get_date_before(date))
 
 
     def display(self, horiz=True):
@@ -49,11 +47,11 @@ class ScoreBoardUI(Widget):
         Returns:
             string, formatted in abbreviated, MMM DD YYYY format
         """
-        for i in range(len(games)):
-            date = date + 9*' '
-        date += '  '
+        date = f"{date}  "
+        for i in range(len(games)-1):
+            space = 10*' '
+            date = f"{date}{space}"
         return date
-
 
     def horizontal_display_date(self):
         """Calls the methods needed to format the date string before being
@@ -81,8 +79,11 @@ class ScoreBoardUI(Widget):
         bot_team = []
         for idx in range(len(data)):
             for game in data[idx].games:
-                home = str(game['hTeam']['triCode'] + ' ' + game['hTeam']['score'])
-                away = str(game['vTeam']['triCode'] + ' ' + game['vTeam']['score'])
+                home = f"{game['hTeam']['triCode']} " \
+                       f"{game['hTeam']['score'].rjust(3)}"
+
+                away = f"{game['vTeam']['triCode']} " \
+                       f"{game['vTeam']['score'].rjust(3)}"
                 top_team.append(home)
                 bot_team.append(away)
 
@@ -114,7 +115,6 @@ class ScoreBoardUI(Widget):
         Returns:
             string, which represents the current status of the game.
         """
-        ##score == ' or '0' as sometimes it sets score to 0 before game starts.
         status_str = str()
         if game_data['isGameActivated'] == False:
             if game_data['hTeam']['score'] == '' or \
@@ -128,11 +128,14 @@ class ScoreBoardUI(Widget):
                 if game_data['period']['isHalftime']:
                     status_str = 'HalfTime'
                 else:
-                    status_str = 'End of ' + str(period) + \
-                        self.period_suffix(period)
+                    #status_str = 'End of ' + str(period) + \
+                        #self.period_suffix(period)
+                    status_str = f"End of {period}{self.period_suffix(period)}"
             else:
-                status_str = str(game_data['clock']) + \
-                    ' - ' + str(period) + self.period_suffix(period)
+                #status_str = str(game_data['clock']) + \
+                    #' - ' + str(period) + self.period_suffix(period)
+                status_str = f"{game_data[clock]} - " \
+                             f"{period}{self.period_suffix(period)}"
 
         return status_str
 
@@ -151,13 +154,18 @@ class ScoreBoardUI(Widget):
     """VERTICAL DISPLAY METHODS"""
     def vertical_display(self, today=True, yesterday=False):
         for game in self.SB.games:
-            print(game['hTeam']['triCode'],game['hTeam']['score'], end=' ')
-            print(game['vTeam']['triCode'], game['vTeam']['score'])
+            print( f"{game['hTeam']['triCode']} " \
+                   f"{game['hTeam']['score'].rjust(3)} " \
+                   f"{game['vTeam']['triCode']} " \
+                   f"{game['vTeam']['score'].rjust(3)}" )
 
 
 
 
 
 if __name__ == '__main__':
-    SB = ScoreBoardUI()
+    SB = ScoreBoardUI(date='20200107')
     SB.display()
+
+    SB = ScoreBoardUI(date='20200210')
+    SB.display(horiz=True)
