@@ -63,12 +63,10 @@ class ScheduleUI(Widget):
         Returns:
             boolean, True if home team, False otherwise.
         """
-        vs_str = ''
         if game_data['isHomeTeam']:
-            vs_str = 'VS'
+            return 'VS'
         else:
-            vs_str = '@'
-        return vs_str
+            return '@'
 
     def get_opponent(self, game_data, location=None):
         """Gets the opponent TRI code for given game.
@@ -80,15 +78,13 @@ class ScheduleUI(Widget):
         Returns:
             Tri code for the oposing team.
         """
-        tri_code = ''
         if location == 'VS':
-            tri_code = game_data['gameUrlCode'][9:12]
+            return game_data['gameUrlCode'][9:12]
         else:
-            tri_code = game_data['gameUrlCode'][12:]
-        return tri_code
+            return game_data['gameUrlCode'][12:]
 
 
-    def get_result(self, game_data, location=None):
+    def get_result(self, game_data, location):
         """Gets the result of given game.
 
         Args:
@@ -98,7 +94,6 @@ class ScheduleUI(Widget):
         Returns:
             string, containing results of game. Ex: W 137-126
         """
-        res, fave_score, opp_score = '', '', ''
         if location == 'VS':
             fave_score = game_data['hTeam']['score']
             opp_score = game_data['vTeam']['score']
@@ -106,22 +101,17 @@ class ScheduleUI(Widget):
             fave_score = game_data['vTeam']['score']
             opp_score = game_data['hTeam']['score']
 
-
-
         if fave_score != '' and int(fave_score) > int(opp_score):
             res = 'W'
         else:
             res = 'L'
 
         if fave_score == '' and opp_score == '':
-            game_time = game_data['startTimeUTC']
-            X = self.convert_time(game_time)
-            res = str(X)
+            res = f"{self.convert_time(game_data['startTimeUTC'])}"
 
         dash = '-' if fave_score != '' else ''
 
-
-        return res + ' ' + fave_score + dash + opp_score
+        return f"{res} {fave_score}{dash}{opp_score}"
 
     def set_horiz_headers(self, data):
         date = []
@@ -131,9 +121,11 @@ class ScheduleUI(Widget):
             game = self.S.standard[game_idx]
 
             date_str = self.format_date(game['startDateEastern'])
+
             home_listing_str = self.get_home_listing(game)
             opponent_str = self.get_opponent(game, home_listing_str)
-            vs_str   = home_listing_str + ' ' + opponent_str
+            vs_str = f"{home_listing_str} {opponent_str}"
+
             result_str = self.get_result(game, home_listing_str)
 
             date.append(date_str)
@@ -170,15 +162,15 @@ class ScheduleUI(Widget):
         Args:
             game: index value of game to be printed
         """
-        print(calendar.month_abbr[int( \
-              self.regular_season[game]['startDateEastern'][4:6])], end='/')
-        print(self.regular_season[game]['startDateEastern'][6:], end='/')
-        print(self.regular_season[game]['startDateEastern'][2:4],end= ' ')
-
-        print(self.regular_season[game]['gameUrlCode'][9:12],end= ' ')
-        print(self.regular_season[game]['vTeam']['score'], end= ' ')
-        print(self.regular_season[game]['gameUrlCode'][12:],end= ' ')
-        print(self.regular_season[game]['hTeam']['score'])
+        month = calendar.month_abbr[int( \
+            self.regular_season[game]['startDateEastern'][4:6])]
+        day = self.regular_season[game]['startDateEastern'][6:]
+        year = self.regular_season[game]['startDateEastern'][2:4]
+        away = self.regular_season[game]['gameUrlCode'][9:12]
+        away_score = self.regular_season[game]['vTeam']['score'].rjust(3)
+        home = self.regular_season[game]['gameUrlCode'][12:]
+        home_score = self.regular_season[game]['hTeam']['score'].rjust(3)
+        print(f"{month}/{day}/{year} {away} {away_score} {home} {home_score}")
 
 
 
@@ -225,3 +217,7 @@ class ScheduleUI(Widget):
 if __name__ == '__main__':
     S = ScheduleUI()
     S.display(horiz=True)
+
+    print('VERTICAL')
+    S = ScheduleUI()
+    S.display(horiz=False, last=True, next=True)
