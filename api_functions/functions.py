@@ -22,9 +22,11 @@ def get_today_date():
     """Gets todays date and formats it for api function use."""
     return ''.join(str(datetime.date.today()).split('-'))
 
-def get_yesterday_date():
-    """Gets yesterdays date and formats it for api function use."""
-    date = str(datetime.datetime.now() - datetime.timedelta(days=1))[:10]
+def get_date_before(date=None):
+    """Gets the date before given date"""
+    if not date: date = get_today_date()
+    date_time_obj = datetime.datetime.strptime(date, '%Y%m%d')
+    date = str(date_time_obj - datetime.timedelta(days=1))[:10]
     return ''.join(str(date).split('-'))
 
 def get_season_year():
@@ -33,4 +35,7 @@ def get_season_year():
 
 if __name__ == '__main__':
     print(get_today_date())
-    print(get_yesterday_date())
+    #print(get_yesterday_date())
+    print('yesterday: ' + str(get_date_before()))
+
+    print('get_date_before: ' + str(get_date_before('20200101')))
