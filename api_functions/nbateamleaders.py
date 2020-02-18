@@ -52,6 +52,11 @@ class TeamLeaders(object):
             'tpg','pfpg']
         self.leaders = self.standard
         self.leaders.pop('seasonStageId', None)
+        self.Leaders = {}
+        self.set_leaders()
+    def set_leaders(self):
+        for key, value in self.standard.items():
+            self.Leaders[key] = value[0]
 
 
 
@@ -81,3 +86,4 @@ if __name__ == '__main__':
         leaders[key] = value[0]
     print(leaders)
     print(TL.leaders)
+    print(TL.Leaders)

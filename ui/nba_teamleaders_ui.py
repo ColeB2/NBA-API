@@ -69,15 +69,15 @@ class TeamLeadersUI(Widget):
         print(self.TL.leaders.keys())
         print(self.TL.leaders.values())
 
-        for key, value in self.TL.leaders.items():
+        for key, value in self.TL.Leaders.items():
             if key in self.data_headers:
                 idx = self.data_headers.index(key)
                 print(value)
 
-                header = f"{self.headers[idx]}: {value[0]['value']}"
+                header = f"{self.headers[idx]}: {value['value']}"
                 headers.append(header)
 
-                first, last = self.PI.get_player_name(value[0]['personId'])
+                first, last = self.PI.get_player_name(value['personId'])
                 leader = f"{first} {last}"
                 leaders.append(leader)
             print(key, value)
