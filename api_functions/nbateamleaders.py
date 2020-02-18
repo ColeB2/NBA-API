@@ -72,33 +72,12 @@ if __name__ == '__main__':
     print()
     print()
     print(TL.leaders)
-    print('--UI TEST--')
-    for stat, values in TL.leaders.items():
-        #print(stat,values, end=' ')
-        print(stat.upper() + '/Game', end=' ')
-        print(values[0]['value'])
-        print(values[0]['personId'])
-    from tabulate import tabulate
-    T1 =[ ['PASCAL', 'SIAKAM'], ['SERGE', 'IBAKA'],['KYLE', 'LOWRY']]
-    H1 =['PTS/GAME: 23.7', 'REB/GAME: 8', 'FG_/GAME: 10']
-    print(tabulate(T1, H1, tablefmt='psql'))
-    TABLE= [
-    ['PTS/GAME: 28', 'PASCAL SIAKAM', 'STL/GAME: 2', 'FRED VANFLEET',
-    'REB/GAME: 8', 'SERGE IBAKA'],
-    ['PTS/GAME: 28', 'PASCAL SIAKAM', 'STL/GAME: 2', 'FRED VANFLEET',
-    'REB/GAME: 8', 'SERGE IBAKA'],
-    ['PTS/GAME: 28', 'PASCAL SIAKAM', 'STL/GAME: 2', 'FRED VANFLEET',
-    'REB/GAME: 8', 'SERGE IBAKA'],
-    ['PTS/GAME: 28', 'PASCAL SIAKAM', 'STL/GAME: 2', 'FRED VANFLEET',
-    'REB/GAME: 8', 'SERGE IBAKA']
-    ]
-    print(tabulate(TABLE, tablefmt='psql'))
-    print()
-    TABLE= [
-    ['PTS/G: 28', 'REB/G 8', 'AST/G: 8', 'FG/G: 50%', '3PT/G',
-    'FT/G: 85%', 'BLK/G: 0.9', 'STLS/G: 2'],
-
-    ['P. Siakam', 'S. Ibaka', 'K. Lowry', 'F. VanFleet','M. Thomas',
-    'D. Hernandez', 'S. Ibaka', 'F.Vanfleet']
-    ]
-    print(tabulate(TABLE, tablefmt='psql'))
+    print('--TEST--')
+    print(TL.leaders)
+    print(TL.standard)
+    leaders = {}
+    for key, value in TL.standard.items():
+        print(key, value)
+        leaders[key] = value[0]
+    print(leaders)
+    print(TL.leaders)

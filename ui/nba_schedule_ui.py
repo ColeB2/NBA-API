@@ -134,7 +134,7 @@ class ScheduleUI(Widget):
 
         return date, vs_info, result_info
 
-    def get_headers(self):
+    def get_horiz_headers(self):
         """Sets up proper parameters to pass on to set_horiz_headers method,
         which creates the headers, so this method can return them."""
         games = self.S.get_x_games()
@@ -146,9 +146,7 @@ class ScheduleUI(Widget):
 
 
 
-    """VERTICAL DISPLAY METHODS
-    TODO: refactor, and remove hard coding"""
-
+    """VERTICAL DISPLAY METHODS"""
     def display_season_schedule(self):
         """Method used to display all regular season games to the console."""
         for game in enumerate(self.regular_season):

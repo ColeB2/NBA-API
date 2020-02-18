@@ -31,11 +31,15 @@ class Widget():
         return tabulate(table, tablefmt='psql')
 
     def set_horiz_headers(self):
-        """Abstract Method to be created"""
+        """Abstract Method to be created
+        Used by get_headers, to create/set the headers needed for horizontal
+        display"""
         pass
 
-    def get_headers(self):
-        """Abstract Method to be created"""
+    def get_horiz_headers(self):
+        """Abstract Method to be created
+        Gets the values returnd from set_horiz_headers method to be passed onto
+        create_horiz_table"""
         pass
 
     def horizontal_display(self, *extra):
@@ -45,7 +49,7 @@ class Widget():
         Kwargs:
             *extra: funcions that can be called before the table gets printed.
         """
-        headers = self.get_headers()
+        headers = self.get_horiz_headers()
         table = self.create_horiz_table(headers)
         if extra:
             for func in extra:
