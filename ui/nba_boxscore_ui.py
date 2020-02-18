@@ -35,8 +35,7 @@ class BoxScoreUI(Widget):
 
 
     '''BOXSCORE UI'''
-    def display(self, combined=False, score=True, ascii=True,
-        home=True, visitors=True, first=True):
+    def display(self, ascii=True):
         """Prints the score and boxscore of the game to the console.
 
         Args:
@@ -46,19 +45,11 @@ class BoxScoreUI(Widget):
             home: Bool, to display home team boxscore
             visitors: Bool, to display away team boxscore.
         """
-        if combined:
-            if score: self.display_score(ascii=ascii, combined=combined)
-            if visitors: self.display_boxscore(visitors=visitors, first=first)
-            if home: self.display_boxscore(home=home, first=first)
-        else:
-            if score:
-                self.display_score(ascii=ascii, combined=combined,
-                    team_data=self.B.vTeam_game_data)
-            if visitors: self.display_boxscore(visitors=True, first=first)
-            if score:
-                self.display_score(ascii=ascii, combined=combined,
-                    team_data=self.B.hTeam_game_data)
-            if home: self.display_boxscore(home=True, first=first)
+        self.horizontal_display(
+            (self.B.hTeam_player_stats, self.B.hTeam_totals),
+            self.display_score, header=True)
+        self.horizontal_display(
+            (self.B.vTeam_player_stats, self.B.vTeam_totals), header=True)
 
     def display_boxscore(self, home=False, visitors=False, first=True):
         """Prints the boxscore of the game to the console.
@@ -140,10 +131,6 @@ class BoxScoreUI(Widget):
             f"{team_totals['turnovers']}", f"{team_totals['pFouls']}",
             f"{team_totals['plusMinus']}", f"{team_totals['points']}" ]
 
-        for k,v in team_totals.items():
-            if k in self.footer_totals:
-                print(k,v)
-
         return [separator, footer]
 
     '''GAME SCORE UI'''
@@ -155,44 +142,55 @@ class BoxScoreUI(Widget):
         text = pyfiglet.figlet_format(text_str, font='small')
         return text
 
-    def display_score(self, ascii=True, combined=True, team_data=None):
+    def display_score(self):
         """
-        Prints the triCode and score of game on separate lines to the console.
-
-        Args:
-            ascii: Bool, whether to use ascii score or not
-            combined: Bool, whether to combine scores, or put them with respect
-                of their own boxscores.
-            team_data: team data, if combined is false, required to display
-                proper team data at proper spot.
+        Prints the triCode and score of game to the console using ascii.
         """
-        if combined:
-            if ascii:
-                print(self.ascii_score(self.B.vTeam_game_data,
-                                       self.B.hTeam_game_data))
-            else:
-                print(self.B.vTeam_game_data['triCode'], end=' ')
-                print(self.B.vTeam_game_data['score'])
-                print(self.B.hTeam_game_data['triCode'], end=' ')
-                print(self.B.hTeam_game_data['score'])
+        print(self.ascii_score(self.B.vTeam_game_data, self.B.hTeam_game_data))
 
-        else:
-            if ascii:
-                print(self.ascii_score(team_data))
-            else:
-                print(team_data['triCode'], end=' ')
-                print(team_data['score'])
+    '''HORIZ display'''
+    def set_horiz_headers(self, data):
+        """
 
 
+        """
+        headers = []
+        head = []
+
+        """set boxscore HEADER"""
+        for item in self.boxscore_headers:
+            head.append(item)
+        headers.append(head)
+
+        """set player stats"""
+        for player in data[0]:
+            player_list = []
+            for item in self.data_headers:
+                if type(item) is tuple:
+                    player_list.append(f"{player[item[0]]}-{player[item[1]]}")
+                else:
+                    player_list.append(f"{player[item]}")
+            headers.append(player_list)
+
+        """set footers"""
+        footers = self.totals_footer(data[1])
+        foot = []
+        for i in range(len(footers)):
+            foot = []
+            for item in footers[i]:
+                foot.append(item)
+
+            headers.append(foot)
+
+        return headers
+
+    def get_horiz_headers(self, data):
+        headers = self.set_horiz_headers(data)
+        return headers
 
 
 
 
 if __name__ == '__main__':
-    print('Create Box Score Object')
     boxscore = BoxScoreUI()
-    print('Display Box Score Widget\n')
-    boxscore.display(combined=True)
-
-    boxscore2 = BoxScoreUI()
-    boxscore.display(first=False)
+    boxscore.display()

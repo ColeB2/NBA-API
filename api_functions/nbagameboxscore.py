@@ -103,3 +103,5 @@ if __name__ == '__main__':
     print('hTeam Totals :'  + str(B.stats['hTeam']['totals']))
     print('activePlayers :' + str(B.stats['activePlayers'][0].keys()))
     print('activePlayers :' + str(B.stats['activePlayers']))
+
+    print(B.hTeam_player_stats[0])

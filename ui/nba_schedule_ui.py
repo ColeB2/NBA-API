@@ -44,7 +44,7 @@ class ScheduleUI(Widget):
             full: Boolean, decides whether to display full schedule. Only uses
                 vertical display
         """
-        if horiz: self.horizontal_display()
+        if horiz: self.horizontal_display(self.get_header_data())
         if not horiz:
             if last: self.display_last_x_games()
             if next: self.display_next_x_games()
@@ -134,13 +134,16 @@ class ScheduleUI(Widget):
 
         return date, vs_info, result_info
 
-    def get_horiz_headers(self):
-        """Sets up proper parameters to pass on to set_horiz_headers method,
-        which creates the headers, so this method can return them."""
+    def get_header_data(self):
         games = self.S.get_x_games()
         games.extend(self.S.get_x_games(x=6, next=False, prev_game=False))
         games.sort()
-        headers = self.set_horiz_headers(games)
+        return games
+
+    def get_horiz_headers(self, data):
+        """Sets up proper parameters to pass on to set_horiz_headers method,
+        which creates the headers, so this method can return them."""
+        headers = self.set_horiz_headers(data)
         return headers
 
 

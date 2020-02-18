@@ -16,10 +16,10 @@ if __name__ == '__main__':
     S.display()
 
     SB = ScoreBoardUI()
-    SB.display()
+    SB.display(horiz=True)
 
     B = BoxScoreUI()
-    B.display(combined=True)
+    B.display()
 
     TL = TeamLeadersUI()
     TL.display()

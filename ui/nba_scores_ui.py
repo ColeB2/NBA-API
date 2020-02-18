@@ -31,7 +31,7 @@ class ScoreBoardUI(Widget):
 
         """
         if horiz:
-            self.horizontal_display(self.horizontal_display_date)
+            self.horizontal_display((self.YSB, self.SB), self.horizontal_display_date)
         else:
             self.vertical_display()
 
@@ -61,7 +61,7 @@ class ScoreBoardUI(Widget):
         date_str += self.format_date(self.SB.date)
         print(date_str)
 
-    def set_horiz_headers(self, *data):
+    def set_horiz_headers(self, data):
         """Sets the heads for a horizontal display so they can be used by the
         tabulate function.
 
@@ -93,6 +93,12 @@ class ScoreBoardUI(Widget):
                 info.append(status)
 
         return [info, top_team, bot_team]
+
+    def get_horiz_headers(self, data):
+        """Sets up proper parameters to pass on to set_horiz_headers method,
+        which creates the headers, so this method can return them."""
+        headers = self.set_horiz_headers(data)
+        return headers
 
     def period_suffix(self, period):
         """Sets the suffix given the game period.
@@ -135,13 +141,6 @@ class ScoreBoardUI(Widget):
 
         return status_str
 
-    def get_horiz_headers(self):
-        """Sets up proper parameters to pass on to set_horiz_headers method,
-        which creates the headers, so this method can return them."""
-        headers = self.set_horiz_headers(self.YSB, self.SB)
-        return headers
-
-
     """VERTICAL DISPLAY METHODS"""
     def vertical_display(self, today=True, yesterday=True):
         if yesterday:
@@ -168,6 +167,9 @@ if __name__ == '__main__':
     SB.display()
 
     SB = ScoreBoardUI(date='20200210')
+    SB.display(horiz=True)
+
+    SB = ScoreBoardUI()
     SB.display(horiz=True)
 
     print('Vertical Display:')

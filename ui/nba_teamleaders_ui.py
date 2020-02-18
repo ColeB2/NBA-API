@@ -30,7 +30,7 @@ class TeamLeadersUI(Widget):
             horiz: Boolean, decides whether to print horizontal or not.
         """
         if horiz:
-            self.horizontal_display()
+            self.horizontal_display(self.TL)
 
 
     def set_horiz_headers(self, data):
@@ -41,7 +41,6 @@ class TeamLeadersUI(Widget):
 
 
         """
-        headers = self.headers.copy()
         leaders = []
         headers = []
 
@@ -58,8 +57,8 @@ class TeamLeadersUI(Widget):
 
         return [headers, leaders]
 
-    def get_horiz_headers(self):
-        headers = self.set_horiz_headers(self.TL)
+    def get_horiz_headers(self, data):
+        headers = self.set_horiz_headers(data)
         return headers
 
 

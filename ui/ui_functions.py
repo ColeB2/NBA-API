@@ -14,7 +14,7 @@ class Widget():
 
 
     """HORIZONTAL DISPLAY METHODS"""
-    def create_horiz_table(self, data):
+    def create_horiz_table(self, data, header=None):
         """Creates the tabulate table given the headers from a classes
         set_horiz_headers.
 
@@ -28,29 +28,34 @@ class Widget():
         table = []
         for headers in data:
             table.append(headers)
-        return tabulate(table, tablefmt='psql')
+        if header:
+            return tabulate(table, headers="firstrow", tablefmt='psql')
+        else:
+            return tabulate(table, tablefmt='psql')
 
     def set_horiz_headers(self):
         """Abstract Method to be created
         Used by get_headers, to create/set the headers needed for horizontal
         display"""
+        print('Implement set_horiz_headers')
         pass
 
     def get_horiz_headers(self):
         """Abstract Method to be created
         Gets the values returnd from set_horiz_headers method to be passed onto
         create_horiz_table"""
+        print('Implement get_horiz_headers')
         pass
 
-    def horizontal_display(self, *extra):
+    def horizontal_display(self, data, *extra, header=False):
         """Calls appropriate methods to create appropiate table to display
         horiontally across the CLI.
 
         Kwargs:
             *extra: funcions that can be called before the table gets printed.
         """
-        headers = self.get_horiz_headers()
-        table = self.create_horiz_table(headers)
+        headers = self.get_horiz_headers(data)
+        table = self.create_horiz_table(headers, header)
         if extra:
             for func in extra:
                 func()
