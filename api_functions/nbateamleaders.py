@@ -50,13 +50,27 @@ class TeamLeaders(object):
 
         self.leader_keys = ['ppg','trpg','apg','fgp','tpp','ftp','bpg','spg',
             'tpg','pfpg']
-        self.leaders = self.standard
-        self.leaders.pop('seasonStageId', None)
-        self.Leaders = {}
-        self.set_leaders()
-    def set_leaders(self):
-        for key, value in self.standard.items():
-            self.Leaders[key] = value[0]
+
+        self.leaders = self.create_dictionary(self.standard, self.leader_keys)
+
+    def create_dictionary(self, dictionary, keys):
+        """Creates a new dictionary from a dictionary only using the keys given.
+        Contains conditional to add a value which is a list length 1, as a non
+        list value
+
+
+        Args:
+            dictionary: dict, that is to be copied
+            keys: keys of the dict to be copied
+        """
+        leaders_dict = {}
+        for key, value in dictionary.items():
+            if key in keys:
+                if type(value) is list and len(value) == 1:
+                    leaders_dict[key] = value[0]
+                else:
+                    leaders_dict[key] = value
+        return leaders_dict
 
 
 
@@ -75,15 +89,6 @@ if __name__ == '__main__':
     print(TL.standard.keys())
     print(TL.standard)
     print()
-    print()
-    print(TL.leaders)
     print('--TEST--')
-    print(TL.leaders)
     print(TL.standard)
-    leaders = {}
-    for key, value in TL.standard.items():
-        print(key, value)
-        leaders[key] = value[0]
-    print(leaders)
     print(TL.leaders)
-    print(TL.Leaders)

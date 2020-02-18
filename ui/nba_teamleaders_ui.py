@@ -31,28 +31,7 @@ class TeamLeadersUI(Widget):
             self.horizontal_display()
 
 
-    def set_horiz_headers(self, *data):
-        """Sets the headers for a horizontal display so they can be used by the
-        tabulate function.
-
-        Args:
-
-
-        """
-        headers = self.headers.copy()
-        for i in enumerate(self.headers):
-            idx = self.data_headers[i[0]]
-            headers[i[0]] += f": {self.TL.leaders[idx][0]['value']}"
-
-        leaders = []
-        for player in self.TL.leaders.values():
-            first, last = (self.PI.get_player_name(player[0]['personId']))
-            name_str = str(first) + ' ' + str(last)
-            leaders.append(name_str)
-
-        return [headers, leaders]
-
-    def set_horiz_headers(self, *data):
+    def set_horiz_headers(self, data):
         """Sets the headers for a horizontal display so they can be used by the
         tabulate function.
 
@@ -64,15 +43,9 @@ class TeamLeadersUI(Widget):
         leaders = []
         headers = []
 
-        print(headers)
-        print(leaders)
-        print(self.TL.leaders.keys())
-        print(self.TL.leaders.values())
-
-        for key, value in self.TL.Leaders.items():
+        for key, value in data.leaders.items():
             if key in self.data_headers:
                 idx = self.data_headers.index(key)
-                print(value)
 
                 header = f"{self.headers[idx]}: {value['value']}"
                 headers.append(header)
@@ -80,14 +53,11 @@ class TeamLeadersUI(Widget):
                 first, last = self.PI.get_player_name(value['personId'])
                 leader = f"{first} {last}"
                 leaders.append(leader)
-            print(key, value)
-
-        print(headers, leaders)
 
         return [headers, leaders]
 
     def get_horiz_headers(self):
-        headers = self.set_horiz_headers()
+        headers = self.set_horiz_headers(self.TL)
         return headers
 
 
