@@ -10,7 +10,10 @@ class TeamLeadersUI(Widget):
     """A class to represent an NBA teams team leaders.
 
     Attributes:
-        T: TeamLeaders object which holds all stats/methods for team leaders.
+        TL: TeamLeaders object which holds all stats/methods for team leaders.
+        PI: PlayerInfo object which holds all player information for ea player.
+        headers: Representation of important headers to be used for printing.
+        data_headers: Copy of TL.leader_keys list from TL object.
     """
     def __init__(self, team=None, season=None):
         self.TL = TeamLeaders(team, season)
@@ -18,8 +21,7 @@ class TeamLeadersUI(Widget):
         self.headers = ['PTS/G', 'REB/G', 'AST/G', 'FG%',
             '3PT%', 'FT%', 'BLK/G','STL/G', 'TO/G',
             'PF/G']
-        self.data_headers = ['ppg', 'trpg', 'apg', 'fgp', 'tpp', 'ftp', 'bpg',
-        'spg', 'tpg', 'pfpg']
+        self.data_headers = self.TL.leader_keys.copy()
 
     def display(self, horiz=True):
         """Prints the team leaders of chosen team to the console.

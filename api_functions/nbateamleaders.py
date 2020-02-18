@@ -36,6 +36,9 @@ class TeamLeaders(object):
         _internal: raw_data key of internal data
         league: data of various leagues
         standard: raw_data key, holds data of respective leaders
+
+        leader_keys: keys of team leaders which are most important for use.
+        leaders: created dictionary using only keys from leader keys
     """
     def __init__(self, team=None, season=None):
         self.team = team
