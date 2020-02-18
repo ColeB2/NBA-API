@@ -150,8 +150,7 @@ class BoxScoreUI(Widget):
     def ascii_score(self, *team):
         text_str = ''
         for team_data in team:
-            text_str += team_data['triCode'] + '   ' + \
-            team_data['score'] + '   '
+            text_str += f"{team_data['triCode']}   {team_data['score']}   "
 
         text = pyfiglet.figlet_format(text_str, font='small')
         return text
@@ -193,7 +192,7 @@ if __name__ == '__main__':
     print('Create Box Score Object')
     boxscore = BoxScoreUI()
     print('Display Box Score Widget\n')
-    boxscore.display()
+    boxscore.display(combined=True)
 
     boxscore2 = BoxScoreUI()
     boxscore.display(first=False)
