@@ -8,7 +8,6 @@ config_folder = os.path.dirname(os.path.abspath(__file__))
 config_path = os.path.join(config_folder, 'config.ini')
 
 def get_season():
-    #config = configparser.ConfigParser()
     config = configparser.RawConfigParser()
     config.read(config_path)
 
