@@ -42,12 +42,12 @@ class TeamInfo(object):
 
 
 if __name__ == '__main__':
-    print(get_team_url('Raptors'))
-    print(get_team_url('ToRoNtO RaPtOrS'))
-    print(get_team_url('ChicaGo Bulls'))
-    print(get_team_url('DAL'))
-    print(get_team_url('ToRoNtO'))
-    print(get_team_url('HAWKS'))
-    print(get_team_url('ATLANTA'))
-    print(get_team_url('Magic'))
-    print(get_team_url('FAIL'))
+    # print(get_team_url('raptors'))
+    # print(get_team_url('ToRoNtO RaPtOrS'))
+    # print(get_team_url('ChicaGo Bulls'))
+    # print(get_team_url('DAL'))
+    # print(get_team_url('ToRoNtO'))
+    # print(get_team_url('HAWKS'))
+    # print(get_team_url('ATLANTA'))
+    # print(get_team_url('Magic'))
+    # print(get_team_url('FAIL'))

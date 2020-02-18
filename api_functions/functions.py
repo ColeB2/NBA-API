@@ -35,7 +35,6 @@ def get_season_year():
 
 if __name__ == '__main__':
     print(get_today_date())
-    #print(get_yesterday_date())
     print('yesterday: ' + str(get_date_before()))
 
     print('get_date_before: ' + str(get_date_before('20200101')))

@@ -36,7 +36,7 @@ class BoxScoreUI(Widget):
 
     '''BOXSCORE UI'''
     def display(self, combined=False, score=True, ascii=True,
-        home=True, visitors=True):
+        home=True, visitors=True, first=True):
         """Prints the score and boxscore of the game to the console.
 
         Args:
@@ -48,19 +48,19 @@ class BoxScoreUI(Widget):
         """
         if combined:
             if score: self.display_score(ascii=ascii, combined=combined)
-            if visitors: self.display_boxscore(visitors=visitors)
-            if home: self.display_boxscore(home=home)
+            if visitors: self.display_boxscore(visitors=visitors, first=first)
+            if home: self.display_boxscore(home=home, first=first)
         else:
             if score:
                 self.display_score(ascii=ascii, combined=combined,
                     team_data=self.B.vTeam_game_data)
-            if visitors: self.display_boxscore(visitors=True)
+            if visitors: self.display_boxscore(visitors=True, first=first)
             if score:
                 self.display_score(ascii=ascii, combined=combined,
                     team_data=self.B.hTeam_game_data)
-            if home: self.display_boxscore(home=True)
+            if home: self.display_boxscore(home=True, first=first)
 
-    def display_boxscore(self, home=False, visitors=False):
+    def display_boxscore(self, home=False, visitors=False, first=True):
         """Prints the boxscore of the game to the console.
 
         Args:
@@ -70,12 +70,12 @@ class BoxScoreUI(Widget):
         """
         if visitors:
             table = self.create_table(self.B.vTeam_player_stats, \
-                self.B.vTeam_totals)
+                self.B.vTeam_totals, first=first)
             print(tabulate(table, self.boxscore_headers, tablefmt = 'psql'))
 
         if home:
             table = self.create_table(self.B.hTeam_player_stats, \
-                self.B.hTeam_totals)
+                self.B.hTeam_totals, first=first)
             print(tabulate(table, self.boxscore_headers, tablefmt = 'psql'))
 
 
@@ -95,24 +95,22 @@ class BoxScoreUI(Widget):
         A list which when combined with tabulate module, pretty prints a table
         of the games boxscore stats
         """
-        table = list()
+        table = []
         for player in data:
-            new_row = list()
+            new_row = []
             for index, stat in enumerate(self.data_headers):
                 if type(stat) is tuple:
                     if stat[0] == 'firstName':
                         if first:
-                            stat_str = str(player[stat[0]]) +  \
-                                 ' ' + str(player[stat[1]])
+                            stat_str = f"{player[stat[0]]} {player[stat[1]]}"
                         else:
-                            stat_str = str(player[stat[0]][0:1]) + '. ' \
-                                 ' ' + str(player[stat[1]])
+                            stat_str = f"{player[stat[0]][0:1]}. " \
+                                       f"{player[stat[1]]}"
                     else:
-                        stat_str = str(player[stat[0]]) +  \
-                             '-' + str(player[stat[1]])
+                        stat_str = f"{player[stat[0]]}-{player[stat[1]]}"
                     new_row.append(stat_str)
                 else:
-                    stat_str = str(player[stat])
+                    stat_str = f"{player[stat]}"
                     new_row.append(stat_str)
             table.append(new_row)
         table.extend(self.totals_footer(team_totals))
@@ -124,21 +122,27 @@ class BoxScoreUI(Widget):
         Args:
             team_totals: dict of given teams totals for the game.
         """
-        separator =  ['==','=======================', '=====',
-        '======', '======', '======', '===','===','===',
-        '===', '===', '===',
-        '===', '===', '===',
-        '===']
+        separator =  [
+        f"==", f"=======================", f"=====",
+        f"======", f"======", f"======", f"===",f"===",f"===",
+        f"===", f"===", f"===",
+        f"===", f"===", f"===",
+        f"==="]
 
-        footer  = ['--','-----------------------', str(team_totals['min']),
-        str(team_totals['fgm'] + '-' +team_totals['fga'] ),
-        str(team_totals['tpm'] + '-' +team_totals['tpa'] ),
-        str(team_totals['ftm'] + '-' +team_totals['fta'] ),
-        str(team_totals['offReb']),str(team_totals['defReb']),
-        str(team_totals['totReb']), str(team_totals['assists']),
-        str(team_totals['steals']), str(team_totals['blocks']),
-        str(team_totals['turnovers']), str(team_totals['pFouls']),
-        str(team_totals['plusMinus']), str(team_totals['points'])]
+        footer = [
+            f"--", f"-----------------------", f"{team_totals['min']}",
+            f"{team_totals['fgm']}-{team_totals['fga']}",
+            f"{team_totals['tpm']}-{team_totals['tpa']}",
+            f"{team_totals['ftm']}-{team_totals['fta']}",
+            f"{team_totals['offReb']}", f"{team_totals['defReb']}",
+            f"{team_totals['totReb']}", f"{team_totals['assists']}",
+            f"{team_totals['steals']}", f"{team_totals['blocks']}",
+            f"{team_totals['turnovers']}", f"{team_totals['pFouls']}",
+            f"{team_totals['plusMinus']}", f"{team_totals['points']}" ]
+
+        for k,v in team_totals.items():
+            if k in self.footer_totals:
+                print(k,v)
 
         return [separator, footer]
 
@@ -190,3 +194,6 @@ if __name__ == '__main__':
     boxscore = BoxScoreUI()
     print('Display Box Score Widget\n')
     boxscore.display()
+
+    boxscore2 = BoxScoreUI()
+    boxscore.display(first=False)
