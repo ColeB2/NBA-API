@@ -128,12 +128,8 @@ class ScoreBoardUI(Widget):
                 if game_data['period']['isHalftime']:
                     status_str = 'HalfTime'
                 else:
-                    #status_str = 'End of ' + str(period) + \
-                        #self.period_suffix(period)
                     status_str = f"End of {period}{self.period_suffix(period)}"
             else:
-                #status_str = str(game_data['clock']) + \
-                    #' - ' + str(period) + self.period_suffix(period)
                 status_str = f"{game_data[clock]} - " \
                              f"{period}{self.period_suffix(period)}"
 
@@ -145,19 +141,23 @@ class ScoreBoardUI(Widget):
         headers = self.set_horiz_headers(self.YSB, self.SB)
         return headers
 
-    def horizontal_displayX(self):
-        x = super().horizontal_display()
-        print(x)
-
-
 
     """VERTICAL DISPLAY METHODS"""
-    def vertical_display(self, today=True, yesterday=False):
-        for game in self.SB.games:
-            print( f"{game['hTeam']['triCode']} " \
-                   f"{game['hTeam']['score'].rjust(3)} " \
-                   f"{game['vTeam']['triCode']} " \
-                   f"{game['vTeam']['score'].rjust(3)}" )
+    def vertical_display(self, today=True, yesterday=True):
+        if yesterday:
+            print(f"{self.format_date(self.YSB.date)}")
+            for game in self.YSB.games:
+                print( f"{game['hTeam']['triCode']} " \
+                       f"{game['hTeam']['score'].rjust(3)} " \
+                       f"{game['vTeam']['triCode']} " \
+                       f"{game['vTeam']['score'].rjust(3)}" )
+        if today:
+            print(f"{self.format_date(self.SB.date)}")
+            for game in self.SB.games:
+                print( f"{game['hTeam']['triCode']} " \
+                       f"{game['hTeam']['score'].rjust(3)} " \
+                       f"{game['vTeam']['triCode']} " \
+                       f"{game['vTeam']['score'].rjust(3)}" )
 
 
 
@@ -169,3 +169,8 @@ if __name__ == '__main__':
 
     SB = ScoreBoardUI(date='20200210')
     SB.display(horiz=True)
+
+    print('Vertical Display:')
+
+    SB = ScoreBoardUI(date='20200210')
+    SB.display(horiz=False)
