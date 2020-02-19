@@ -57,8 +57,8 @@ class Widget():
 
     def get_nested_list(self):
         """Abstract Method to be created
-        Gets the values returnd from set_horiz_headers method to be passed onto
-        create_horiz_table"""
+        Calls create_nested_list method in order to get the values for the
+        nested list to be passed on to create_tabulate_table method"""
         print('Implement get_nested_list method')
         pass
 

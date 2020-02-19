@@ -73,8 +73,8 @@ class ScoreBoardUI(Widget):
         return [info, top_team, bot_team]
 
     def get_nested_list(self, data):
-        """Sets up proper parameters to pass on to set_horiz_headers method,
-        which creates the headers, so this method can return them."""
+        """Calls create_nested_list method in order to get the values for the
+        nested list to be passed on to create_tabulate_table method"""
         return self.create_nested_list(data)
 
     def format_date_spacing(self,date, games):

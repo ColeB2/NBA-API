@@ -31,7 +31,7 @@ class TeamLeadersUI(Widget):
         if horiz:
             self.horizontal_display(self.TL)
 
-
+    """HORIZONTAL DISPLAY METHODS"""
     def create_nested_list(self, data):
         """Creates a list of lists to be passed on to the
         Parent Class, Widget's, create_tabulate_table method.
@@ -56,6 +56,8 @@ class TeamLeadersUI(Widget):
         return [headers, leaders]
 
     def get_nested_list(self, data):
+        """Calls create_nested_list method in order to get the values for the
+        nested list to be passed on to create_tabulate_table method"""
         return self.create_nested_list(data)
 
 

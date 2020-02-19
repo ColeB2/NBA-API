@@ -87,17 +87,18 @@ class ScheduleUI(Widget):
 
         return date, vs_info, result_info
 
+    def get_nested_list(self, data):
+        """Calls create_nested_list method in order to get the values for the
+        nested list to be passed on to create_tabulate_table method"""
+        return self.create_nested_list(data)
+
     def get_header_data(self):
         games = self.S.get_x_games()
         games.extend(self.S.get_x_games(x=6, next=False, prev_game=False))
         games.sort()
         return games
 
-    def get_nested_list(self, data):
-        """Sets up proper parameters to pass on to set_horiz_headers method,
-        which creates the headers, so this method can return them."""
-        nested_list = self.create_nested_list(data)
-        return nested_list
+
 
     def get_home_listing(self, game_data):
         """Finds out if chosen team is home team or not then returns a

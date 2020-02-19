@@ -33,7 +33,7 @@ class BoxScoreUI(Widget):
 
 
     '''BOXSCORE UI'''
-    def display(self, ascii=True):
+    def display(self):
         """Prints the score and boxscore of the game to the console.
 
         Args:
@@ -44,7 +44,7 @@ class BoxScoreUI(Widget):
         self.horizontal_display(
             (self.B.vTeam_player_stats, self.B.vTeam_totals), header=True)
 
-    '''HORIZ display'''
+    """HORIZONTAL DISPLAY METHODS"""
     def create_nested_list(self, data):
         """Creates a list of lists to be passed on to the
         Parent Class, Widget's, create_tabulate_table method.
@@ -74,6 +74,8 @@ class BoxScoreUI(Widget):
         return headers
 
     def get_nested_list(self, data):
+        """Calls create_nested_list method in order to get the values for the
+        nested list to be passed on to create_tabulate_table method"""
         return self.create_nested_list(data)
 
     def get_totals(self, team_totals):
