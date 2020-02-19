@@ -52,6 +52,10 @@ class BoxScoreUI(Widget):
         Args:
             data: The data to be parsed through to create the lists.
 
+        Returns:
+            List of all the stats, all players values for said stats,
+            a separator and totals of all said stats.
+
         """
         headers = []
         """Stat Header"""

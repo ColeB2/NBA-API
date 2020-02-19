@@ -54,7 +54,7 @@ class ScheduleUI(Widget):
             full: Boolean, decides whether to display full schedule. Only uses
                   vertical display
         """
-        if horiz: self.horizontal_display(self.get_header_data())
+        if horiz: self.horizontal_display(self.get_nested_list_data())
         if not horiz:
             if last: self.display_last_x_games()
             if next: self.display_next_x_games()
@@ -66,6 +66,17 @@ class ScheduleUI(Widget):
     def create_nested_list(self, data):
         """Creates a list of lists to be passed on to the
         Parent Class, Widget's, create_tabulate_table method.
+
+        Args:
+            data: The data to be parsed through to create the lists.
+
+        Returns:
+            List of lists, date, vs_info, result_info.
+            date: list of the dates, formatted with spacing for given games.
+            vs_info: list of strs, '@' or 'VS' based on whether team is home or
+                away.
+            result_info: list of str, based on results of the game, given as
+                either a 'W' or 'L'
         """
         date = []
         vs_info= []
@@ -85,19 +96,20 @@ class ScheduleUI(Widget):
             vs_info.append(vs_str)
             result_info.append(result_str)
 
-        return date, vs_info, result_info
+        return [date, vs_info, result_info]
 
     def get_nested_list(self, data):
         """Calls create_nested_list method in order to get the values for the
         nested list to be passed on to create_tabulate_table method"""
         return self.create_nested_list(data)
 
-    def get_header_data(self):
+    def get_nested_list_data(self):
+        """Acquires/organizes the data to be used in the get_nested_list method
+        """
         games = self.S.get_x_games()
         games.extend(self.S.get_x_games(x=6, next=False, prev_game=False))
         games.sort()
         return games
-
 
 
     def get_home_listing(self, game_data):
@@ -159,10 +171,6 @@ class ScheduleUI(Widget):
         dash = '-' if fave_score != '' else ''
 
         return f"{res} {fave_score}{dash}{opp_score}"
-
-
-
-
 
 
     """VERTICAL DISPLAY METHODS"""

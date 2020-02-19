@@ -33,7 +33,8 @@ class ScoreBoardUI(Widget):
             false, will display it vertically.
 
         """
-        self.horizontal_display((self.YSB, self.SB), self.horizontal_display_date)
+        self.horizontal_display((self.YSB, self.SB),
+            self.horizontal_display_date)
 
 
 
@@ -50,7 +51,11 @@ class ScoreBoardUI(Widget):
             both just for todays date scores, and yesterdays scores.
 
         Returns:
-            list of lists, which contains game status, and home/away info.
+            lList of lists, info, top_team, bot_team.
+            info: status of game, whether it is over, @ half, or time during
+                play.
+            top_team: Home team triCode and score,
+            bot_team: Away team triCode and score.
         """
         info = []
         top_team = []

@@ -38,6 +38,11 @@ class TeamLeadersUI(Widget):
 
         Args:
             data: The data to be parsed through to create the lists.
+
+        Returns:
+            List of lists, headers, leaders.
+            headers: list of stats and value of said stats.
+            leaders: list of the players who lead said stats.
         """
         leaders = []
         headers = []
