@@ -42,14 +42,14 @@ class TeamInfo(object):
         self.league = self.raw_data['league']
         self.standard = self.league['standard']
 
-        self.identifiers = {'division':'divName', 'conference','confName'}
+        self.identifiers = {'division':'divName', 'conference':'confName'}
 
 
-    def get_division(self, team=None):
-        if not team: team= get_team()
+    def get_conf_division(self, team=None):
+        if not team: team = get_team()
         for teams in self.standard:
             if teams['urlName'] == team.lower():
-                return teams['divName']
+                return (teams['confName'], teams['divName'])
         print('Could not find division')
 
 
@@ -63,5 +63,5 @@ if __name__ == '__main__':
     print(f"{TI.standard[0].keys()}")
 
 
-    print(f"{TI.get_division('raptors')}")
-    print(f"{TI.get_division()}")
+    print(f"{TI.get_conf_division('raptors')}")
+    print(f"{TI.get_conf_division()}")
