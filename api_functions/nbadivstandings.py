@@ -68,4 +68,4 @@ if __name__ == '__main__':
     print(f"{DS.east_conf.keys()}")
     print(f"{DS.west_conf.keys()}")
 
-    print(f"{DS.get_division()}")
+    print(f"{DS._get_division()}")
