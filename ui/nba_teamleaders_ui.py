@@ -56,8 +56,7 @@ class TeamLeadersUI(Widget):
         return [headers, leaders]
 
     def get_nested_list(self, data):
-        nested_list = self.create_nested_list(data)
-        return nested_list
+        return self.create_nested_list(data)
 
 
 

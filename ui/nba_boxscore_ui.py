@@ -74,8 +74,7 @@ class BoxScoreUI(Widget):
         return headers
 
     def get_nested_list(self, data):
-        nested_list = self.create_nested_list(data)
-        return nested_list
+        return self.create_nested_list(data)
 
     def get_totals(self, team_totals):
         """Creates a list of totals to be added to the footer of boxscore.

@@ -75,8 +75,8 @@ class ScoreBoardUI(Widget):
     def get_nested_list(self, data):
         """Sets up proper parameters to pass on to set_horiz_headers method,
         which creates the headers, so this method can return them."""
-        nested_list = self.create_nested_list(data)
-        return nested_list
+        return self.create_nested_list(data)
+
     def format_date_spacing(self,date, games):
         """formats the date from YYYYMMDD format into MMM DD YYYY format
 

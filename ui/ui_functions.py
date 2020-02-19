@@ -14,7 +14,7 @@ class Widget():
 
 
     """HORIZONTAL DISPLAY METHODS"""
-    def create_horiz_table(self, data, header=None):
+    def create_tabulate_table(self, data, header=None):
         """Creates the tabulate table given the headers from a classes
         set_horiz_headers.
 
@@ -33,21 +33,6 @@ class Widget():
         else:
             return tabulate(table, tablefmt='psql')
 
-    def create_nested_list(self):
-        """Abstract Method to be created
-        Used by get_headers, to create a list of lists to be used by the
-        create_horiz_table.
-        """
-        print('Implement set_horiz_headers')
-        pass
-
-    def get_horiz_headers(self):
-        """Abstract Method to be created
-        Gets the values returnd from set_horiz_headers method to be passed onto
-        create_horiz_table"""
-        print('Implement get_horiz_headers')
-        pass
-
     def horizontal_display(self, data, *extra, header=False):
         """Calls appropriate methods to create appropiate table to display
         horiontally across the CLI.
@@ -56,11 +41,26 @@ class Widget():
             *extra: funcions that can be called before the table gets printed.
         """
         nested_list = self.get_nested_list(data)
-        table = self.create_horiz_table(nested_list, header)
+        table = self.create_tabulate_table(nested_list, header)
         if extra:
             for func in extra:
                 func()
         print(table)
+
+    def create_nested_list(self):
+        """Abstract Method to be created
+        Creates a list of lists to be passed on to the
+        Parent Class, Widget's, create_tabulate_table method.
+        """
+        print('Implement create_nested_list method')
+        pass
+
+    def get_nested_list(self):
+        """Abstract Method to be created
+        Gets the values returnd from set_horiz_headers method to be passed onto
+        create_horiz_table"""
+        print('Implement get_nested_list method')
+        pass
 
 
     """VERTICAL DISPLAY METHODS"""
