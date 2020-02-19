@@ -10,7 +10,7 @@ from functions import get_data
 
 import sys, os
 sys.path.append(os.path.abspath(os.path.join('.', 'config')))
-from getconfiginfo import get_season
+from getconfiginfo import get_season, get_team
 
 
 
@@ -36,18 +36,32 @@ class TeamInfo(object):
 
 
     """
-    def __init__(self):
-        pass
+    def __init__(self, season=None):
+        self.raw_data = get_team_data(season)
+        self._internal = self.raw_data['_internal']
+        self.league = self.raw_data['league']
+        self.standard = self.league['standard']
+
+        self.identifiers = {'division':'divName', 'conference','confName'}
+
+
+    def get_division(self, team=None):
+        if not team: team= get_team()
+        for teams in self.standard:
+            if teams['urlName'] == team.lower():
+                return teams['divName']
+        print('Could not find division')
 
 
 
 if __name__ == '__main__':
-    # print(get_team_url('raptors'))
-    # print(get_team_url('ToRoNtO RaPtOrS'))
-    # print(get_team_url('ChicaGo Bulls'))
-    # print(get_team_url('DAL'))
-    # print(get_team_url('ToRoNtO'))
-    # print(get_team_url('HAWKS'))
-    # print(get_team_url('ATLANTA'))
-    # print(get_team_url('Magic'))
-    # print(get_team_url('FAIL'))
+    TI = TeamInfo()
+    print(f"{TI.raw_data.keys()}")
+    print(f"{TI._internal.keys()}")
+    print(f"{TI.league.keys()}")
+    print(f"{TI.standard}")
+    print(f"{TI.standard[0].keys()}")
+
+
+    print(f"{TI.get_division('raptors')}")
+    print(f"{TI.get_division()}")
