@@ -57,9 +57,9 @@ class BoxScoreUI(Widget):
             a separator and totals of all said stats.
 
         """
-        headers = []
+        nested_list = []
         """Stat Header"""
-        headers.append(self.boxscore_headers)
+        nested_list.append(self.boxscore_headers)
 
         """Player Stats"""
         for player in data[0]:
@@ -69,13 +69,13 @@ class BoxScoreUI(Widget):
                     player_list.append(f"{player[item[0]]}-{player[item[1]]}")
                 else:
                     player_list.append(f"{player[item]}")
-            headers.append(player_list)
+            nested_list.append(player_list)
 
         """Team Totals"""
         totals = self.get_totals(data[1])
-        headers.extend([self.separator, totals])
+        nested_list.extend([self.separator, totals])
 
-        return headers
+        return nested_list
 
     def get_nested_list(self, data):
         """Calls create_nested_list method in order to get the values for the
