@@ -33,6 +33,7 @@ class Widget():
         else:
             return tabulate(table, tablefmt='psql')
 
+
     def horizontal_display(self, data, *extra, header=False):
         """Calls appropriate methods to create appropiate table to display
         horiontally across the CLI.
@@ -47,6 +48,7 @@ class Widget():
                 func()
         print(table)
 
+
     def create_nested_list(self):
         """Abstract Method to be created
         Creates a list of lists to be passed on to the
@@ -54,6 +56,7 @@ class Widget():
         """
         print('Implement create_nested_list method')
         pass
+
 
     def get_nested_list(self):
         """Abstract Method to be created
@@ -64,8 +67,6 @@ class Widget():
 
 
     """VERTICAL DISPLAY METHODS"""
-
-
     """UTILITY METHODS"""
     def convert_time(self, utc_time):
         """converts UTC timezone string to local time zone string.
@@ -80,6 +81,7 @@ class Widget():
 
         return local_time
 
+
     def format_date(self, date):
         """Formats date given in YYYYMMDD format into a MMM/DD/YY format
 
@@ -91,9 +93,6 @@ class Widget():
         date_str = calendar.month_abbr[int(date[4:6])] + \
             '/' + date[6:] + '/' + date[2:4]
         return date_str
-
-
-
 
 
 

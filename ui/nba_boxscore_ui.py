@@ -32,17 +32,25 @@ class BoxScoreUI(Widget):
         f"===", f"===", f"===", f"===", f"===" ]
 
 
-    '''BOXSCORE UI'''
-    def display(self):
+    def display(self, horiz=True):
         """Prints the score and boxscore of the game to the console.
 
         Args:
         """
-        self.horizontal_display(
-            (self.B.hTeam_player_stats, self.B.hTeam_totals),
-            self.display_score, header=True)
-        self.horizontal_display(
-            (self.B.vTeam_player_stats, self.B.vTeam_totals), header=True)
+        if horiz:
+            self.horizontal_display(
+                (self.B.hTeam_player_stats, self.B.hTeam_totals),
+                self.display_score, header=True)
+            self.horizontal_display(
+                (self.B.vTeam_player_stats, self.B.vTeam_totals), header=True)
+
+
+    def display_score(self):
+        """
+        Prints the triCode and score of game to the console using ascii.
+        """
+        print(self.ascii_score(self.B.vTeam_game_data, self.B.hTeam_game_data))
+
 
     """HORIZONTAL DISPLAY METHODS"""
     def create_nested_list(self, data):
@@ -66,7 +74,12 @@ class BoxScoreUI(Widget):
             player_list = []
             for item in self.data_headers:
                 if type(item) is tuple:
-                    player_list.append(f"{player[item[0]]}-{player[item[1]]}")
+                    if item[0] == 'firstName':
+                        player_list.append(f"{player[item[0]]} "\
+                                           f"{player[item[1]]}")
+                    else:
+                        player_list.append(f"{player[item[0]]}-"
+                                           f"{player[item[1]]}")
                 else:
                     player_list.append(f"{player[item]}")
             nested_list.append(player_list)
@@ -77,10 +90,12 @@ class BoxScoreUI(Widget):
 
         return nested_list
 
+
     def get_nested_list(self, data):
         """Calls create_nested_list method in order to get the values for the
         nested list to be passed on to create_tabulate_table method"""
         return self.create_nested_list(data)
+
 
     def get_totals(self, team_totals):
         """Creates a list of totals to be added to the footer of boxscore.
@@ -101,7 +116,7 @@ class BoxScoreUI(Widget):
 
         return totals
 
-    '''GAME SCORE UI'''
+
     def ascii_score(self, *team):
         text_str = ''
         for team_data in team:
@@ -109,15 +124,6 @@ class BoxScoreUI(Widget):
 
         text = pyfiglet.figlet_format(text_str, font='small')
         return text
-
-    def display_score(self):
-        """
-        Prints the triCode and score of game to the console using ascii.
-        """
-        print(self.ascii_score(self.B.vTeam_game_data, self.B.hTeam_game_data))
-
-
-
 
 
 

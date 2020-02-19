@@ -22,6 +22,7 @@ class TeamLeadersUI(Widget):
             'PF/G']
         self.data_headers = self.TL.leader_keys.copy()
 
+
     def display(self, horiz=True):
         """Prints the team leaders of chosen team to the console.
 
@@ -30,6 +31,7 @@ class TeamLeadersUI(Widget):
         """
         if horiz:
             self.horizontal_display(self.TL)
+
 
     """HORIZONTAL DISPLAY METHODS"""
     def create_nested_list(self, data):

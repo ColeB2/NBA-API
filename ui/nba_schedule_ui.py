@@ -61,7 +61,6 @@ class ScheduleUI(Widget):
         if full: self.display_season_schedule()
 
 
-
     """HORIZONTAL DISPLAY METHODS"""
     def create_nested_list(self, data):
         """Creates a list of lists to be passed on to the
@@ -98,10 +97,12 @@ class ScheduleUI(Widget):
 
         return [date, vs_info, result_info]
 
+
     def get_nested_list(self, data):
         """Calls create_nested_list method in order to get the values for the
         nested list to be passed on to create_tabulate_table method"""
         return self.create_nested_list(data)
+
 
     def get_nested_list_data(self):
         """Acquires/organizes the data to be used in the get_nested_list method
@@ -126,6 +127,7 @@ class ScheduleUI(Widget):
             return 'VS'
         else:
             return '@'
+
 
     def get_opponent(self, game_data, location=None):
         """Gets the opponent TRI code for given game.
@@ -180,6 +182,7 @@ class ScheduleUI(Widget):
             self.display_game_information(game[0])
         print()
 
+
     def display_game_information(self, game):
         """Method used to print approrpiate information to the console. Prints,
         date, team tricode and score.
@@ -196,7 +199,6 @@ class ScheduleUI(Widget):
         home = self.regular_season[game]['gameUrlCode'][12:]
         home_score = self.regular_season[game]['hTeam']['score'].rjust(3)
         print(f"{month}/{day}/{year} {away} {away_score} {home} {home_score}")
-
 
 
     def _display_x_helper(self, x, next=True, prev_game=True):
@@ -218,6 +220,7 @@ class ScheduleUI(Widget):
             self.display_game_information(game)
         print()
 
+
     def display_last_x_games(self, x=5):
         """Method used to display last x number of games to the console. Does so
         by calling _display_x_helper.
@@ -225,6 +228,7 @@ class ScheduleUI(Widget):
             x: number of games to be displayed.
         """
         self._display_x_helper(x, next=False, prev_game=True)
+
 
     def display_next_x_games(self, x=3):
         """Method used to display next x number of games to the console. Does so
@@ -235,7 +239,6 @@ class ScheduleUI(Widget):
             x: number of games to be displayed.
         """
         self._display_x_helper(x, next=True, prev_game=False)
-
 
 
 

@@ -33,8 +33,9 @@ class ScoreBoardUI(Widget):
             false, will display it vertically.
 
         """
-        self.horizontal_display((self.YSB, self.SB),
-            self.horizontal_display_date)
+        if horiz:
+            self.horizontal_display((self.YSB, self.SB),
+                self.horizontal_display_date)
 
 
 
@@ -82,6 +83,16 @@ class ScoreBoardUI(Widget):
         nested list to be passed on to create_tabulate_table method"""
         return self.create_nested_list(data)
 
+
+    def horizontal_display_date(self):
+        """Calls the methods needed to format the date string before being
+        displayed above the league wide scoreboard"""
+        date_str = self.format_date(self.YSB.date)
+        date_str = self.format_date_spacing(date_str, self.YSB.games)
+        date_str += self.format_date(self.SB.date)
+        print(date_str)
+
+
     def format_date_spacing(self,date, games):
         """formats the date from YYYYMMDD format into MMM DD YYYY format
 
@@ -97,27 +108,6 @@ class ScoreBoardUI(Widget):
             date = f"{date}{space}"
         return date
 
-    def horizontal_display_date(self):
-        """Calls the methods needed to format the date string before being
-        displayed above the league wide scoreboard"""
-        date_str = self.format_date(self.YSB.date)
-        date_str = self.format_date_spacing(date_str, self.YSB.games)
-        date_str += self.format_date(self.SB.date)
-        print(date_str)
-
-
-
-    def period_suffix(self, period):
-        """Sets the suffix given the game period.
-
-        Args:
-            period: int, based on which period the game is in.
-
-        Returns:
-            string of the suffix that corresponds to the period.
-        """
-        period_suffix = ['st', 'nd', 'rd', 'th']
-        return period_suffix[int(period) - 1]
 
     def get_status(self, game_data):
         """Gets the status of the games progress.
@@ -148,6 +138,20 @@ class ScoreBoardUI(Widget):
 
         return status_str
 
+
+    def period_suffix(self, period):
+        """Sets the suffix given the game period.
+
+        Args:
+            period: int, based on which period the game is in.
+
+        Returns:
+            string of the suffix that corresponds to the period.
+        """
+        period_suffix = ['st', 'nd', 'rd', 'th']
+        return period_suffix[int(period) - 1]
+
+
     """VERTICAL DISPLAY METHODS"""
     def vertical_display(self, today=True, yesterday=True):
         if yesterday:
@@ -164,8 +168,6 @@ class ScoreBoardUI(Widget):
                        f"{game['hTeam']['score'].rjust(3)} " \
                        f"{game['vTeam']['triCode']} " \
                        f"{game['vTeam']['score'].rjust(3)}" )
-
-
 
 
 
