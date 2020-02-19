@@ -1,5 +1,4 @@
 from ui_functions import Widget
-from tabulate import tabulate
 import calendar
 
 from datetime import datetime
@@ -12,10 +11,21 @@ from nbaschedule import Schedule
 
 
 class ScheduleUI(Widget):
-    """A class to represent an NBA schedule.
+    """A class to represent an NBA team's schedule.
 
     Attributes:
-        schedule_headers: display headers for schedule UI
+        season:
+        team:
+
+        last:
+        next:
+        full:
+
+        S:
+
+        regular_season:
+        offset:
+        last_game_idx:
 
     """
     def __init__(self, season=None, team=None, last=True,
@@ -42,7 +52,7 @@ class ScheduleUI(Widget):
             last: Boolean, decides whether to display last x games.
             next: Boolean, decides whether to display next x games.
             full: Boolean, decides whether to display full schedule. Only uses
-                vertical display
+                  vertical display
         """
         if horiz: self.horizontal_display(self.get_header_data())
         if not horiz:
@@ -53,6 +63,42 @@ class ScheduleUI(Widget):
 
 
     """HORIZONTAL DISPLAY METHODS"""
+    def create_nested_list(self, data):
+        """Creates a list of lists to be passed on to the
+        Parent Class, Widget's, create_tabulate_table method.
+        """
+        date = []
+        vs_info= []
+        result_info = []
+        for game_idx in data:
+            game = self.S.standard[game_idx]
+
+            date_str = self.format_date(game['startDateEastern'])
+
+            home_listing_str = self.get_home_listing(game)
+            opponent_str = self.get_opponent(game, home_listing_str)
+            vs_str = f"{home_listing_str} {opponent_str}"
+
+            result_str = self.get_result(game, home_listing_str)
+
+            date.append(date_str)
+            vs_info.append(vs_str)
+            result_info.append(result_str)
+
+        return date, vs_info, result_info
+
+    def get_header_data(self):
+        games = self.S.get_x_games()
+        games.extend(self.S.get_x_games(x=6, next=False, prev_game=False))
+        games.sort()
+        return games
+
+    def get_nested_list(self, data):
+        """Sets up proper parameters to pass on to set_horiz_headers method,
+        which creates the headers, so this method can return them."""
+        nested_list = self.create_nested_list(data)
+        return nested_list
+
     def get_home_listing(self, game_data):
         """Finds out if chosen team is home team or not then returns a
         corrospoding string, 'VS' or '@'
@@ -113,38 +159,7 @@ class ScheduleUI(Widget):
 
         return f"{res} {fave_score}{dash}{opp_score}"
 
-    def set_horiz_headers(self, data):
-        date = []
-        vs_info= []
-        result_info = []
-        for game_idx in data:
-            game = self.S.standard[game_idx]
 
-            date_str = self.format_date(game['startDateEastern'])
-
-            home_listing_str = self.get_home_listing(game)
-            opponent_str = self.get_opponent(game, home_listing_str)
-            vs_str = f"{home_listing_str} {opponent_str}"
-
-            result_str = self.get_result(game, home_listing_str)
-
-            date.append(date_str)
-            vs_info.append(vs_str)
-            result_info.append(result_str)
-
-        return date, vs_info, result_info
-
-    def get_header_data(self):
-        games = self.S.get_x_games()
-        games.extend(self.S.get_x_games(x=6, next=False, prev_game=False))
-        games.sort()
-        return games
-
-    def get_horiz_headers(self, data):
-        """Sets up proper parameters to pass on to set_horiz_headers method,
-        which creates the headers, so this method can return them."""
-        headers = self.set_horiz_headers(data)
-        return headers
 
 
 

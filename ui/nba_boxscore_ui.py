@@ -1,5 +1,4 @@
 from ui_functions import Widget
-from tabulate import tabulate
 import pyfiglet
 
 import os, sys
@@ -15,7 +14,7 @@ class BoxScoreUI(Widget):
         B: BoxScore class which holds all stats/methods for boxscore
         boxscore_headers: Display headers for boxscore UI.
         data_headers: dict keys corosponding to boxscore headers.
-        boxscore_totals: display
+        separator: list of strings used to separate data in nested list.
     """
     def __init__(self, date=None, gameId=None):
         self.B = BoxScore(date, gameId)
@@ -28,10 +27,9 @@ class BoxScoreUI(Widget):
          'totReb', 'assists', 'steals', 'blocks', 'turnovers', 'pFouls',
          'plusMinus', 'points']
 
-        self.footer_totals =  ['--', '-----------------------', 'min',
-         ('fgm', 'fga'), ('tpm', 'tpa'), ('ftm', 'fta'), 'offReb', 'defReb',
-         'totReb', 'assists', 'steals', 'blocks', 'turnovers', 'pFouls',
-         'plusMinus', 'points']
+        self.separator = [ f"==", f"=======================", f"=====",
+        f"======", f"======", f"======", f"===",f"===",f"===", f"===", f"===",
+        f"===", f"===", f"===", f"===", f"===" ]
 
 
     '''BOXSCORE UI'''
@@ -39,11 +37,6 @@ class BoxScoreUI(Widget):
         """Prints the score and boxscore of the game to the console.
 
         Args:
-            combined: Bool, combine score @ top or above respective boxscores.
-            score: Bool, to display the score of game or not.
-            fancy: Bool, to display the score in ascii or not.
-            home: Bool, to display home team boxscore
-            visitors: Bool, to display away team boxscore.
         """
         self.horizontal_display(
             (self.B.hTeam_player_stats, self.B.hTeam_totals),
@@ -51,76 +44,46 @@ class BoxScoreUI(Widget):
         self.horizontal_display(
             (self.B.vTeam_player_stats, self.B.vTeam_totals), header=True)
 
-    def display_boxscore(self, home=False, visitors=False, first=True):
-        """Prints the boxscore of the game to the console.
+    '''HORIZ display'''
+    def create_nested_list(self, data):
+        """Creates a list of lists to be passed on to the
+        Parent Class, Widget's, create_tabulate_table method.
 
         Args:
-            home: boolean, to display home team boxscore.
-            visitors: boolean, to display visitor team boxscore.
+            data: The data to be parsed through to create the lists.
 
         """
-        if visitors:
-            table = self.create_table(self.B.vTeam_player_stats, \
-                self.B.vTeam_totals, first=first)
-            print(tabulate(table, self.boxscore_headers, tablefmt = 'psql'))
+        headers = []
+        """Stat Header"""
+        headers.append(self.boxscore_headers)
 
-        if home:
-            table = self.create_table(self.B.hTeam_player_stats, \
-                self.B.hTeam_totals, first=first)
-            print(tabulate(table, self.boxscore_headers, tablefmt = 'psql'))
-
-
-    def create_table(self, data, team_totals, first=True):
-        """
-        Creates a list, which is used to create table using the tabulate module.
-
-        Args:
-            data: data, which is used to create table.
-              :ex: self.vTeam_player_stats
-            team_totals: totals of given team, to display totals footer.
-              :ex: self.hTeam_totals
-            first: Boolean to chose between Full first name, or initial.
-
-
-        Returns:
-        A list which when combined with tabulate module, pretty prints a table
-        of the games boxscore stats
-        """
-        table = []
-        for player in data:
-            new_row = []
-            for index, stat in enumerate(self.data_headers):
-                if type(stat) is tuple:
-                    if stat[0] == 'firstName':
-                        if first:
-                            stat_str = f"{player[stat[0]]} {player[stat[1]]}"
-                        else:
-                            stat_str = f"{player[stat[0]][0:1]}. " \
-                                       f"{player[stat[1]]}"
-                    else:
-                        stat_str = f"{player[stat[0]]}-{player[stat[1]]}"
-                    new_row.append(stat_str)
+        """Player Stats"""
+        for player in data[0]:
+            player_list = []
+            for item in self.data_headers:
+                if type(item) is tuple:
+                    player_list.append(f"{player[item[0]]}-{player[item[1]]}")
                 else:
-                    stat_str = f"{player[stat]}"
-                    new_row.append(stat_str)
-            table.append(new_row)
-        table.extend(self.totals_footer(team_totals))
-        return table
+                    player_list.append(f"{player[item]}")
+            headers.append(player_list)
 
-    def totals_footer(self, team_totals):
+        """Team Totals"""
+        totals = self.get_totals(data[1])
+        headers.extend([self.separator, totals])
+
+        return headers
+
+    def get_nested_list(self, data):
+        nested_list = self.create_nested_list(data)
+        return nested_list
+
+    def get_totals(self, team_totals):
         """Creates a list of totals to be added to the footer of boxscore.
 
         Args:
             team_totals: dict of given teams totals for the game.
         """
-        separator =  [
-        f"==", f"=======================", f"=====",
-        f"======", f"======", f"======", f"===",f"===",f"===",
-        f"===", f"===", f"===",
-        f"===", f"===", f"===",
-        f"==="]
-
-        footer = [
+        totals = [
             f"--", f"-----------------------", f"{team_totals['min']}",
             f"{team_totals['fgm']}-{team_totals['fga']}",
             f"{team_totals['tpm']}-{team_totals['tpa']}",
@@ -131,7 +94,7 @@ class BoxScoreUI(Widget):
             f"{team_totals['turnovers']}", f"{team_totals['pFouls']}",
             f"{team_totals['plusMinus']}", f"{team_totals['points']}" ]
 
-        return [separator, footer]
+        return totals
 
     '''GAME SCORE UI'''
     def ascii_score(self, *team):
@@ -148,45 +111,7 @@ class BoxScoreUI(Widget):
         """
         print(self.ascii_score(self.B.vTeam_game_data, self.B.hTeam_game_data))
 
-    '''HORIZ display'''
-    def set_horiz_headers(self, data):
-        """
 
-
-        """
-        headers = []
-        head = []
-
-        """set boxscore HEADER"""
-        for item in self.boxscore_headers:
-            head.append(item)
-        headers.append(head)
-
-        """set player stats"""
-        for player in data[0]:
-            player_list = []
-            for item in self.data_headers:
-                if type(item) is tuple:
-                    player_list.append(f"{player[item[0]]}-{player[item[1]]}")
-                else:
-                    player_list.append(f"{player[item]}")
-            headers.append(player_list)
-
-        """set footers"""
-        footers = self.totals_footer(data[1])
-        foot = []
-        for i in range(len(footers)):
-            foot = []
-            for item in footers[i]:
-                foot.append(item)
-
-            headers.append(foot)
-
-        return headers
-
-    def get_horiz_headers(self, data):
-        headers = self.set_horiz_headers(data)
-        return headers
 
 
 

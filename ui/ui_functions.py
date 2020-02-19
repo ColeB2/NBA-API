@@ -33,10 +33,11 @@ class Widget():
         else:
             return tabulate(table, tablefmt='psql')
 
-    def set_horiz_headers(self):
+    def create_nested_list(self):
         """Abstract Method to be created
-        Used by get_headers, to create/set the headers needed for horizontal
-        display"""
+        Used by get_headers, to create a list of lists to be used by the
+        create_horiz_table.
+        """
         print('Implement set_horiz_headers')
         pass
 
@@ -54,8 +55,8 @@ class Widget():
         Kwargs:
             *extra: funcions that can be called before the table gets printed.
         """
-        headers = self.get_horiz_headers(data)
-        table = self.create_horiz_table(headers, header)
+        nested_list = self.get_nested_list(data)
+        table = self.create_horiz_table(nested_list, header)
         if extra:
             for func in extra:
                 func()

@@ -1,5 +1,4 @@
 from ui_functions import Widget
-from tabulate import tabulate
 import calendar
 
 import os, sys
@@ -13,6 +12,10 @@ class ScoreBoardUI(Widget):
     """A class to represent an 'around the league' scoreboard for all teams.
 
     Attributes:
+         date: date in YYYYMMDD format for which day to get scores of.
+         SB: Scoreboard object, to display the days scores.
+         YSB: Scoreboard object, for the day before SBs, to show scores multiple
+         days.
     """
     def __init__(self, date=None):
         self.date = date
@@ -30,40 +33,15 @@ class ScoreBoardUI(Widget):
             false, will display it vertically.
 
         """
-        if horiz:
-            self.horizontal_display((self.YSB, self.SB), self.horizontal_display_date)
-        else:
-            self.vertical_display()
+        self.horizontal_display((self.YSB, self.SB), self.horizontal_display_date)
+
 
 
 
     """HORIZONTAL DISPLAY METHODS"""
-    def format_date_spacing(self,date, games):
-        """formats the date from YYYYMMDD format into MMM DD YYYY format
-
-        Args:
-            date: date of game in YYYYMMDD format
-
-        Returns:
-            string, formatted in abbreviated, MMM DD YYYY format
-        """
-        date = f"{date}  "
-        for i in range(len(games)-1):
-            space = 10*' '
-            date = f"{date}{space}"
-        return date
-
-    def horizontal_display_date(self):
-        """Calls the methods needed to format the date string before being
-        displayed above the league wide scoreboard"""
-        date_str = self.format_date(self.YSB.date)
-        date_str = self.format_date_spacing(date_str, self.YSB.games)
-        date_str += self.format_date(self.SB.date)
-        print(date_str)
-
-    def set_horiz_headers(self, data):
-        """Sets the heads for a horizontal display so they can be used by the
-        tabulate function.
+    def create_nested_list(self, data):
+        """Creates a list of lists to be passed on to the
+        Parent Class, Widget's, create_tabulate_table method.
 
         Args:
 
@@ -94,11 +72,35 @@ class ScoreBoardUI(Widget):
 
         return [info, top_team, bot_team]
 
-    def get_horiz_headers(self, data):
+    def get_nested_list(self, data):
         """Sets up proper parameters to pass on to set_horiz_headers method,
         which creates the headers, so this method can return them."""
-        headers = self.set_horiz_headers(data)
-        return headers
+        nested_list = self.create_nested_list(data)
+        return nested_list
+    def format_date_spacing(self,date, games):
+        """formats the date from YYYYMMDD format into MMM DD YYYY format
+
+        Args:
+            date: date of game in YYYYMMDD format
+
+        Returns:
+            string, formatted in abbreviated, MMM DD YYYY format
+        """
+        date = f"{date}  "
+        for i in range(len(games)-1):
+            space = 10*' '
+            date = f"{date}{space}"
+        return date
+
+    def horizontal_display_date(self):
+        """Calls the methods needed to format the date string before being
+        displayed above the league wide scoreboard"""
+        date_str = self.format_date(self.YSB.date)
+        date_str = self.format_date_spacing(date_str, self.YSB.games)
+        date_str += self.format_date(self.SB.date)
+        print(date_str)
+
+
 
     def period_suffix(self, period):
         """Sets the suffix given the game period.

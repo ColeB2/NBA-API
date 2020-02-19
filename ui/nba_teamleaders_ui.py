@@ -1,5 +1,4 @@
 from ui_functions import Widget
-from tabulate import tabulate
 
 import os, sys
 sys.path.append(os.path.join('.', 'api_functions'))
@@ -7,7 +6,7 @@ from nbateamleaders import TeamLeaders
 from nbaplayers import PlayerInfo
 
 class TeamLeadersUI(Widget):
-    """A class to represent an NBA teams team leaders.
+    """A class to represent an NBA team's team leaders.
 
     Attributes:
         TL: TeamLeaders object which holds all stats/methods for team leaders.
@@ -33,13 +32,12 @@ class TeamLeadersUI(Widget):
             self.horizontal_display(self.TL)
 
 
-    def set_horiz_headers(self, data):
-        """Sets the headers for a horizontal display so they can be used by the
-        tabulate function.
+    def create_nested_list(self, data):
+        """Creates a list of lists to be passed on to the
+        Parent Class, Widget's, create_tabulate_table method.
 
         Args:
-
-
+            data: The data to be parsed through to create the lists.
         """
         leaders = []
         headers = []
@@ -57,9 +55,9 @@ class TeamLeadersUI(Widget):
 
         return [headers, leaders]
 
-    def get_horiz_headers(self, data):
-        headers = self.set_horiz_headers(data)
-        return headers
+    def get_nested_list(self, data):
+        nested_list = self.create_nested_list(data)
+        return nested_list
 
 
 
