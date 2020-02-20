@@ -29,6 +29,7 @@ class DivStandingsUI(Widget):
 
 
     def display(self, horiz=True):
+        self.horizontal_display(self.DS, header=True)
         pass
 
     def create_nested_list(self, data):
@@ -36,6 +37,21 @@ class DivStandingsUI(Widget):
 
         """Stats Header"""
         nested_list.append(self.div_headers)
+
+        """Information"""
+        for team in self.DS.east_conf['atlantic']:
+            team_list = []
+            for item in self.div_data:
+                if item == 'teamId':
+                    team_list.append(
+                        self.TI.get_team(team[item], item, 'nickname'))
+                elif type(item) is tuple:
+                    team_list.append(f"{team[item[0]]}-{team[item[1]]}")
+                else:
+                    team_list.append(f"{team[item]}")
+
+            nested_list.append(team_list)
+        return nested_list
 
     def get_nested_list(self, data):
         """Calls create_nested_list method in order to get the values for the
@@ -46,11 +62,15 @@ class DivStandingsUI(Widget):
     def basic_print(self):
         for team in self.DS.east_conf['atlantic']:
             for k, v in team.items():
-                print(f"{k}:{v}", end=' ')
-            print()
-            #print(team)
-        #print(self.DS)
+                pass
 
+                #print(f"{k}:{v}", end=' ')
+            #print()
+        #print('TEST')
+        for team in self.DS.east_conf['atlantic']:
+            #print(team)
+            #print(team)
+            pass
 
 
 if __name__ == '__main__':

@@ -88,6 +88,7 @@ class TeamInfo(object):
                         #print(f"TEAM RETURN:::{team}")
                         if id_return:
                             print(team[str(id_return)])
+                            print(team[id_return])
                             return team[str(id_return)]
                         else:
                             return team
@@ -110,4 +111,4 @@ if __name__ == '__main__':
     TI.get_team('raptors')
 
     print('TEST FUCK')
-    TI.get_team('1610612761', 'teamId')
+    print(TI.get_team('1610612761', 'teamId', 'nickname'))
