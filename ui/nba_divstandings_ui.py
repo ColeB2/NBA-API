@@ -11,8 +11,8 @@ class DivStandingsUI(Widget):
     Attributes:
 
     """
-    def __init__(self, division=None):
-        self.DS = DivStandings(division=division)
+    def __init__(self, div_flag=False, conf_flag=False):
+        self.DS = DivStandings(div_flag=div_flag, conf_flag=conf_flag)
         self.TI = TeamInfo()
 
         self.div_headers = [
