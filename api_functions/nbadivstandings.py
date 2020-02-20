@@ -69,3 +69,10 @@ if __name__ == '__main__':
     print(f"{DS.west_conf.keys()}")
 
     print(f"{DS._get_division()}")
+    print('TEST')
+    print(f"{DS._get_division('1610612761')}")
+
+    print(f"{DS.east_conf['atlantic']}")
+    x = DS.east_conf['atlantic']
+    for team in x:
+        print(team)
