@@ -83,12 +83,8 @@ class TeamInfo(object):
         for team in self.standard:
             if team['isNBAFranchise'] == True:
                 for ID in self.identifiers:
-                    #print(ID)
                     if team[ID] == identifier:
-                        #print(f"TEAM RETURN:::{team}")
                         if id_return:
-                            print(team[str(id_return)])
-                            print(team[id_return])
                             return team[str(id_return)]
                         else:
                             return team

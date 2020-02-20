@@ -30,7 +30,7 @@ class DivStandingsUI(Widget):
 
     def display(self, horiz=True):
         self.horizontal_display(self.DS, header=True)
-        pass
+
 
     def create_nested_list(self, data):
         nested_list = []
@@ -65,21 +65,7 @@ class DivStandingsUI(Widget):
         return self.create_nested_list(data)
 
 
-    def basic_print(self):
-        for team in self.DS.east_conf['atlantic']:
-            for k, v in team.items():
-                pass
-
-                #print(f"{k}:{v}", end=' ')
-            #print()
-        #print('TEST')
-        for team in self.DS.east_conf['atlantic']:
-            #print(team)
-            #print(team)
-            pass
-
 
 if __name__ == '__main__':
     DS = DivStandingsUI()
     DS.display()
-    DS.basic_print()
