@@ -39,7 +39,6 @@ class ScoreBoardUI(Widget):
 
 
 
-
     """HORIZONTAL DISPLAY METHODS"""
     def create_nested_list(self, data):
         """Creates a list of lists to be passed on to the
@@ -87,9 +86,12 @@ class ScoreBoardUI(Widget):
     def horizontal_display_date(self):
         """Calls the methods needed to format the date string before being
         displayed above the league wide scoreboard"""
-        date_str = self.format_date(self.YSB.date)
+        date_str = ''
+        if self.YSB.num_games >= 1:
+            date_str = self.format_date(self.YSB.date)
         date_str = self.format_date_spacing(date_str, self.YSB.games)
-        date_str += self.format_date(self.SB.date)
+        if self.SB.num_games >= 1:
+            date_str += self.format_date(self.SB.date)
         print(date_str)
 
 
@@ -102,7 +104,8 @@ class ScoreBoardUI(Widget):
         Returns:
             string, formatted in abbreviated, MMM DD YYYY format
         """
-        date = f"{date}  "
+        if len(date) != 0:
+            date = f"{date}  "
         for i in range(len(games)-1):
             space = 10*' '
             date = f"{date}{space}"
