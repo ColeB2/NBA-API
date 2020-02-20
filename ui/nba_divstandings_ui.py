@@ -17,13 +17,13 @@ class DivStandingsUI(Widget):
 
         self.div_headers = [
         'Team','W','L','PCT','GB','HOME','AWAY', 'DIV',
-        'CONF','STRK','L10'
+        'CONF','L10','STRK'
         ]
 
         self.div_data = [
         'teamId','win','loss','winPct','divGamesBehind',('homeWin', 'homeLoss'),
         ('awayWin','awayLoss'), ('divWin', 'divLoss'), ('confWin','confLoss'),
-        ('isWinStreak', 'streak'),('lastTenWin','lastTenLoss')
+        ('lastTenWin','lastTenLoss'),('isWinStreak', 'streak')
         ]
 
 
@@ -46,7 +46,13 @@ class DivStandingsUI(Widget):
                     team_list.append(
                         self.TI.get_team(team[item], item, 'nickname'))
                 elif type(item) is tuple:
-                    team_list.append(f"{team[item[0]]}-{team[item[1]]}")
+                    if item[0] == 'isWinStreak':
+                        if team[item[0]] == True:
+                            team_list.append(f"W{team[item[1]]}")
+                        else:
+                            team_list.append(f"L{team[item[1]]}")
+                    else:
+                        team_list.append(f"{team[item[0]]}-{team[item[1]]}")
                 else:
                     team_list.append(f"{team[item]}")
 
