@@ -42,6 +42,13 @@ class DivStandings(object):
             self.division = self.division
             self.team = self._team
 
+        self.standing_data = self.get_standing_data()
+
+    def get_standing_data(self):
+        chosen_standing = self.conference[self.division[0].lower()]
+        chosen_standing = chosen_standing[self.division[1].lower()]
+        return chosen_standing
+
 
     def _get_division(self, team=None):
         """Method to get division of given team.
@@ -76,3 +83,5 @@ if __name__ == '__main__':
     x = DS.east_conf['atlantic']
     for team in x:
         print(team)
+
+    print(DS.get_standing_data())

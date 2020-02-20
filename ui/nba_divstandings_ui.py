@@ -39,7 +39,7 @@ class DivStandingsUI(Widget):
         nested_list.append(self.div_headers)
 
         """Information"""
-        for team in self.DS.east_conf['atlantic']:
+        for team in self.DS.standing_data:
             team_list = []
             for item in self.div_data:
                 if item == 'teamId':
