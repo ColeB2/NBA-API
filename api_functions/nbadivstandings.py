@@ -24,12 +24,8 @@ class DivStandings(object):
 
 
     """
-    def __init__(self, div_flag=False, conf_flag=False, division=None,
-        conference=None, _team=None):
+    def __init__(self, division=None, conference=None, _team=None):
         self.TI = TeamInfo()
-
-        self.div_flag = div_flag
-        self.conf_flag = conf_flag
 
         self.raw_data = get_divstandings_data()
         self._internal = self.raw_data['_internal']
@@ -37,27 +33,15 @@ class DivStandings(object):
         self.league = self.raw_data['league']
         self.standard = self.league['standard']
         self.conference = self.standard['conference']
-        # self.east_conf = self.conference['east']
-        # self.west_conf = self.conference['west']
-
-        if not division:
-            self.division = self._get_conf_division(_team)
-        else:
-            self.division = division
-            self.team = _team
+        self.east_conf = self.conference['east']
+        self.west_conf = self.conference['west']
 
         self.standing_data = self.get_standing_data()
 
-    def get_standing_data(self):
-        if self.conf_flag:
-            chosen_standing = self.conference[self.get_conf_division[0]]
-        if type(self.division) == tuple:
-            chosen_standing = self.conference[self.division[0].lower()]
-            chosen_standing = chosen_standing[self.division[1].lower()]
-        else:
-            if self.conference != None:
-                chosen_standing = self.conference['east'][self.division]
 
+    def get_standing_data(self):
+        data = self._get_conf_division()
+        chosen_standing = self.conference[data[0].lower()][data[1].lower()]
         return chosen_standing
 
 
@@ -83,16 +67,10 @@ if __name__ == '__main__':
 
     print(f"{DS.standard['seasonYear']}\n{DS.standard['seasonStageId']}")
     print(f"{DS.conference.keys()}")
-    #print(f"{DS.east_conf.keys()}")
-    #print(f"{DS.west_conf.keys()}")
 
     print(f"{DS._get_conf_division()}")
     print('TEST')
     print(f"{DS._get_conf_division('1610612761')}")
 
-    #print(f"{DS.east_conf['atlantic']}")
-    #x = DS.east_conf['atlantic']
-    #for team in x:
-    #    print(team)
 
     print(DS.get_standing_data())

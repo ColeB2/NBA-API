@@ -12,7 +12,7 @@ class DivStandingsUI(Widget):
 
     """
     def __init__(self, div_flag=False, conf_flag=False):
-        self.DS = DivStandings(div_flag=div_flag, conf_flag=conf_flag)
+        self.DS = DivStandings()
         self.TI = TeamInfo()
 
         self.div_headers = [
