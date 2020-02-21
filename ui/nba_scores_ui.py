@@ -136,7 +136,7 @@ class ScoreBoardUI(Widget):
                 else:
                     status_str = f"End of {period}{self.period_suffix(period)}"
             else:
-                status_str = f"{game_data[clock]} - " \
+                status_str = f"{game_data['clock']} - " \
                              f"{period}{self.period_suffix(period)}"
 
         return status_str
