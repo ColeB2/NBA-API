@@ -18,7 +18,7 @@ def get_divstandings_data():
 
 
 class DivStandings(object):
-    """A class to sort and hold data for the NBA standing_division endpoint.
+    """A class to sort and hold data for NBA standing_division.json endpoint.
 
     Attributes:
 
@@ -33,8 +33,6 @@ class DivStandings(object):
         self.league = self.raw_data['league']
         self.standard = self.league['standard']
         self.conference = self.standard['conference']
-        self.east_conf = self.conference['east']
-        self.west_conf = self.conference['west']
 
         self.standing_data = self.get_standing_data()
 
@@ -53,7 +51,7 @@ class DivStandings(object):
                 to acquire. If none, uses favourite team from config.
         """
         if not team: team = get_team()
-        return (self.TI.get_conf_division(team))
+        return self.TI.get_conf_division(team)
 
 
 

@@ -25,5 +25,5 @@ if __name__ == '__main__':
     TL = TeamLeadersUI()
     TL.display()
 
-    DS = DivStandingsUI()
+    DS = DivStandingsUI(conf_flag=True)
     DS.display()

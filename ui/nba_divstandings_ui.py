@@ -3,6 +3,7 @@ from ui_functions import Widget
 import os, sys
 sys.path.append(os.path.join('.', 'api_functions'))
 from nbadivstandings import DivStandings
+from nbaconfstandings import ConfStandings
 from nbateam import TeamInfo
 
 class DivStandingsUI(Widget):
@@ -12,7 +13,10 @@ class DivStandingsUI(Widget):
 
     """
     def __init__(self, div_flag=False, conf_flag=False):
-        self.DS = DivStandings()
+        if div_flag: self.DS = DivStandings()
+        if conf_flag: self.DS = ConfStandings()
+        #if  conf_flag: self.DS = ConfStandings()
+
         self.TI = TeamInfo()
 
         self.div_headers = [
