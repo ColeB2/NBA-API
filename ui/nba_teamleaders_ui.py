@@ -51,13 +51,19 @@ class TeamLeadersUI(Widget):
 
         for key, value in data.leaders.items():
             if key in self.data_headers:
-                idx = self.data_headers.index(key)
+                idx = int(self.data_headers.index(key))
+                if type(value) is list:
+                    header = f"{self.headers[idx]}: {value[0]['value']}"
+                    leader = f""
+                    for player in value:
+                        first, last = self.PI.get_player_name(player['personId'])
+                        leader += f"{first} {last}/"
+                else:
+                    header = f"{self.headers[idx]}: {value['value']}"
+                    first, last = self.PI.get_player_name(value['personId'])
+                    leader = f"{first} {last}"
 
-                header = f"{self.headers[idx]}: {value['value']}"
                 headers.append(header)
-
-                first, last = self.PI.get_player_name(value['personId'])
-                leader = f"{first} {last}"
                 leaders.append(leader)
 
         return [headers, leaders]
