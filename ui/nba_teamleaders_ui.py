@@ -57,7 +57,10 @@ class TeamLeadersUI(Widget):
                     leader = f""
                     for player in value:
                         first, last = self.PI.get_player_name(player['personId'])
-                        leader += f"{first} {last}/"
+                        if player == value[-1]:
+                            leader += f"{first} {last}"
+                        else:
+                            leader += f"{first} {last}/"
                 else:
                     header = f"{self.headers[idx]}: {value['value']}"
                     first, last = self.PI.get_player_name(value['personId'])

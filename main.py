@@ -27,3 +27,8 @@ if __name__ == '__main__':
 
     DS = DivStandingsUI(conf_flag=True)
     DS.display()
+
+
+
+## # TODO: Change UI headers for conference/division standings.
+##currently using Division headers for both
