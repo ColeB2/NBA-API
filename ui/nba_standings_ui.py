@@ -24,6 +24,7 @@ class StandingsUI(Widget):
 
         if division: self.games_back = 'divGamesBehind'
         if conference: self.games_back = 'gamesBehind'
+
         self.div_data = [
         'teamId','win','loss','winPct',self.games_back,('homeWin', 'homeLoss'),
         ('awayWin','awayLoss'), ('divWin', 'divLoss'), ('confWin','confLoss'),

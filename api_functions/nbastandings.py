@@ -1,6 +1,6 @@
 """
 nbadivstandings.py - Contains functions and classes to handle the data from the
-data.nba.net ... standings_division.json
+data.nba.net ... standings_division.json, and standings_conference.json
 """
 from functions import get_data
 from nbateam import TeamInfo
@@ -10,12 +10,19 @@ sys.path.append(os.path.abspath(os.path.join('.', 'config')))
 from getconfiginfo import get_team
 
 def get_standings_data(division=False, conference=False):
-    """Gets raw json data for leagues division standings.
+    """Gets raw json data for leagues division/conference standings based on
+    arguments.
+
+    Args:
+        division: Boolean value, True if want division standings data.
+        conference: Boolean value, True if want conference standings data.
+
+    Returns:
+        Dict of raw json data from data.nba.net.../standings_XXX.json endpoint
+            XXX is either division or conference
     """
-    if division:
-        standing = 'division'
-    else:
-        standing = 'conference'
+    standing = 'division' if division else 'conference'
+
     url = f"https://data.nba.net/prod/v1/current/standings_{standing}.json"
 
     data = get_data(url)
