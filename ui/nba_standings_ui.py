@@ -2,20 +2,18 @@ from ui_functions import Widget
 
 import os, sys
 sys.path.append(os.path.join('.', 'api_functions'))
-from nbadivstandings import DivStandings
-from nbaconfstandings import ConfStandings
+from nbastandings import Standings
 from nbateam import TeamInfo
 
-class DivStandingsUI(Widget):
+class StandingsUI(Widget):
     """A class to represent nba divisional standings
 
     Attributes:
 
     """
-    def __init__(self, div_flag=False, conf_flag=False):
-        if div_flag: self.DS = DivStandings()
-        if conf_flag: self.DS = ConfStandings()
-        #if  conf_flag: self.DS = ConfStandings()
+    def __init__(self, division=False, conference=False):
+        self.S = Standings(division=division, conference=conference)
+
 
         self.TI = TeamInfo()
 
@@ -24,8 +22,10 @@ class DivStandingsUI(Widget):
         'CONF','L10','STRK'
         ]
 
+        if division: self.games_back = 'divGamesBehind'
+        if conference: self.games_back = 'gamesBehind'
         self.div_data = [
-        'teamId','win','loss','winPct','divGamesBehind',('homeWin', 'homeLoss'),
+        'teamId','win','loss','winPct',self.games_back,('homeWin', 'homeLoss'),
         ('awayWin','awayLoss'), ('divWin', 'divLoss'), ('confWin','confLoss'),
         ('lastTenWin','lastTenLoss'),('isWinStreak', 'streak')
         ]
@@ -33,7 +33,7 @@ class DivStandingsUI(Widget):
 
 
     def display(self, horiz=True):
-        self.horizontal_display(self.DS, header=True)
+        self.horizontal_display(self.S, header=True)
 
 
     def create_nested_list(self, data):
@@ -43,7 +43,7 @@ class DivStandingsUI(Widget):
         nested_list.append(self.div_headers)
 
         """Information"""
-        for team in self.DS.standing_data:
+        for team in self.S.standing_data:
             team_list = []
             for item in self.div_data:
                 if item == 'teamId':
@@ -71,5 +71,8 @@ class DivStandingsUI(Widget):
 
 
 if __name__ == '__main__':
-    DS = DivStandingsUI()
+    DS = StandingsUI(division=True)
     DS.display()
+
+    CS = StandingsUI(conference=True)
+    CS.display()

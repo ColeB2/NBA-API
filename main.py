@@ -9,7 +9,7 @@ from nba_boxscore_ui import BoxScoreUI
 from nba_schedule_ui import ScheduleUI
 from nba_teamleaders_ui import TeamLeadersUI
 from nba_scores_ui import ScoreBoardUI
-from nba_divstandings_ui import DivStandingsUI
+from nba_standings_ui import StandingsUI
 
 
 if __name__ == '__main__':
@@ -25,10 +25,5 @@ if __name__ == '__main__':
     TL = TeamLeadersUI()
     TL.display()
 
-    DS = DivStandingsUI(conf_flag=True)
-    DS.display()
-
-
-
-## # TODO: Change UI headers for conference/division standings.
-##currently using Division headers for both
+    CS = StandingsUI(conference=True)
+    CS.display()
