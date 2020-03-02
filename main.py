@@ -7,6 +7,7 @@ sys.path.append(os.path.join('.', 'ui'))
 sys.path.append(os.path.join('.', 'config'))
 
 from configapp import configure_app
+from getconfiginfo import get_info
 
 from nba_boxscore_ui import BoxScoreUI
 from nba_schedule_ui import ScheduleUI
@@ -19,6 +20,7 @@ class Main(object):
     """A class representation of main app.
     """
     def __init__(self):
+        self.config = self.get_info()
         pass
 
     def display(self):

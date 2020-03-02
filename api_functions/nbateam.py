@@ -42,8 +42,6 @@ class TeamInfo(object):
         self.league = self.raw_data['league']
         self.standard = self.league['standard']
 
-        self.identifiers = {'division':'divName', 'conference':'confName'}
-
         self.identifiers = ['city', 'altCityName', 'fullName', 'tricode',
             'teamId', 'nickname', 'urlName', 'teamShortName']
 
@@ -106,5 +104,9 @@ if __name__ == '__main__':
     TI.get_team('1610612761')
     TI.get_team('raptors')
 
-    print('TEST FUCK')
+    print('TESTING')
     print(TI.get_team('1610612761', 'teamId', 'nickname'))
+
+    for team in TI.standard:
+        if team['isNBAFranchise'] == True:
+            print(team)
