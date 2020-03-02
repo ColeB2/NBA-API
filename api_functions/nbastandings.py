@@ -19,7 +19,7 @@ def get_standings_data(division=False, conference=False):
 
     Returns:
         Dict of raw json data from data.nba.net.../standings_XXX.json endpoint
-            XXX is either division or conference
+            XXX is either division or conference.
     """
     standing = 'division' if division else 'conference'
 
@@ -42,18 +42,14 @@ class Standings(object):
 
         self.TI = TeamInfo()
 
-        if self.div:
-            self.raw_data = get_standings_data(division=division)
-        else:
-            self.raw_data = get_standings_data(conference=conference)
+        self.raw_data = get_standings_data(division=self.div,
+            conference=self.conf)
 
         self._internal = self.raw_data['_internal']
 
         self.league = self.raw_data['league']
         self.standard = self.league['standard']
         self.conference =self.standard['conference']
-
-        self.standing_data = self.get_standing_data()
 
 
     def get_standing_data(self):

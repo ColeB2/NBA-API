@@ -13,8 +13,7 @@ class StandingsUI(Widget):
     """
     def __init__(self, division=False, conference=False):
         self.S = Standings(division=division, conference=conference)
-
-
+        self.standing_data = self.S.get_standing_data()
         self.TI = TeamInfo()
 
         self.div_headers = [
@@ -44,7 +43,7 @@ class StandingsUI(Widget):
         nested_list.append(self.div_headers)
 
         """Information"""
-        for team in self.S.standing_data:
+        for team in self.standing_data:
             team_list = []
             for item in self.div_data:
                 if item == 'teamId':

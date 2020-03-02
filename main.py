@@ -4,12 +4,28 @@ import urllib.request
 
 import os, sys
 sys.path.append(os.path.join('.', 'ui'))
+sys.path.append(os.path.join('.', 'config'))
+
+from configapp import configure_app
 
 from nba_boxscore_ui import BoxScoreUI
 from nba_schedule_ui import ScheduleUI
 from nba_teamleaders_ui import TeamLeadersUI
 from nba_scores_ui import ScoreBoardUI
 from nba_standings_ui import StandingsUI
+
+
+class Main(object):
+    """A class representation of main app.
+    """
+    def __init__(self):
+        pass
+
+    def display(self):
+        pass
+
+    def config_display(self):
+        pass
 
 
 if __name__ == '__main__':
