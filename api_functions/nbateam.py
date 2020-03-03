@@ -97,14 +97,14 @@ if __name__ == '__main__':
     print(f"{TI.standard}")
     print(f"{TI.standard[0].keys()}")
 
-
+    print('GET CONF_DIVISION')
     print(f"{TI.get_conf_division('raptors')}")
     print(f"{TI.get_conf_division()}")
 
-    TI.get_team('1610612761')
-    TI.get_team('raptors')
 
-    print('TESTING')
+    print('GET TEAM')
+    print(TI.get_team('1610612761', id_return='urlName'))
+    print(TI.get_team('raptors'))
     print(TI.get_team('1610612761', 'teamId', 'nickname'))
 
     for team in TI.standard:

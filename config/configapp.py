@@ -19,49 +19,49 @@ config_path = os.path.join(config_folder, 'config.ini')
 
 
 class ConfigureApp(object):
-    def __init__():
+    def __init__(self):
         self.TI = TeamInfo()
         self.config = configparser.RawConfigParser()
-        #self.config.read(config_path)
+        self.config.read(config_path)
 
     def configure(self):
         self.config_settings()
-        self.set_default_season()
+        self._set_default_season()
         self.check_season()
 
-    def config_settings():
-        config = configparser.RawConfigParser()
-        config.read(config_path)
-        is_configured = config.get('Initial Config', 'config')
-        if is_configured == 'False':
-            set_presets(config)
+    def config_settings(self):
+        if self.config.get('Initial Config', 'config') != 'True':
+            self.set_presets()
 
-    def team_select():
-        """TODO: Use team module to get team info. at least use the get data func"""
+
+    def set_presets(self):
+        """Sets initial presets in config .ini file for app to run properly.
+        Includes:
+            season year, team of choice...
+        """
+        fave_team = self._team_select()
+        my_team = self.TI.get_team(fave_team.upper(), id_return='urlName')
+        self.config.set('Team', 'team', str(my_team))
+        self.config.set('Initial Config', 'config', 'True')
+        self.config.set('Values', 'season', self._set_default_season())
+        with open('config.ini', 'w') as configfile:
+            self.config.write(configfile)
+
+    def _team_select(self):
+        """TODO: Use team module to get team info. at least use the get data func
+        TODO: split representation/UI elements"""
+        """UI/REPresentation element"""
         for team in self.TI.standard:
             if team['isNBAFranchise'] == True:
                 print(f"{team['tricode']}: {team['fullName']}")
+
+        """User Input Element"""
         print(f"Input your teams tricode, ex ORL, PHI, PHX etc:")
         team = input()
         return team
 
 
-    def set_presets(parser):
-        '''
-        set_presets(parser)
-        Function used by config_settings to set presets of config.ini file
-        '''
-        TI = TeamInfo()
-        fave_team = team_select()
-        my_team = get_team_url(fave_team)
-        parser.set('Team', 'team', str(my_team))
-        parser.set('Initial Config', 'config', 'True')
-        parser.set('Values', 'season', set_default_season())
-        with open('config.ini', 'w') as configfile:
-            parser.write(configfile)
-
-
-    def set_default_season():
+    def _set_default_season(self):
         '''Sets season default to the year of current season, done so for when
         season is left blank in any function that reqeuires it
 
@@ -74,34 +74,26 @@ class ConfigureApp(object):
         return str(season)
 
 
-    def set_default_date():
+    def set_default_date(self):
         '''Sets date default date to proper format, done for functions that
         require a date in the url, and one isn't given'''
         pass
 
 
-
-    def check_season():
-        '''
-        Checks to make sure the season setting is correct
-        '''
-        config = configparser.ConfigParser()
-        config.read(config_path)
-        current_season = set_default_season()
-        season_check = config.get('Values', 'season')
+    def check_season(self):
+        """
+        Checks to make sure the season setting is correct, then corrects it
+        """
+        current_season = self._set_default_season()
+        season_check = self.config.get('Values', 'season')
         if season_check != current_season:
-            config.set('Values', 'season', current_season)
+            self.config.set('Values', 'season', current_season)
             with open('config.ini', 'w') as configfile:
-                config.write(configfile)
+                self.config.write(configfile)
 
 
 
 
 if __name__ == '__main__':
-    #configure_app()
-    config = configparser.ConfigParser()
-    config.read(config_path)
-    print(config.sections())
-    for item in config.sections():
-        for key in config[item]:
-            print(key)
+    CA = ConfigureApp()
+    CA.configure()
