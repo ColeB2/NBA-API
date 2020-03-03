@@ -27,7 +27,7 @@ class BoxScoreUI(Widget):
          'totReb', 'assists', 'steals', 'blocks', 'turnovers', 'pFouls',
          'plusMinus', 'points']
 
-        self.separator = [ f"==", f"=======================", f"=====",
+        self.separator = [ f"==", f"========================", f"=====",
         f"======", f"======", f"======", f"===",f"===",f"===", f"===", f"===",
         f"===", f"===", f"===", f"===", f"===" ]
 
@@ -104,7 +104,7 @@ class BoxScoreUI(Widget):
             team_totals: dict of given teams totals for the game.
         """
         totals = [
-            f"--", f"-----------------------", f"{team_totals['min']}",
+            f"--", f"------------------------", f"{team_totals['min']}",
             f"{team_totals['fgm']}-{team_totals['fga']}",
             f"{team_totals['tpm']}-{team_totals['tpa']}",
             f"{team_totals['ftm']}-{team_totals['fta']}",
