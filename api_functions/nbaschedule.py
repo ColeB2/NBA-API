@@ -2,9 +2,8 @@ from functions import get_data, get_today_date
 
 import sys, os
 sys.path.append(os.path.abspath(os.path.join('.', 'config')))
-from getconfiginfo import get_season, get_team
+from getconfiginfo import get_info
 
-'''TODO: REMOVE UI elements, combine all 3, and use bool to select'''
 def get_schedule_data(season=None, team=None):
     """Gets raw json data of given team schedule for given season.
 
@@ -15,8 +14,8 @@ def get_schedule_data(season=None, team=None):
     Returns:
         Dict of raw json data from data.nba.net.../schedule.json endpoint
     """
-    if not season: season = get_season()
-    if not team: team = get_team()
+    if not season: season = get_info(('Values', 'season'))
+    if not team: team = get_info(('Team', 'team'))
 
     url_start = 'http://data.nba.net/prod/v1/'
     url = url_start + str(season) + '/teams/' + str(team) + '/schedule.json'
@@ -31,8 +30,9 @@ class Schedule():
 
     """
     def __init__(self, season=None, team=None):
-        self.season = season if season != None else get_season()
-        self.team = team if team != None else get_team()
+        self.season = season if season != None \
+                           else get_info(('Values', 'season'))
+        self.team = team if team != None else get_info(('Team', 'team'))
 
         self.raw_data = get_schedule_data(season=self.season, team=self.team)
         self._internal = self.raw_data['_internal']

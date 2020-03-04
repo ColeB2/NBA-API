@@ -21,6 +21,8 @@ class MainApp(object):
     """
     def __init__(self):
         self.CA = ConfigureApp() #call only when necesarry?
+        self.config_display()
+
         self.SB = ScoreBoardUI()
         self.B = BoxScoreUI()
         self.S = ScheduleUI(next=True, last=True, full=False) #add to display
@@ -31,6 +33,7 @@ class MainApp(object):
         self.display()
 
     def display(self):
+        self.options()
         self.SB.display(horiz=True) #config option
         self.B.display()
         self.S.display()
@@ -38,6 +41,12 @@ class MainApp(object):
         self.CS.display()
 
     def config_display(self):
+        if get_info(('Initial Config', 'config')) != 'True':
+            print(f"Welcome to PyNBAScore\nPlease select your favourite team.")
+            self.CA.configure()
+            self.is_config = True
+
+    def options(self):
         pass
 
 

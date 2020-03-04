@@ -2,7 +2,7 @@ from functions import get_data
 
 import sys, os
 sys.path.append(os.path.abspath(os.path.join('.', 'config')))
-from getconfiginfo import get_team, get_season
+from getconfiginfo import get_info
 
 MAIN_FIVE_STATS = ['ppg', 'trpg', 'apg', 'bpg', 'spg']
 main_five_stats = []
@@ -17,8 +17,8 @@ def get_team_leaders_data(team=None, season=None):
     Returns:
         Dict of raw json data from data.nba.net /leaders.json endpoint
     """
-    if not team: team = get_team()
-    if not season: season = get_season()
+    if not team: team = get_info(('Team', 'team'))
+    if not season: season = get_info(('Values', 'season'))
 
     url1 = 'http://data.nba.net/prod/v1/'
     url_end = '/leaders.json'

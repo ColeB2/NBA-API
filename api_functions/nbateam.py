@@ -10,7 +10,7 @@ from functions import get_data
 
 import sys, os
 sys.path.append(os.path.abspath(os.path.join('.', 'config')))
-from getconfiginfo import get_season, get_team
+from getconfiginfo import get_info
 
 
 
@@ -23,7 +23,7 @@ def get_team_data(season=None):
     Returns:
         Dict of raw json data from data.nba.net.../teams.json endpoint
     """
-    if not season: season = get_season()
+    if not season: season = get_info(('Values', 'season'))
     url = 'http://data.nba.net/prod/v2/' + str(season) + '/teams.json'
 
     data = get_data(url)
@@ -48,7 +48,7 @@ class TeamInfo(object):
 
     def get_conf_division(self, team=None, id_option=None):
         if team == None:
-            team = get_team()
+            team = get_info(('Team', 'team'))
             for teams in self.standard:
                 if teams['urlName'] == team.lower():
                     return (teams['confName'], teams['divName'])

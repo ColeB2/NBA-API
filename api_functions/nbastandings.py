@@ -7,7 +7,7 @@ from nbateam import TeamInfo
 
 import sys, os
 sys.path.append(os.path.abspath(os.path.join('.', 'config')))
-from getconfiginfo import get_team
+from getconfiginfo import get_info
 
 def get_standings_data(division=False, conference=False):
     """Gets raw json data for leagues division/conference standings based on
@@ -68,7 +68,7 @@ class Standings(object):
             team: team url, ie raptors, sixers, for team who division you want
                 to acquire. If none, uses favourite team from config.
         """
-        if not team: team = get_team()
+        if not team: team = get_info(('Team', 'team'))
         return self.TI.get_conf_division(team)
 
 

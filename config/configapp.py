@@ -1,7 +1,7 @@
-'''
-configapp.py - A bunch of functions used in configuring the main app to work
+"""
+configapp.py - An object with methods used in configuring the main app to work
 with the users favourite team
-'''
+"""
 import configparser
 import datetime
 import json
@@ -14,15 +14,16 @@ sys.path.append(os.path.abspath(os.path.join('.', 'api_functions')))
 from nbateam import get_team_data, TeamInfo
 from functions import get_data
 
-config_folder = os.path.dirname(os.path.abspath(__file__))
-config_path = os.path.join(config_folder, 'config.ini')
-
 
 class ConfigureApp(object):
+
     def __init__(self):
+        self.config_folder = os.path.dirname(os.path.abspath(__file__))
+        self.config_path = os.path.join(self.config_folder, 'config.ini')
+
         self.TI = TeamInfo()
         self.config = configparser.RawConfigParser()
-        self.config.read(config_path)
+        self.config.read(self.config_path)
 
     def configure(self):
         self.config_settings()
@@ -44,21 +45,28 @@ class ConfigureApp(object):
         self.config.set('Team', 'team', str(my_team))
         self.config.set('Initial Config', 'config', 'True')
         self.config.set('Values', 'season', self._set_default_season())
-        with open('config.ini', 'w') as configfile:
+        with open(self.config_path, 'w') as configfile:
             self.config.write(configfile)
 
     def _team_select(self):
-        """TODO: Use team module to get team info. at least use the get data func
-        TODO: split representation/UI elements"""
-        """UI/REPresentation element"""
+        """Displays all NBA teams, and provides input to chose a team.
+
+        TODO: break up code, separate options and functions to grab team.
+        UI method.
+        """
+        teams = []
         for team in self.TI.standard:
             if team['isNBAFranchise'] == True:
+                teams.append(team['tricode'])
                 print(f"{team['tricode']}: {team['fullName']}")
 
-        """User Input Element"""
-        print(f"Input your teams tricode, ex ORL, PHI, PHX etc:")
-        team = input()
-        return team
+        while True:
+            print(f"Input your teams tricode, ex ORL, PHI, PHX etc:")
+            team = input()
+            if team.upper() in teams:
+                return str(team.upper())
+            else:
+                print(f"invalid input, try again.")
 
 
     def _set_default_season(self):
@@ -88,7 +96,7 @@ class ConfigureApp(object):
         season_check = self.config.get('Values', 'season')
         if season_check != current_season:
             self.config.set('Values', 'season', current_season)
-            with open('config.ini', 'w') as configfile:
+            with open(self.config_path, 'w') as configfile:
                 self.config.write(configfile)
 
 
