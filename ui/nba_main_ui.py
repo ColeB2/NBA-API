@@ -26,30 +26,58 @@ class NBA_UI():
         self.B = BoxScoreUI()
         self.S = ScheduleUI(next=True, last=True, full=False) #add to display
         self.TL = TeamLeadersUI()
-        self.CS = StandingsUI(conference=True) #conference choice/add to display
+        self.ST = StandingsUI(conference=True) #conference choice/add to display
 
-    def run(self):
+
+    def run(self, scoreboard=True, boxscore=True, score=True,
+            teamleaders=True, standings=True):
         self.create_widgets()
-        self.display()
+        self.dashboard(scoreboard, boxscore, score, teamleaders, standings)
 
-    def display(self):
+
+    def dashboard(self, scoreboard=True, boxscore=True, score=True,
+                teamleaders=True, standings=True):
+
+        if scoreboard: self.SB.display(horiz=True) #config option
+        if boxscore: self.B.display()
+        if score: self.S.display()
+        if teamleaders: self.TL.display()
+        if standings: self.ST.display()
         self.options()
-        self.SB.display(horiz=True) #config option
-        self.B.display()
-        self.S.display()
-        self.TL.display()
-        self.CS.display()
+
 
     def config_display(self):
         print(f"Welcome to PyNBAScore\nPlease select your favourite team.")
         self.CA = ConfigureApp()
         self.CA.configure()
 
+
     def options(self):
+        print(f"Q: Quit\n1: Standings\n2: Schedule\n"
+              f"3: BoxScore\n4: Team Leaders")
+        User_input = input()
+        if User_input == 1:
+            self.standings_ui()
+        elif User_input == 2:
+            self.schedule_ui()
+        elif User_input == 3:
+            self.boxscore_ui()
+        elif User_input == 4:
+            self.team_leaders_ui()
+        elif User_input == 'Q':
+            sys.exit()
+
+
+    """Widget UIS. Used to navigate stats."""
+    def boxscore_ui(self):
+        pass
+    def standings_ui(self):
+        pass
+    def schedule_ui(self):
+        pass
+    def team_leaders_ui(self):
         pass
 
-
-    '''Various Widgets, boxscore, schedule, score etc'''
 
 if __name__ == '__main__':
     UI = NBA_UI()
