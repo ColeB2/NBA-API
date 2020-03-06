@@ -41,10 +41,11 @@ class Standings(object):
 
     """
     def __init__(self, div_stand=False, division=None, conference=None,
-                _team=None):
+                team=None):
         self.div_stand = div_stand
         self.div = division
         self.conf = conference
+        self.team = team
 
         self.TI = TeamInfo()
 
@@ -62,13 +63,12 @@ class Standings(object):
             return self.conferece[self.conf.lower()][self.div.lower()]
         elif self.conf:
             return self.conference[self.conf.lower()]
-
-        data = self._get_conf_division()
-        if self.div_stand:
-            chosen_standing = self.conference[data[0].lower()][data[1].lower()]
         else:
-            chosen_standing = self.conference[data[0].lower()]
-        return chosen_standing
+            data = self._get_conf_division(self.team)
+            if self.div_stand:
+                return self.conference[data[0].lower()][data[1].lower()]
+            else:
+                return self.conference[data[0].lower()]
 
 
     def _get_conf_division(self, team=None):

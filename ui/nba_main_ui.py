@@ -26,7 +26,7 @@ class NBA_UI():
         self.B = BoxScoreUI()
         self.S = ScheduleUI(next=True, last=True, full=False) #add to display
         self.TL = TeamLeadersUI()
-        self.ST = StandingsUI(conference=True) #conference choice/add to display
+        self.ST = StandingsUI(div_stand=False) #conference choice/add to display
 
 
     def run(self, scoreboard=True, boxscore=True, score=True,
@@ -70,10 +70,10 @@ class NBA_UI():
 
 
     """Widget UIS. Used to navigate stats."""
-    
+
     def boxscore_ui(self):
         pass
-    
+
     """Standings UI"""
     def standings_ui(self):
         print(f"Select an option\n1: Eastern Conference\n2: Western Conference\n3: Division Standings \nMore")
@@ -81,10 +81,10 @@ class NBA_UI():
         if user_input == '1':
             X = StandingsUI(conference=True, _team="kings")
             X.display()
-    
+
     def schedule_ui(self):
         pass
-    
+
     def team_leaders_ui(self):
         pass
 

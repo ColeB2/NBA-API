@@ -11,8 +11,9 @@ class StandingsUI(Widget):
     Attributes:
 
     """
-    def __init__(self, division=False, conference=False, div=None, conf=None):
-        self.S = Standings(division=division, conference=conference)
+    def __init__(self, division=None, conference=None, div_stand=False):
+        self.S = Standings(div_stand=div_stand, division=division,
+                conference=conference)
         self.standing_data = self.S.get_standing_data()
         self.TI = TeamInfo()
 
@@ -21,8 +22,8 @@ class StandingsUI(Widget):
         'CONF','L10','STRK'
         ]
 
-        if division: self.games_back = 'divGamesBehind'
-        if conference: self.games_back = 'gamesBehind'
+
+        self.games_back = 'divGamesBehind' if div_stand else 'gamesBehind'
 
         self.div_data = [
         'teamId','win','loss','winPct',self.games_back,('homeWin', 'homeLoss'),
@@ -71,8 +72,8 @@ class StandingsUI(Widget):
 
 
 if __name__ == '__main__':
-    DS = StandingsUI(division=True)
+    DS = StandingsUI(div_stand=True)
     DS.display()
 
-    CS = StandingsUI(conference=True)
+    CS = StandingsUI()
     CS.display()
