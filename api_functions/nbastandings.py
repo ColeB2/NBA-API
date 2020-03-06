@@ -9,7 +9,7 @@ import sys, os
 sys.path.append(os.path.abspath(os.path.join('.', 'config')))
 from getconfiginfo import get_info
 
-def get_standings_data(division=False, conference=False):
+def get_standings_data(division=False):
     """Gets raw json data for leagues division/conference standings based on
     arguments.
 
@@ -33,17 +33,22 @@ class Standings(object):
     """A class to sort and hold data for NBA standing_division.json endpoint.
 
     Attributes:
+        div_stand: Boolean, On whether to make call to division endpoit or the
+        conference endpoint. True = Division, False = Conference.
+        div: String, corrosponding to the division of data wanted
+        conf: String, corrosponding to the conference of data wanted
 
 
     """
-    def __init__(self, division=False, conference=False, _team=None):
+    def __init__(self, div_stand=False, division=None, conference=None,
+                _team=None):
+        self.div_stand = div_stand
         self.div = division
         self.conf = conference
 
         self.TI = TeamInfo()
 
-        self.raw_data = get_standings_data(division=self.div,
-            conference=self.conf)
+        self.raw_data = get_standings_data(division=self.div_stand)
 
         self._internal = self.raw_data['_internal']
 
@@ -53,10 +58,15 @@ class Standings(object):
 
 
     def get_standing_data(self):
-        data = self._get_conf_division()
-        if self.div:
-            chosen_standing = self.conference[data[0].lower()][data[1].lower()]
+        if self.div and self.conf:
+            return self.conferece[self.conf.lower()][self.div.lower()]
         elif self.conf:
+            return self.conference[self.conf.lower()]
+
+        data = self._get_conf_division()
+        if self.div_stand:
+            chosen_standing = self.conference[data[0].lower()][data[1].lower()]
+        else:
             chosen_standing = self.conference[data[0].lower()]
         return chosen_standing
 
@@ -76,7 +86,7 @@ class Standings(object):
 
 if __name__ == '__main__':
     print('DIVISION STANDINGS')
-    DS = Standings(division=True)
+    DS = Standings(div_stand=True)
     print(f"-----raw_data breakdown---------------------\n{DS.raw_data.keys()}")
     print(f"-----_internal-----------------------------\n{DS._internal.keys()}")
     print(f"-----league-----------------------------------\n{DS.league.keys()}")
@@ -88,8 +98,8 @@ if __name__ == '__main__':
     print(f"{DS._get_conf_division('1610612761')}")
     print(DS.get_standing_data())
 
-    print('CONFERENCE STANDIGNS')
-    CS = Standings(conference=True)
+    print('\n\nCONFERENCE STANDINGS\n\n')
+    CS = Standings()
     print(f"-----raw_data breakdown---------------------\n{CS.raw_data.keys()}")
     print(f"-----_internal-----------------------------\n{CS._internal.keys()}")
     print(f"-----league-----------------------------------\n{CS.league.keys()}")
@@ -99,6 +109,6 @@ if __name__ == '__main__':
     print(f"{CS._get_conf_division()}")
 
 
-    print('TEST')
+    print('\n\nMETHOD TESTING\n\n')
     print(f"{CS._get_conf_division('1610612761')}")
     print(CS.get_standing_data())
