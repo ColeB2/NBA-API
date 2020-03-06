@@ -97,6 +97,8 @@ if __name__ == '__main__':
     print(f"{CS.standard['seasonYear']}\n{CS.standard['seasonStageId']}")
     print(f"{CS.conference.keys()}")
     print(f"{CS._get_conf_division()}")
+
+
     print('TEST')
     print(f"{CS._get_conf_division('1610612761')}")
     print(CS.get_standing_data())

@@ -11,7 +11,7 @@ class StandingsUI(Widget):
     Attributes:
 
     """
-    def __init__(self, division=False, conference=False):
+    def __init__(self, division=False, conference=False, div=None, conf=None):
         self.S = Standings(division=division, conference=conference)
         self.standing_data = self.S.get_standing_data()
         self.TI = TeamInfo()

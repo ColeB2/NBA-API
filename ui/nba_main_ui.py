@@ -56,25 +56,35 @@ class NBA_UI():
         print(f"Q: Quit\n1: Standings\n2: Schedule\n"
               f"3: BoxScore\n4: Team Leaders")
         User_input = input()
-        if User_input == 1:
+        if User_input == '1':
+            print('standings')
             self.standings_ui()
-        elif User_input == 2:
+        elif User_input == '2':
             self.schedule_ui()
-        elif User_input == 3:
+        elif User_input == '3':
             self.boxscore_ui()
-        elif User_input == 4:
+        elif User_input == '4':
             self.team_leaders_ui()
         elif User_input == 'Q':
             sys.exit()
 
 
     """Widget UIS. Used to navigate stats."""
+    
     def boxscore_ui(self):
         pass
+    
+    """Standings UI"""
     def standings_ui(self):
-        pass
+        print(f"Select an option\n1: Eastern Conference\n2: Western Conference\n3: Division Standings \nMore")
+        user_input = input()
+        if user_input == '1':
+            X = StandingsUI(conference=True, _team="kings")
+            X.display()
+    
     def schedule_ui(self):
         pass
+    
     def team_leaders_ui(self):
         pass
 
