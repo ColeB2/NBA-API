@@ -3,7 +3,6 @@ nbadivstandings.py - Contains functions and classes to handle the data from the
 data.nba.net ... standings_division.json, and standings_conference.json
 """
 from functions import get_data
-##TODO pass TeamInfo OBJ to proper class to prevent creating multiple obj.
 from nbateam import TeamInfo
 
 import sys, os

@@ -22,6 +22,7 @@ class ConfigureApp(object):
         self.config_path = os.path.join(self.config_folder, 'config.ini')
 
         self.TI = TeamInfo()
+        #Todo pass TI object to CA object to prevent multiple instances
         self.config = configparser.RawConfigParser()
         self.config.read(self.config_path)
 
@@ -54,14 +55,11 @@ class ConfigureApp(object):
         TODO: break up code, separate options and functions to grab team.
         UI method.
         """
-        teams = []
-        for team in self.TI.standard:
-            if team['isNBAFranchise'] == True:
-                teams.append(team['tricode'])
-                print(f"{team['tricode']}: {team['fullName']}")
+        for team in self.TI.teamsTRI:
+            print(team)
 
         while True:
-            print(f"Input your teams tricode, ex ORL, PHI, PHX etc:")
+            print(f"Please input desired teams tricode, ex ORL, PHI, PHX etc:")
             team = input()
             if team.upper() in teams:
                 return str(team.upper())
@@ -70,11 +68,9 @@ class ConfigureApp(object):
 
 
     def _set_default_season(self):
-        '''Sets season default to the year of current season, done so for when
+        """Sets season default to the year of current season, done so for when
         season is left blank in any function that reqeuires it
-
-        TODO:
-        use get_data funcs, '''
+        """
         url = 'http://data.nba.net/10s/prod/v1/today.json'
         get_data(url)
         season = get_data(url)['teamSitesOnly']['seasonYear']
