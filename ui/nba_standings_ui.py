@@ -14,7 +14,7 @@ class StandingsUI(Widget):
     def __init__(self, division=None, conference=None, div_stand=False):
         self.S = Standings(div_stand=div_stand, division=division,
                 conference=conference)
-        self.standing_data = self.S.get_standing_data()
+        self.DS = None
         self.TI = TeamInfo()
 
         self.div_headers = [
@@ -33,7 +33,18 @@ class StandingsUI(Widget):
 
 
 
-    def display(self, horiz=True):
+    def display(self, conference=None, division=None):
+        if not conference and not division:
+            self.standing_data = self.S.get_standing_data()
+        elif conference and not division:
+            self.standing_data = self.S.conference[conference]
+        elif division and conference:
+            if not self.DS:
+                self.DS = Standings(div_stand=True, division=division,
+                    conference=conference)
+                self.standing_data = self.DS.get_standing_data()
+            else:
+                self.standing_data = self.DS.conference[conference][division]
         self.horizontal_display(self.S, header=True)
 
 

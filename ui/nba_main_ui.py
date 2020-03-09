@@ -53,20 +53,23 @@ class NBA_UI():
 
 
     def options(self):
-        print(f"Q: Quit\n1: Standings\n2: Schedule\n"
-              f"3: BoxScore\n4: Team Leaders")
-        User_input = input()
-        if User_input == '1':
-            print('standings')
-            self.standings_ui()
-        elif User_input == '2':
-            self.schedule_ui()
-        elif User_input == '3':
-            self.boxscore_ui()
-        elif User_input == '4':
-            self.team_leaders_ui()
-        elif User_input == 'Q':
-            sys.exit()
+        run = True
+        while run:
+            print(f"Q: Quit\n1: Standings\n2: Schedule\n"
+                  f"3: BoxScore\n4: Team Leaders")
+            User_input = input()
+            if User_input == '1':
+                print('standings')
+                self.standings_ui()
+            elif User_input == '2':
+                self.schedule_ui()
+            elif User_input == '3':
+                self.boxscore_ui()
+            elif User_input == '4':
+                self.team_leaders_ui()
+            elif User_input.lower() == 'q':
+                #run = false
+                sys.exit()
 
 
     """Widget UIS. Used to navigate stats."""
@@ -76,11 +79,43 @@ class NBA_UI():
 
     """Standings UI"""
     def standings_ui(self):
-        print(f"Select an option\n1: Eastern Conference\n2: Western Conference\n3: Division Standings \nMore")
+        print(f"Select an option\n1: Eastern Conference\n2: Western Conference"
+            f"\n3: Division Standings \na: Both Conferences \nMore")
         user_input = input()
         if user_input == '1':
-            X = StandingsUI(conference=True, _team="kings")
-            X.display()
+            self.ST.display(conference='east')
+        elif user_input == '2':
+            self.ST.display(conference='west')
+        elif user_input == 'a':
+            self.ST.display(conference='east')
+            self.ST.display(conference='west')
+        elif user_input == '3':
+            print(f"Select a division:"
+                f"\n1: Atlantic \n2: Central \n3: SouthEast \n4: Pacific"
+                f"\n5: SouthWest \n6: NorthWest" )
+            user_input = input()
+
+            if user_input == '1':
+                self.ST.display(division='atlantic', conference='east')
+            elif user_input == '2':
+                self.ST.display(division='central', conference='east')
+            elif user_input == '3':
+                self.ST.display(division='southeast', conference='east')
+            elif user_input == '4':
+                self.ST.display(division='pacific', conference='west')
+            elif user_input == '5':
+                self.ST.display(division='southwest', conference='west')
+            elif user_input == '6':
+                self.ST.display(division='northwest', conference='west')
+            elif user_input == 'a':
+                self.ST.display(division='atlantic', conference='east')
+                self.ST.display(division='central', conference='east')
+                self.ST.display(division='southeast', conference='east')
+                self.ST.display(division='pacific', conference='west')
+                self.ST.display(division='southwest', conference='west')
+                self.ST.display(division='northwest', conference='west')
+        elif user_input == 'q':
+            sys.exit()
 
     def schedule_ui(self):
         pass

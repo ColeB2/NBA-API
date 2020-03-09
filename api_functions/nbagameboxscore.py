@@ -5,7 +5,7 @@ data.nba.net ... _boxscore.json endpoint
 from functions import get_data
 from nbaschedule import Schedule as S
 
-def get_boxscore_data(date=None, gameId=None):
+def get_boxscore_data(date=None, gameId=None, ScheduleOBJ=None):
     """Gets raw json data for given game.
 
     Args:
@@ -16,6 +16,7 @@ def get_boxscore_data(date=None, gameId=None):
     """
     if not date or not gameId:
         gameId, date = S().last_game_id_date
+    #TODO. pass S() object to function to prevent creating multiple objs.
 
     url_start = 'http://data.nba.net/prod/v1/'
     url = str(url_start) + str(date) + '/' + str(gameId) + '_boxscore.json'

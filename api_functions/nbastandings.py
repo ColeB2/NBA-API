@@ -3,6 +3,7 @@ nbadivstandings.py - Contains functions and classes to handle the data from the
 data.nba.net ... standings_division.json, and standings_conference.json
 """
 from functions import get_data
+##TODO pass TeamInfo OBJ to proper class to prevent creating multiple obj.
 from nbateam import TeamInfo
 
 import sys, os
@@ -30,7 +31,8 @@ def get_standings_data(division=False):
 
 
 class Standings(object):
-    """A class to sort and hold data for NBA standing_division.json endpoint.
+    """A class to sort and hold data for NBA standing_division.json endpoint and
+    the standing_conference.json endpoint.
 
     Attributes:
         div_stand: Boolean, On whether to make call to division endpoit or the
@@ -56,11 +58,15 @@ class Standings(object):
         self.league = self.raw_data['league']
         self.standard = self.league['standard']
         self.conference =self.standard['conference']
+        self.east = self.conference['east']
+        self.west = self.conference['west']
 
 
     def get_standing_data(self):
+        """Method used to get approrriate data for main dashboard widget.
+        """
         if self.div and self.conf:
-            return self.conferece[self.conf.lower()][self.div.lower()]
+            return self.conference[self.conf.lower()][self.div.lower()]
         elif self.conf:
             return self.conference[self.conf.lower()]
         else:
@@ -112,3 +118,8 @@ if __name__ == '__main__':
     print('\n\nMETHOD TESTING\n\n')
     print(f"{CS._get_conf_division('1610612761')}")
     print(CS.get_standing_data())
+    print(CS.west)
+    print(CS.east)
+    print(DS.conference['east'])
+    print(DS.east)
+    print(DS.west)
