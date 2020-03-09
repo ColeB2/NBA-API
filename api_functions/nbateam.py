@@ -45,6 +45,8 @@ class TeamInfo(object):
         self.identifiers = ['city', 'altCityName', 'fullName', 'tricode',
             'teamId', 'nickname', 'urlName', 'teamShortName']
 
+        self.teamsTRI = self.create_nba_list()
+
 
     def get_conf_division(self, team=None, id_option=None):
         if team == None:
@@ -86,6 +88,13 @@ class TeamInfo(object):
                             return team[str(id_return)]
                         else:
                             return team
+
+    def create_nba_list(self):
+        teams = []
+        for team in self.standard:
+            if team['isNBAFranchise']:
+                teams.append(team['tricode'])
+        return teams
 
 
 
