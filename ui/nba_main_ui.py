@@ -60,6 +60,7 @@ class NBA_UI():
         print(f"Welcome to PyNBAScore\n")
         self.CA = ConfigureApp()
         self.CA.configure()
+        print(f"Loading Dashboard...")
 
 
     def options(self):
@@ -83,7 +84,7 @@ class NBA_UI():
     """Widget UIS. Used to navigate stats."""
 
     def boxscore_ui(self):
-        pass
+        print(f"Select of boxscore to choose from.")
 
     """Standings UI"""
     def standings_ui(self):
@@ -126,17 +127,35 @@ class NBA_UI():
             sys.exit()
 
     def schedule_ui(self):
-        pass
+        """UI options for checking teams schedule.
+        TODO:
+        Adjust scheduleUI to have time start for full/vertical options
+        Config options for user to select default showing for option.
+        """
+        print(f"Select team to check out their schedule.")
+        for team in self.TI.teamsTRI:
+            print(team)
+        user_input = input()
+        team = self.TI.get_team(user_input.upper(), id_option='tricode',
+            id_return='nickname')
+        print(team)
+        TS = ScheduleUI(team=team.lower())
+        TS.display(horiz=True)
 
     def team_leaders_ui(self):
-        print(f"Choose a team to check their leaders" )
+        print(f"Select a team to check their leaders" )
         for team in self.TI.teamsTRI:
             print(team)
         user_input = input()
         team = self.TI.get_team(user_input.upper(), id_option='tricode',
             id_return='nickname')
         TL = TeamLeadersUI(team=team)
+        print(f"{TL.TL.team}")
         TL.display()
+        if not TL.TL.team:
+            print(f"Invalid tricode: {user_input}, couldn't find team")
+
+
 
 
 if __name__ == '__main__':

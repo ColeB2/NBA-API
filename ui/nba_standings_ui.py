@@ -12,7 +12,8 @@ class StandingsUI(Widget):
 
     """
     def __init__(self, division=None, conference=None, div_stand=False,
-            team_info_obj=None):
+                team_info_obj=None):
+
         self.S = Standings(div_stand=div_stand, division=division,
                 conference=conference)
         self.DS = None
@@ -20,7 +21,6 @@ class StandingsUI(Widget):
             self.TI = team_info_obj
         else:
             self.TI = TeamInfo()
-            print('CREATING TEAMINFO() OBJET')
 
         self.div_headers = [
         'Team','W','L','PCT','GB','HOME','AWAY', 'DIV',

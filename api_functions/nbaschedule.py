@@ -125,3 +125,5 @@ if __name__ == '__main__':
     print('\n-----LastGame----------------------------------------------------')
     print(S.last_game)
     print(S.get_x_games())
+
+    print(Schedule(team='hawks').last_game)
