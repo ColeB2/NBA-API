@@ -14,7 +14,7 @@ class TeamLeadersUI(Widget):
         headers: Representation of important headers to be used for printing.
         data_headers: Copy of TL.leader_keys list from TL object.
     """
-    def __init__(self, team=None, season=None):
+    def __init__(self, team=None, season=None, player_info_obj=None):
         self.TL = TeamLeaders(team, season)
         if player_info_obj:
             self.PI = player_info_obj
