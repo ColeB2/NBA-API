@@ -16,7 +16,10 @@ class TeamLeadersUI(Widget):
     """
     def __init__(self, team=None, season=None):
         self.TL = TeamLeaders(team, season)
-        self.PI = PlayerInfo()
+        if player_info_obj:
+            self.PI = player_info_obj
+        else:
+            self.PI = PlayerInfo()
         self.headers = ['PTS/G', 'REB/G', 'AST/G', 'FG%',
             '3PT%', 'FT%', 'BLK/G','STL/G', 'TO/G',
             'PF/G']

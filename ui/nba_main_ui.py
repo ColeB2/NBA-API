@@ -33,7 +33,7 @@ class NBA_UI():
         self.B = BoxScoreUI()
         self.S = ScheduleUI(next=True, last=True, full=False)
         #add to display
-        self.TL = TeamLeadersUI()
+        self.TL = TeamLeadersUI(player_info_obj=self.PI)
         self.ST = StandingsUI(team_info_obj=self.TI)
         #conference choice/add to display
 
