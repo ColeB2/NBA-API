@@ -133,6 +133,10 @@ class NBA_UI():
         for team in self.TI.teamsTRI:
             print(team)
         user_input = input()
+        team = self.TI.get_team(user_input.upper(), id_option='tricode',
+            id_return='nickname')
+        TL = TeamLeadersUI(team=team)
+        TL.display()
 
 
 if __name__ == '__main__':
