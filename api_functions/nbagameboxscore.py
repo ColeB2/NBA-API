@@ -5,7 +5,7 @@ data.nba.net ... _boxscore.json endpoint
 from functions import get_data
 from nbaschedule import Schedule as S
 
-def get_boxscore_data(date=None, gameId=None, ScheduleOBJ=None):
+def get_boxscore_data(date=None, gameId=None, schedule_obj=None):
     """Gets raw json data for given game.
 
     Args:
@@ -15,8 +15,10 @@ def get_boxscore_data(date=None, gameId=None, ScheduleOBJ=None):
         Dict of raw json data from the data.nba.net _boxscore.json endpoint
     """
     if not date or not gameId:
-        gameId, date = S().last_game_id_date
-    #TODO. pass S() object to function to prevent creating multiple objs.
+        if schedule_obj:
+            gameId, date = schedule_obj.last_game_id_date
+        else:
+            gameId, date = S().last_game_id_date
 
     url_start = 'http://data.nba.net/prod/v1/'
     url = str(url_start) + str(date) + '/' + str(gameId) + '_boxscore.json'
@@ -52,11 +54,12 @@ class BoxScore(object):
         data_headers: dict keys corosponding to boxscore headers.
         boxscore_totals: display
     """
-    def __init__(self, date=None, gameId=None):
+    def __init__(self, date=None, gameId=None, schedule_obj=None):
         self.date = date
         self.gameId = gameId
 
-        self.raw_data = get_boxscore_data(date=self.date, gameId=self.gameId)
+        self.raw_data = get_boxscore_data(date=self.date, gameId=self.gameId,
+            schedule_obj=schedule_obj)
         self._internal = self.raw_data['_internal']
 
         self.basic_game_data = self.raw_data['basicGameData']
