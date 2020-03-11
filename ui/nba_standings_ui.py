@@ -22,20 +22,11 @@ class StandingsUI(Widget):
         else:
             self.TI = TeamInfo()
 
-        self.div_headers = [
+        self.standing_headers = [
         'Team','W','L','PCT','GB','HOME','AWAY', 'DIV',
         'CONF','L10','STRK'
         ]
-
-
         self.games_back = 'divGamesBehind' if div_stand else 'gamesBehind'
-
-        self.div_data = [
-        'teamId','win','loss','winPct',self.games_back,('homeWin', 'homeLoss'),
-        ('awayWin','awayLoss'), ('divWin', 'divLoss'), ('confWin','confLoss'),
-        ('lastTenWin','lastTenLoss'),('isWinStreak', 'streak')
-        ]
-
 
 
     def display(self, conference=None, division=None):
@@ -44,25 +35,37 @@ class StandingsUI(Widget):
         elif conference and not division:
             self.standing_data = self.S.conference[conference]
         elif division and conference:
+            self.games_back = 'divGamesBehind'
             if not self.DS:
                 self.DS = Standings(div_stand=True, division=division,
                     conference=conference)
                 self.standing_data = self.DS.get_standing_data()
             else:
                 self.standing_data = self.DS.conference[conference][division]
-        self.horizontal_display(self.S, header=True)
+
+        self.create_standing_data_keys()
+        if division:
+            self.horizontal_display(self.DS, header=True)
+        else:
+            self.horizontal_display(self.S, header=True)
+
+    def create_standing_data_keys(self):
+        self.standing_data_keys = [
+        'teamId','win','loss','winPct',self.games_back,('homeWin', 'homeLoss'),
+        ('awayWin','awayLoss'), ('divWin', 'divLoss'), ('confWin','confLoss'),
+        ('lastTenWin','lastTenLoss'),('isWinStreak', 'streak')
+        ]
 
 
     def create_nested_list(self, data):
         nested_list = []
-
         """Stats Header"""
-        nested_list.append(self.div_headers)
+        nested_list.append(self.standing_headers)
 
         """Information"""
         for team in self.standing_data:
             team_list = []
-            for item in self.div_data:
+            for item in self.standing_data_keys:
                 if item == 'teamId':
                     team_list.append(
                         self.TI.get_team(team[item], item, 'nickname'))
