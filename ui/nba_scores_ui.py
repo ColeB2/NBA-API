@@ -65,14 +65,16 @@ class ScoreBoardUI(Widget):
         bot_team = []
         for idx in range(len(data)):
             for game in data[idx].games:
-                hScore, vScore = game['hTeam']['score'], game['vTeam']['score']
-                if hScore != '' and int(hScore) > int(vScore):
-                    print(f"TRUETRUETRUE {hScore} {vScore}")
-                home = f"{game['hTeam']['triCode']} " \
-                       f"{Back.RED}{game['hTeam']['score'].rjust(3)}{Style.RESET_ALL}"
+                COLOR = False
+                if COLOR:
+                    home, away = self.get_colored_score(game)
+                else:
+                    home = f"{game['hTeam']['triCode']} " \
+                           f"{game['hTeam']['score'].rjust(3)}"
 
-                away = f"{game['vTeam']['triCode']} " \
-                       f"{game['vTeam']['score'].rjust(3)}"
+                    away = f"{game['vTeam']['triCode']} " \
+                           f"{game['vTeam']['score'].rjust(3)}"
+
                 top_team.append(home)
                 bot_team.append(away)
 
@@ -82,6 +84,28 @@ class ScoreBoardUI(Widget):
                 info.append(status)
 
         return [info, top_team, bot_team]
+
+    def get_colored_score(self, game_data):
+        hScore = game_data['hTeam']['score']
+        vScore = game_data['vTeam']['score']
+
+        hcol = ''
+        vcol = ''
+
+        if hScore != '' and vScore != '':
+            if int(hScore) > int(vScore):
+                hcol = Back.RED
+
+            elif int(vScore) > int(hScore):
+                vcol= Back.RED
+
+        home = f"{game_data['hTeam']['triCode']} " \
+               f"{hcol}{hScore}{Style.RESET_ALL}"
+
+        away = f"{game_data['vTeam']['triCode']} " \
+               f"{vcol}{vScore.rjust(3)}{Style.RESET_ALL}"
+
+        return home, away
 
     def get_nested_list(self, data):
         """Calls create_nested_list method in order to get the values for the

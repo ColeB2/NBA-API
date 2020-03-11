@@ -1,6 +1,6 @@
 import json
 import urllib.request
-from colorama import init
+from colorama import init, deinit
 
 import os, sys
 sys.path.append(os.path.join('.', 'ui'))
