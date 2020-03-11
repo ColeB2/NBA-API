@@ -1,5 +1,6 @@
 from ui_functions import Widget
 import calendar
+from colorama import Fore, Back, Style
 
 import os, sys
 sys.path.append(os.path.join('.', 'api_functions'))
@@ -36,6 +37,8 @@ class ScoreBoardUI(Widget):
         if horiz:
             self.horizontal_display((self.YSB, self.SB),
                 self.horizontal_display_date)
+        else:
+            self.vertical_display()
 
 
 
@@ -62,8 +65,11 @@ class ScoreBoardUI(Widget):
         bot_team = []
         for idx in range(len(data)):
             for game in data[idx].games:
+                hScore, vScore = game['hTeam']['score'], game['vTeam']['score']
+                if hScore != '' and int(hScore) > int(vScore):
+                    print(f"TRUETRUETRUE {hScore} {vScore}")
                 home = f"{game['hTeam']['triCode']} " \
-                       f"{game['hTeam']['score'].rjust(3)}"
+                       f"{Back.RED}{game['hTeam']['score'].rjust(3)}{Style.RESET_ALL}"
 
                 away = f"{game['vTeam']['triCode']} " \
                        f"{game['vTeam']['score'].rjust(3)}"
@@ -160,9 +166,10 @@ class ScoreBoardUI(Widget):
         if yesterday:
             print(f"{self.format_date(self.YSB.date)}")
             for game in self.YSB.games:
-                print( f"{game['hTeam']['triCode']} " \
-                       f"{game['hTeam']['score'].rjust(3)} " \
-                       f"{game['vTeam']['triCode']} " \
+                print( f"{self.get_status(game)} "
+                       f"{game['hTeam']['triCode']} "
+                       f"{game['hTeam']['score'].rjust(3)} "
+                       f"{game['vTeam']['triCode']} "
                        f"{game['vTeam']['score'].rjust(3)}" )
         if today:
             print(f"{self.format_date(self.SB.date)}")
@@ -185,6 +192,5 @@ if __name__ == '__main__':
     SB.display(horiz=True)
 
     print('Vertical Display:')
-
-    SB = ScoreBoardUI(date='20200210')
+    SB = ScoreBoardUI()
     SB.display(horiz=False)

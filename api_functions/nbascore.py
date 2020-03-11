@@ -35,11 +35,9 @@ class ScoreBoard():
         self.games = self.raw_data['games'] #list of games
 
 if __name__ == '__main__':
-    from nbaschedule import Schedule
-    #S = Schedule()
 
-    SB = ScoreBoard(date=20200204)
-    SB = ScoreBoard()
+    SB = ScoreBoard(date=20200310)
+    #SB = ScoreBoard()
     print('-----RAW DATA BREAKDOWN, DICT KEYS---------------------------------')
     print(SB.raw_data.keys())
 
@@ -52,12 +50,13 @@ if __name__ == '__main__':
     print('\n-----games-------------------------------------------------------')
     print(SB.games)
 
-    print('Games Keys:')
-    print(SB.games[0].keys())
+    print(f"Games Keys: {SB.games[0].keys()}")
 
 
     print('Test')
     print(SB.games[0]['isGameActivated'])
     print(SB.games[0]['period'])
     print(SB.games[-1]['hTeam'])
+    print(SB.games[-1]['vTeam'])
     print(SB.games[0]['hTeam'])
+    print(SB.games[-1]['hTeam'])

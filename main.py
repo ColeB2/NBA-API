@@ -6,6 +6,7 @@ from nba_main_ui import NBA_UI
 from getconfiginfo import get_info
 
 
+
 class MainApp(object):
     """A class representation of main app.
     """

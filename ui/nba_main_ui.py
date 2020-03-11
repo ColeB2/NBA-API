@@ -1,8 +1,8 @@
 import json
 import urllib.request
+from colorama import init
 
 import os, sys
-
 sys.path.append(os.path.join('.', 'ui'))
 sys.path.append(os.path.join('.', 'config'))
 sys.path.append(os.path.join('.', 'api_functions'))
@@ -21,6 +21,7 @@ from nba_standings_ui import StandingsUI
 
 class NBA_UI():
     def __init__(self):
+        init()
         self.TI = TeamInfo()
         self.PI = PlayerInfo()
         pass
@@ -62,6 +63,10 @@ class NBA_UI():
         self.CA.configure()
         print(f"Loading Dashboard...")
 
+    def quit(self):
+        deinit()
+        sys.exit()
+
 
     def options(self):
         while True:
@@ -79,7 +84,7 @@ class NBA_UI():
             elif user_input.lower() == 'c':
                 self.config_dashboard_ui()
             elif user_input.lower() == 'q':
-                sys.exit()
+                self.quit()
 
 
     """Widget UIS. Used to navigate stats."""
@@ -125,7 +130,7 @@ class NBA_UI():
                 self.ST.display(division='southwest', conference='west')
                 self.ST.display(division='northwest', conference='west')
         elif user_input == 'q':
-            sys.exit()
+            self.quit()
 
     def schedule_ui(self):
         """UI options for checking teams schedule.
