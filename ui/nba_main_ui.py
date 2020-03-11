@@ -65,11 +65,10 @@ class NBA_UI():
 
     def options(self):
         while True:
-            print(f"Q: Quit\n1: Standings\n2: Schedule\n"
+            print(f"\nQ: Quit\n1: Standings\n2: Schedule\n"
                   f"3: BoxScore\n4: Team Leaders \nC: Config Dashboard")
             user_input = input()
             if user_input == '1':
-                print('standings')
                 self.standings_ui()
             elif user_input == '2':
                 self.schedule_ui()
@@ -77,6 +76,8 @@ class NBA_UI():
                 self.boxscore_ui()
             elif user_input == '4':
                 self.team_leaders_ui()
+            elif user_input.lower() == 'c':
+                self.config_dashboard_ui()
             elif user_input.lower() == 'q':
                 sys.exit()
 
@@ -84,7 +85,7 @@ class NBA_UI():
     """Widget UIS. Used to navigate stats."""
 
     def boxscore_ui(self):
-        print(f"Select of boxscore to choose from.")
+        print(f"Select a boxscore to look at.")
 
     """Standings UI"""
     def standings_ui(self):
@@ -135,25 +136,34 @@ class NBA_UI():
         print(f"Select team to check out their schedule.")
         for team in self.TI.teamsTRI:
             print(team)
-        user_input = input()
+        user_input = input("\nTricode: ")
         team = self.TI.get_team(user_input.upper(), id_option='tricode',
             id_return='nickname')
-        print(team)
-        TS = ScheduleUI(team=team.lower())
-        TS.display(horiz=True)
+
+        print(f"Team Selected: {team}...Loading Data...")
+        if not team:
+            print(f"Invalid tricode: {user_input}, couldn't find team")
+        else:
+            TS = ScheduleUI(team=team.lower())
+            TS.display(horiz=True)
 
     def team_leaders_ui(self):
         print(f"Select a team to check their leaders" )
         for team in self.TI.teamsTRI:
             print(team)
-        user_input = input()
+        user_input = input("\nTricode: ")
         team = self.TI.get_team(user_input.upper(), id_option='tricode',
             id_return='nickname')
-        TL = TeamLeadersUI(team=team)
-        print(f"{TL.TL.team}")
-        TL.display()
-        if not TL.TL.team:
+
+        print(f"Team Selected: {team}...Loading Data...")
+        if not team:
             print(f"Invalid tricode: {user_input}, couldn't find team")
+        else:
+            TL = TeamLeadersUI(team=team)
+            TL.display()
+
+    def config_dashboard_ui(self):
+        print(f"Config Dashboard Not Implemented.")
 
 
 
