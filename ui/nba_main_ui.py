@@ -19,7 +19,7 @@ from nba_teamleaders_ui import TeamLeadersUI
 from nba_scores_ui import ScoreBoardUI
 from nba_standings_ui import StandingsUI
 
-"""TODO: Handles team look up for teams with spaces, ex Trail Blazers"""
+
 
 class NBA_UI():
     def __init__(self):

@@ -16,6 +16,8 @@ def get_schedule_data(season=None, team=None):
     """
     if not season: season = get_info(('Values', 'season'))
     if not team: team = get_info(('Team', 'team'))
+    if ' ' in team:
+        team = team.split(' ')[1]
 
     url_start = 'http://data.nba.net/prod/v1/'
     url = url_start + str(season) + '/teams/' + str(team) + '/schedule.json'

@@ -19,6 +19,8 @@ def get_team_leaders_data(team=None, season=None):
     """
     if not team: team = get_info(('Values', 'team'))
     if not season: season = get_info(('Values', 'season'))
+    if ' ' in team:
+        team = team.split(' ')[1]
 
     url1 = 'http://data.nba.net/prod/v1/'
     url_end = '/leaders.json'
