@@ -74,10 +74,19 @@ class Widget():
         from_zone = tz.tzutc()
         to_zone = tz.tzlocal()
 
-        utc_time = datetime.strptime(utc_time, '%Y-%m-%dT%H:%M:%S.%fZ')
-        utc_time= utc_time.replace(tzinfo=from_zone)
-        local_time = utc_time.astimezone(to_zone)
-        local_time = local_time.strftime('%I:%M %p')
+        try:
+            utc_time = datetime.strptime(utc_time, '%Y-%m-%dT%H:%M:%S.%fZ')
+            utc_time= utc_time.replace(tzinfo=from_zone)
+            local_time = utc_time.astimezone(to_zone)
+            local_time = local_time.strftime('%I:%M %p')
+
+            ##Except handles when given a date, but no time. 2020 suspension
+        except:
+            utc_time = datetime.strptime(utc_time, '%Y-%m-%d')
+            utc_time= utc_time.replace(tzinfo=from_zone)
+            local_time = utc_time.astimezone(to_zone)
+            local_time = local_time.strftime('%I:%M %p')
+
 
         return local_time
 
