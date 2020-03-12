@@ -32,8 +32,10 @@ class StandingsUI(Widget):
 
     def display(self, conference=None, division=None):
         if not conference and not division:
+            self.games_back = 'gamesBehind'
             self.standing_data = self.S.get_standing_data()
         elif conference and not division:
+            self.games_back = 'gamesBehind'
             self.standing_data = self.S.conference[conference]
         elif division and conference:
             self.games_back = 'divGamesBehind'

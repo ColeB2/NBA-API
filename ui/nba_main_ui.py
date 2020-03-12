@@ -19,13 +19,14 @@ from nba_teamleaders_ui import TeamLeadersUI
 from nba_scores_ui import ScoreBoardUI
 from nba_standings_ui import StandingsUI
 
+"""TODO: Handles team look up for teams with spaces, ex Trail Blazers"""
+
 class NBA_UI():
     def __init__(self):
         init()
         self.TI = TeamInfo()
         self.PI = PlayerInfo()
         pass
-        #self.CA = ConfigureApp() #call only when necesarry?
 
 
 
@@ -36,7 +37,6 @@ class NBA_UI():
         #add to display
         self.TL = TeamLeadersUI(player_info_obj=self.PI)
         self.ST = StandingsUI(team_info_obj=self.TI)
-        #conference choice/add to display
 
 
     def run(self, scoreboard=True, boxscore=True, score=True,
