@@ -17,7 +17,7 @@ def get_team_leaders_data(team=None, season=None):
     Returns:
         Dict of raw json data from data.nba.net /leaders.json endpoint
     """
-    if not team: team = get_info(('Team', 'team'))
+    if not team: team = get_info(('Values', 'team'))
     if not season: season = get_info(('Values', 'season'))
 
     url1 = 'http://data.nba.net/prod/v1/'

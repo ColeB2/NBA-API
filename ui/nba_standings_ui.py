@@ -5,6 +5,7 @@ sys.path.append(os.path.join('.', 'api_functions'))
 from nbastandings import Standings
 from nbateam import TeamInfo
 
+
 class StandingsUI(Widget):
     """A class to represent nba divisional standings
 

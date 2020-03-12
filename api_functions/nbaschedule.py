@@ -32,7 +32,7 @@ class Schedule():
     def __init__(self, season=None, team=None):
         self.season = season if season != None \
                            else get_info(('Values', 'season'))
-        self.team = team if team != None else get_info(('Team', 'team'))
+        self.team = team if team != None else get_info(('Values', 'team'))
 
         self.raw_data = get_schedule_data(season=self.season, team=self.team)
         self._internal = self.raw_data['_internal']

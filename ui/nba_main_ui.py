@@ -71,16 +71,16 @@ class NBA_UI():
     def options(self):
         while True:
             print(f"\nQ: Quit\n1: Standings\n2: Schedule\n"
-                  f"3: BoxScore\n4: Team Leaders \nC: Config Dashboard")
+                  f"3: Team Leaders\nC: Config Dashboard")
             user_input = input()
             if user_input == '1':
                 self.standings_ui()
             elif user_input == '2':
                 self.schedule_ui()
             elif user_input == '3':
-                self.boxscore_ui()
-            elif user_input == '4':
                 self.team_leaders_ui()
+            #elif user_input == '4':
+            #    self.boxscore_ui()
             elif user_input.lower() == 'c':
                 self.config_dashboard_ui()
             elif user_input.lower() == 'q':
@@ -98,18 +98,17 @@ class NBA_UI():
             f"\n3: Division Standings \na: Both Conferences \n")
         user_input = input()
         if user_input == '1':
-            self.ST.display(conference='east')
+            self.ST.display(conference='east', division=None)
         elif user_input == '2':
-            self.ST.display(conference='west')
+            self.ST.display(conference='west', division=None)
         elif user_input == 'a':
-            self.ST.display(conference='east')
-            self.ST.display(conference='west')
+            self.ST.display(conference='east', division=None)
+            self.ST.display(conference='west', division=None)
         elif user_input == '3':
             print(f"Select a division:"
                 f"\n1: Atlantic \n2: Central \n3: SouthEast \n4: Pacific"
                 f"\n5: SouthWest \n6: NorthWest \na: All divisions" )
             user_input = input()
-
             if user_input == '1':
                 self.ST.display(division='atlantic', conference='east')
             elif user_input == '2':

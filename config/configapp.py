@@ -17,12 +17,16 @@ from functions import get_data
 
 class ConfigureApp(object):
 
-    def __init__(self):
+    def __init__(self, team_info_obj=None):
+
+        if team_info_obj:
+            self.TI = team_info_obj
+        else:
+            self.TI = TeamInfo()
+
         self.config_folder = os.path.dirname(os.path.abspath(__file__))
         self.config_path = os.path.join(self.config_folder, 'config.ini')
 
-        self.TI = TeamInfo()
-        #Todo pass TI object to CA object to prevent multiple instances
         self.config = configparser.RawConfigParser()
         self.config.read(self.config_path)
 
@@ -48,6 +52,7 @@ class ConfigureApp(object):
         self.config.set('Values', 'season', self._set_default_season())
         with open(self.config_path, 'w') as configfile:
             self.config.write(configfile)
+
 
     def _team_select(self):
         """Displays all NBA teams, and provides input to chose a team.
@@ -78,12 +83,6 @@ class ConfigureApp(object):
         return str(season)
 
 
-    def set_default_date(self):
-        '''Sets date default date to proper format, done for functions that
-        require a date in the url, and one isn't given'''
-        pass
-
-
     def check_season(self):
         """
         Checks to make sure the season setting is correct, then corrects it
@@ -94,6 +93,9 @@ class ConfigureApp(object):
             self.config.set('Values', 'season', current_season)
             with open(self.config_path, 'w') as configfile:
                 self.config.write(configfile)
+
+    def get_value(self):
+        pass
 
 
 
