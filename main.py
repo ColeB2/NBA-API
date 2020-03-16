@@ -11,11 +11,22 @@ class MainApp(object):
     """A class representation of main app.
     """
     def __init__(self):
+        self.config()
+
         self.UI = NBA_UI()
 
-    def run(self):
-        if get_info(('Default', 'config')) != 'True':
+    def config(self):
+        try:
+            if get_info(('Default', 'config')) != 'True':
+                print(get_info('Default', 'config'))
+                self.UI.config_display()
+        except:
             self.UI.config_display()
+        else:
+            print('All Good')
+
+    def run(self):
+        print('RUN')
         self.UI.run()
 
 

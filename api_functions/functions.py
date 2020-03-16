@@ -29,9 +29,6 @@ def get_date_before(date=None):
     date = str(date_time_obj - datetime.timedelta(days=1))[:10]
     return ''.join(str(date).split('-'))
 
-def get_season_year():
-    pass
-
 
 if __name__ == '__main__':
     print(get_today_date())

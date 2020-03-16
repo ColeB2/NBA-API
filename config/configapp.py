@@ -64,6 +64,7 @@ class ConfigureApp(object):
         with open(self.config_path, 'w') as configfile:
             self.config.write(configfile)
 
+
     def _team_select(self):
         """Displays all NBA teams, and provides input to chose a team.
 
@@ -105,9 +106,6 @@ class ConfigureApp(object):
             self.config.set('Default', 'season', current_season)
             with open(self.config_path, 'w') as configfile:
                 self.config.write(configfile)
-
-    def get_value(self):
-        pass
 
 
 
