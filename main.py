@@ -14,7 +14,7 @@ class MainApp(object):
         self.UI = NBA_UI()
 
     def run(self):
-        if get_info(('Initial Config', 'config')) != 'True':
+        if get_info(('Default', 'config')) != 'True':
             self.UI.config_display()
         self.UI.run()
 

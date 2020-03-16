@@ -18,17 +18,19 @@ from functions import get_data
 class ConfigureApp(object):
 
     def __init__(self, team_info_obj=None):
+        self.config_folder = os.path.dirname(os.path.abspath(__file__))
+        self.config_path = os.path.join(self.config_folder, 'config.ini')
+
+        self.config = configparser.RawConfigParser()
+        if self.config.read(self.config_path) == []:
+            self.create_config()
 
         if team_info_obj:
             self.TI = team_info_obj
         else:
             self.TI = TeamInfo()
 
-        self.config_folder = os.path.dirname(os.path.abspath(__file__))
-        self.config_path = os.path.join(self.config_folder, 'config.ini')
 
-        self.config = configparser.RawConfigParser()
-        self.config.read(self.config_path)
 
     def configure(self):
         self.config_settings()
@@ -36,7 +38,7 @@ class ConfigureApp(object):
         self.check_season()
 
     def config_settings(self):
-        if self.config.get('Initial Config', 'config') != 'True':
+        if self.config.get('Default', 'config') != 'True':
             self.set_presets()
 
 
@@ -47,12 +49,20 @@ class ConfigureApp(object):
         """
         fave_team = self._team_select()
         my_team = self.TI.get_team(fave_team.upper(), id_return='urlName')
-        self.config.set('Values', 'team', str(my_team))
-        self.config.set('Initial Config', 'config', 'True')
-        self.config.set('Values', 'season', self._set_default_season())
+        self.config.set('Default', 'team', str(my_team))
+        self.config.set('Default', 'config', 'True')
+        self.config.set('Default', 'season', self._set_default_season())
         with open(self.config_path, 'w') as configfile:
             self.config.write(configfile)
 
+    def create_config(self):
+        self.config['Default'] = {'config': 'False',
+                             'team': None,
+                             'season': '2019',
+                             'color': 'False',
+                             'standing': 'conference'}
+        with open(self.config_path, 'w') as configfile:
+            self.config.write(configfile)
 
     def _team_select(self):
         """Displays all NBA teams, and provides input to chose a team.
@@ -90,9 +100,9 @@ class ConfigureApp(object):
         Checks to make sure the season setting is correct, then corrects it
         """
         current_season = self._set_default_season()
-        season_check = self.config.get('Values', 'season')
+        season_check = self.config.get('Default', 'season')
         if season_check != current_season:
-            self.config.set('Values', 'season', current_season)
+            self.config.set('Default', 'season', current_season)
             with open(self.config_path, 'w') as configfile:
                 self.config.write(configfile)
 

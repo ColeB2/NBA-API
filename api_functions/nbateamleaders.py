@@ -17,8 +17,8 @@ def get_team_leaders_data(team=None, season=None):
     Returns:
         Dict of raw json data from data.nba.net /leaders.json endpoint
     """
-    if not team: team = get_info(('Values', 'team'))
-    if not season: season = get_info(('Values', 'season'))
+    if not team: team = get_info(('Default', 'team'))
+    if not season: season = get_info(('Default', 'season'))
     if ' ' in team:
         team = team.split(' ')[1]
 

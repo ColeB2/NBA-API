@@ -14,8 +14,8 @@ def get_schedule_data(season=None, team=None):
     Returns:
         Dict of raw json data from data.nba.net.../schedule.json endpoint
     """
-    if not season: season = get_info(('Values', 'season'))
-    if not team: team = get_info(('Team', 'team'))
+    if not season: season = get_info(('Default', 'season'))
+    if not team: team = get_info(('Default', 'team'))
     if ' ' in team:
         team = team.split(' ')[1]
 
@@ -33,8 +33,8 @@ class Schedule():
     """
     def __init__(self, season=None, team=None):
         self.season = season if season != None \
-                           else get_info(('Values', 'season'))
-        self.team = team if team != None else get_info(('Values', 'team'))
+                           else get_info(('Default', 'season'))
+        self.team = team if team != None else get_info(('Default', 'team'))
 
         self.raw_data = get_schedule_data(season=self.season, team=self.team)
         self._internal = self.raw_data['_internal']

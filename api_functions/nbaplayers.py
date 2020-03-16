@@ -14,7 +14,7 @@ def get_player_data(season=None):
     Returns:
         Dict of raw json data from data.nba.net.../players.json endpoint
     """
-    if not season: season = get_info(('Values', 'season'))
+    if not season: season = get_info(('Default', 'season'))
 
     url_start = 'http://data.nba.net/prod/v1/'
     url = str(url_start) + str(season) + '/players.json'

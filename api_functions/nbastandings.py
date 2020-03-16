@@ -83,7 +83,7 @@ class Standings(object):
             team: team url, ie raptors, sixers, for team who division you want
                 to acquire. If none, uses favourite team from config.
         """
-        if not team: team = get_info(('Values', 'team'))
+        if not team: team = get_info(('Default', 'team'))
         return self.TI.get_conf_division(team)
 
 
