@@ -23,7 +23,7 @@ class ScoreBoardUI(Widget):
 
         self.SB = ScoreBoard(date=date)
         self.YSB = ScoreBoard(date=get_date_before(date))
-        
+
 
 
     def display(self, horiz=True):
@@ -155,7 +155,9 @@ class ScoreBoardUI(Widget):
         """
         status_str = str()
         if game_data['isGameActivated'] == False:
-            if game_data['hTeam']['score'] == '' or \
+            if game_data['homeStartTime'] == '':
+                status_str = '~~TBD~~'
+            elif game_data['hTeam']['score'] == '' or \
                game_data['hTeam']['score'] == '0':
                 status_str = self.convert_time(game_data['startTimeUTC'])
             else:
