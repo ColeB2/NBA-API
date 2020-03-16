@@ -36,7 +36,7 @@ class ScoreBoardUI(Widget):
         """
         if horiz:
             self.horizontal_display((self.YSB, self.SB),
-                self.horizontal_display_date)
+                                     self.horizontal_display_date)
         else:
             self.vertical_display()
 

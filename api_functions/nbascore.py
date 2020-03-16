@@ -37,7 +37,7 @@ class ScoreBoard():
 if __name__ == '__main__':
 
     SB = ScoreBoard(date=20200310)
-    #SB = ScoreBoard()
+    SB = ScoreBoard()
     print('-----RAW DATA BREAKDOWN, DICT KEYS---------------------------------')
     print(SB.raw_data.keys())
 
@@ -51,6 +51,7 @@ if __name__ == '__main__':
     print(SB.games)
 
     print(f"Games Keys: {SB.games[0].keys()}")
+    print(SB.games[0])
 
 
     print('Test')
