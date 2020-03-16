@@ -23,7 +23,7 @@ class ScoreBoardUI(Widget):
 
         self.SB = ScoreBoard(date=date)
         self.YSB = ScoreBoard(date=get_date_before(date))
-        self.TSB = ScoreBoard(date='20200317')
+        
 
 
     def display(self, horiz=True):
@@ -36,9 +36,9 @@ class ScoreBoardUI(Widget):
 
         """
         if horiz:
-            self.horizontal_display((self.YSB, self.SB, self.TSB),
+            self.horizontal_display((self.YSB, self.SB),
                                      self.horizontal_display_date,
-                                     extra_args=(self.YSB, self.SB, self.TSB) )
+                                     extra_args=(self.YSB, self.SB))
         else:
             self.vertical_display()
 
@@ -118,12 +118,6 @@ class ScoreBoardUI(Widget):
     def horizontal_display_date(self, data):
         """Calls the methods needed to format the date string before being
         displayed above the league wide scoreboard"""
-        # date_str = ''
-        # if self.YSB.num_games >= 1:
-        #     date_str = self.format_date(self.YSB.date)
-        # date_str = self.format_date_spacing(date_str, self.YSB.games)
-        # if self.SB.num_games >= 1:
-        #     date_str += self.format_date(self.SB.date)
         date_str = ''
         for idx in range(len(data)):
 
