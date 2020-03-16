@@ -34,18 +34,23 @@ class Widget():
             return tabulate(table, tablefmt='psql')
 
 
-    def horizontal_display(self, data, *extra, header=False):
+    def horizontal_display(self, data, *extra, extra_args=None, header=False):
         """Calls appropriate methods to create appropiate table to display
         horiontally across the CLI.
 
         Kwargs:
-            *extra: funcions that can be called before the table gets printed.
+            *extra: funcions that can be called before the table gets printed
+                tuple format, with func in first position(0) and rest of of
+                items as args to the func
         """
         nested_list = self.get_nested_list(data)
         table = self.create_tabulate_table(nested_list, header)
         if extra:
             for func in extra:
-                func()
+                if extra_args:
+                    func(extra_args)
+                else:
+                    func()
         print(table)
 
 
