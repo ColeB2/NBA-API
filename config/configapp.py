@@ -47,7 +47,7 @@ class ConfigureApp(object):
         """
         fave_team = self._team_select()
         my_team = self.TI.get_team(fave_team.upper(), id_return='urlName')
-        self.config.set('Team', 'team', str(my_team))
+        self.config.set('Values', 'team', str(my_team))
         self.config.set('Initial Config', 'config', 'True')
         self.config.set('Values', 'season', self._set_default_season())
         with open(self.config_path, 'w') as configfile:
@@ -60,8 +60,10 @@ class ConfigureApp(object):
         TODO: break up code, separate options and functions to grab team.
         UI method.
         """
+        teams = []
         for team in self.TI.teamsTRI:
             print(team)
+            teams.append(team)
 
         while True:
             print(f"Please input desired teams tricode, ex ORL, PHI, PHX etc:")

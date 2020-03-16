@@ -26,7 +26,6 @@ class NBA_UI():
         init()
         self.TI = TeamInfo()
         self.PI = PlayerInfo()
-        pass
 
 
 
@@ -63,6 +62,7 @@ class NBA_UI():
         self.CA.configure()
         print(f"Loading Dashboard...")
 
+
     def quit(self):
         deinit()
         sys.exit()
@@ -71,7 +71,7 @@ class NBA_UI():
     def options(self):
         while True:
             print(f"\nQ: Quit\n1: Standings\n2: Schedule\n"
-                  f"3: Team Leaders\nC: Config Dashboard")
+                  f"3: Team Leaders\nC: Config Dashboard Options\nD:Dashboard")
             user_input = input()
             if user_input == '1':
                 self.standings_ui()
@@ -79,16 +79,15 @@ class NBA_UI():
                 self.schedule_ui()
             elif user_input == '3':
                 self.team_leaders_ui()
-            #elif user_input == '4':
-            #    self.boxscore_ui()
             elif user_input.lower() == 'c':
                 self.config_dashboard_ui()
+            elif user_input.lower() == 'd':
+                self.dashboard()
             elif user_input.lower() == 'q':
                 self.quit()
 
 
     """Widget UIS. Used to navigate stats."""
-
     def boxscore_ui(self):
         print(f"Select a boxscore to look at.")
 
