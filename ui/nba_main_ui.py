@@ -41,7 +41,7 @@ class NBA_UI():
 
     def run(self, scoreboard=True, boxscore=True, score=True,
             teamleaders=True, standings=True):
-        #self.config_display()
+        self.config_display()
         self.create_widgets()
         self.dashboard(scoreboard, boxscore, score, teamleaders, standings)
 
@@ -59,8 +59,8 @@ class NBA_UI():
 
     def config_display(self):
         print(f"Welcome to PyNBAScore\n")
-        self.CA = ConfigureApp()
         self.CA.configure()
+
         print(f"Loading Dashboard...")
 
 

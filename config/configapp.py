@@ -48,7 +48,7 @@ class ConfigureApp(object):
         fave_team = self._team_select()
         my_team = self.TI.get_team(fave_team.upper(), id_return='urlName')
         self.config.set('Default', 'team', str(my_team))
-        self.config.set('Default', 'config', 'True')
+        self.config.set('Initial Config', 'config', 'True')
         self.config.set('Default', 'season', self._set_default_season())
         with open(self.config_path, 'w') as configfile:
             self.config.write(configfile)
@@ -80,6 +80,8 @@ class ConfigureApp(object):
             team = input()
             if team.upper() in teams:
                 return str(team.upper())
+            elif team.lower() == 'q':
+                sys.exit()
             else:
                 print(f"invalid input, try again.")
 
