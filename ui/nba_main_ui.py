@@ -166,8 +166,26 @@ class NBA_UI():
             TL = TeamLeadersUI(team=team)
             TL.display()
 
+
+    """Configurate Dashboard, and Other Options UI"""
     def config_dashboard_ui(self):
         print(f"Config Dashboard Not Implemented.")
+        print(f"1: Table Styles\n2: Toggle Colors\n3: Dashboard Options")
+        user_input = input()
+        if user_input == '1':
+            #self.table_options_ui()
+            pass
+        elif user_input == '2':
+            print("Color Toggled")
+            self.CA.toggle_color()
+        elif user_input == '3':
+            #self.dashboard_options_ui()
+            pass
+        elif user_input.lower() == 'q:':
+            self.quit()
+        else:
+            self.options()
+
 
 
 

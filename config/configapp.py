@@ -50,6 +50,7 @@ class ConfigureApp(object):
         self.config.set('Default', 'team', str(my_team))
         self.config.set('Initial Config', 'config', 'True')
         self.config.set('Default', 'season', self._set_default_season())
+        self.config.set('Default', 'color', 'False')
         with open(self.config_path, 'w') as configfile:
             self.config.write(configfile)
 
@@ -107,6 +108,19 @@ class ConfigureApp(object):
             self.config.set('Default', 'season', current_season)
             with open(self.config_path, 'w') as configfile:
                 self.config.write(configfile)
+
+    """Change Config Menus"""
+    def toggle_color(self):
+        if self.config.get('Default', 'color') != 'True':
+            print('Color off, turning on')
+            self.config.set('Default', 'color', 'True')
+        else:
+            print('Color Turned On')
+            self.config.set('Default', 'color', 'False')
+        with open(self.config_path, 'w') as configfile:
+            print(self.config_path)
+            print(configfile)
+            self.config.write(configfile)
 
 
 

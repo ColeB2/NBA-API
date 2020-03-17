@@ -5,7 +5,7 @@ from colorama import Fore, Back, Style
 import os, sys
 sys.path.append(os.path.join('.', 'api_functions'))
 from nbascore import ScoreBoard
-from functions import get_date_before
+from functions import get_date_before, get_color
 
 
 
@@ -67,7 +67,7 @@ class ScoreBoardUI(Widget):
         bot_team = []
         for idx in range(len(data)):
             for game in data[idx].games:
-                COLOR = False
+                COLOR = get_color()
                 if COLOR:
                     home, away = self.get_colored_score(game)
                 else:

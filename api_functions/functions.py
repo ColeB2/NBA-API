@@ -57,6 +57,10 @@ def handle_team_url_name(team):
     else:
         return str(team)
 
+def get_color():
+    color = get_info(('Default', 'color'))
+    return color
+
 
 if __name__ == '__main__':
     print(get_today_date())
