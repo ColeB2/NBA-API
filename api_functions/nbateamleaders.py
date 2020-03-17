@@ -1,11 +1,6 @@
-from functions import get_data
+from functions import get_data, get_team, get_season_year, handle_team_url_name
 
-import sys, os
-sys.path.append(os.path.abspath(os.path.join('.', 'config')))
-from getconfiginfo import get_info
 
-MAIN_FIVE_STATS = ['ppg', 'trpg', 'apg', 'bpg', 'spg']
-main_five_stats = []
 
 def get_team_leaders_data(team=None, season=None):
     """Gets raw json data for stat leaders for given team.
@@ -17,12 +12,9 @@ def get_team_leaders_data(team=None, season=None):
     Returns:
         Dict of raw json data from data.nba.net /leaders.json endpoint
     """
-    if not team: team = get_info(('Default', 'team'))
-    if not season: season = get_info(('Default', 'season'))
-    if ' ' in team:
-        team = team.split(' ')[1]
-    elif team == '76ers':
-        team = 'sixers'
+    if not team: team = get_team()
+    team = handle_team_url_name(team)
+    if not season: season = get_season_year()
 
     url1 = 'http://data.nba.net/prod/v1/'
     url_end = '/leaders.json'
@@ -57,6 +49,9 @@ class TeamLeaders(object):
 
         self.leader_keys = ['ppg','trpg','apg','fgp','tpp','ftp','bpg','spg',
             'tpg','pfpg']
+
+        self.MAIN_FIVE_STATS = ['ppg', 'trpg', 'apg', 'bpg', 'spg']
+        self.main_five_stats = []
 
         self.leaders = self.create_dictionary(self.standard, self.leader_keys)
 

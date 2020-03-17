@@ -46,8 +46,16 @@ def get_team():
         team = get_info(('Default', 'team'))
     except:
         print(f"TeamNotFound")
-
     return team
+
+def handle_team_url_name(team):
+    if ' ' in str(team):
+        team = team.split(' ')[1]
+        return team
+    elif team == '76ers':
+        return 'sixers'
+    else:
+        return str(team)
 
 
 if __name__ == '__main__':

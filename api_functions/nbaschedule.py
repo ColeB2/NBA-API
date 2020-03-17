@@ -1,4 +1,5 @@
-from functions import get_data, get_today_date, get_season_year, get_team
+from functions import get_data, get_today_date, get_season_year, get_team, \
+                      handle_team_url_name
 
 
 
@@ -14,10 +15,7 @@ def get_schedule_data(season=None, team=None):
     """
     if not team: season = get_season_year()
     if not team: team = get_team()
-    if ' ' in team:
-        team = team.split(' ')[1]
-    elif team == '76ers':
-        team = 'sixers'
+    team = handle_team_url_name(team)
 
     url_start = 'http://data.nba.net/prod/v1/'
     url = url_start + str(season) + '/teams/' + str(team) + '/schedule.json'
