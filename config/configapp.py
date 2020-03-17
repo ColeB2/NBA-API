@@ -118,9 +118,18 @@ class ConfigureApp(object):
             print('Color Turned On')
             self.config.set('Default', 'color', 'False')
         with open(self.config_path, 'w') as configfile:
-            print(self.config_path)
-            print(configfile)
             self.config.write(configfile)
+
+    def toggle_standings(self):
+        if self.config.get('Default', 'div_stand') == 'conference':
+            self.config.set('Default', 'div_stand', 'division')
+        else:
+            self.config.set('Default', 'div_stand', 'conference')
+
+        with open(self.config_path, 'w') as configfile:
+            self.config.write(configfile)
+
+
 
 
 
