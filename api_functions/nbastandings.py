@@ -2,7 +2,7 @@
 nbadivstandings.py - Contains functions and classes to handle the data from the
 data.nba.net ... standings_division.json, and standings_conference.json
 """
-from functions import get_data
+from functions import get_data, get_team
 from nbateam import TeamInfo
 
 import sys, os
@@ -83,7 +83,7 @@ class Standings(object):
             team: team url, ie raptors, sixers, for team who division you want
                 to acquire. If none, uses favourite team from config.
         """
-        if not team: team = get_info(('Default', 'team'))
+        if not team: team = get_team()
         return self.TI.get_conf_division(team)
 
 

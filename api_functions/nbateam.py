@@ -1,16 +1,4 @@
-'''
-nbateam.py - Acquires NBA team code given either:
-city: Atlanta
-fullName: Chicago Bulls
-tricode: DAL
-nickname: Mavericks
-teamid: 1610612744
-'''
-from functions import get_data
-
-import sys, os
-sys.path.append(os.path.abspath(os.path.join('.', 'config')))
-from getconfiginfo import get_info
+from functions import get_data, get_season_year, get_team
 
 
 
@@ -23,7 +11,7 @@ def get_team_data(season=None):
     Returns:
         Dict of raw json data from data.nba.net.../teams.json endpoint
     """
-    if not season: season = get_info(('Default', 'season'))
+    if not season: season = get_season_year()
     url = 'http://data.nba.net/prod/v2/' + str(season) + '/teams.json'
 
     data = get_data(url)
@@ -50,7 +38,7 @@ class TeamInfo(object):
 
     def get_conf_division(self, team=None, id_option=None):
         if team == None:
-            team = get_info(('Default', 'team'))
+            get_team()
             for teams in self.standard:
                 if teams['urlName'] == team.lower():
                     return (teams['confName'], teams['divName'])

@@ -1,6 +1,6 @@
 import json
 import urllib.request
-from colorama import init, deinit
+import colorama
 
 import os, sys
 sys.path.append(os.path.join('.', 'ui'))
@@ -23,7 +23,8 @@ from nba_standings_ui import StandingsUI
 
 class NBA_UI():
     def __init__(self):
-        init()
+        colorama.init()
+        self.CA = ConfigureApp()
         self.TI = TeamInfo()
         self.PI = PlayerInfo()
 
@@ -40,7 +41,7 @@ class NBA_UI():
 
     def run(self, scoreboard=True, boxscore=True, score=True,
             teamleaders=True, standings=True):
-        self.config_display()
+        #self.config_display()
         self.create_widgets()
         self.dashboard(scoreboard, boxscore, score, teamleaders, standings)
 
@@ -64,14 +65,14 @@ class NBA_UI():
 
 
     def quit(self):
-        deinit()
+        colorama.deinit()
         sys.exit()
 
 
     def options(self):
         while True:
             print(f"\nQ: Quit\n1: Standings\n2: Schedule\n"
-                  f"3: Team Leaders\nC: Config Dashboard Options\nD:Dashboard")
+                  f"3: Team Leaders\nC: Config Options\nD: Dashboard")
             user_input = input()
             if user_input == '1':
                 self.standings_ui()

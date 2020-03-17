@@ -1,6 +1,7 @@
 from functions import get_data, get_today_date
 
 
+
 def get_score_data(date=None):
     """Gets raw json data of all scores on a given date for all teams.
 

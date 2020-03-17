@@ -16,7 +16,6 @@ from functions import get_data
 
 
 class ConfigureApp(object):
-
     def __init__(self, team_info_obj=None):
         self.config_folder = os.path.dirname(os.path.abspath(__file__))
         self.config_path = os.path.join(self.config_folder, 'config.ini')
@@ -31,14 +30,13 @@ class ConfigureApp(object):
             self.TI = TeamInfo()
 
 
-
     def configure(self):
         self.config_settings()
         self._set_default_season()
         self.check_season()
 
     def config_settings(self):
-        if self.config.get('Default', 'config') != 'True':
+        if self.config.get('Initial Config', 'config') != 'True':
             self.set_presets()
 
 
@@ -56,7 +54,8 @@ class ConfigureApp(object):
             self.config.write(configfile)
 
     def create_config(self):
-        self.config['Default'] = {'config': 'False',
+        self.config['Initial Config'] = {'config': 'False'}
+        self.config['Default'] = {
                              'team': None,
                              'season': '2019',
                              'color': 'False',
@@ -106,6 +105,8 @@ class ConfigureApp(object):
             self.config.set('Default', 'season', current_season)
             with open(self.config_path, 'w') as configfile:
                 self.config.write(configfile)
+
+
 
 
 

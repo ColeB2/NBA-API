@@ -2,6 +2,10 @@ import json
 import urllib.request
 import datetime
 
+import sys, os
+sys.path.append(os.path.abspath(os.path.join('.', 'config')))
+from getconfiginfo import get_info
+
 
 def get_data(url):
     """
@@ -28,6 +32,22 @@ def get_date_before(date=None):
     date_time_obj = datetime.datetime.strptime(date, '%Y%m%d')
     date = str(date_time_obj - datetime.timedelta(days=1))[:10]
     return ''.join(str(date).split('-'))
+
+def get_season_year():
+    try:
+        season = get_info(('Default', 'season'))
+    except:
+        data = get_data("https://data.nba.net/10s/prod/v1/today.json")
+        season = data['teamSitesOnly']['seasonYear']
+    return season
+
+def get_team():
+    try:
+        team = get_info(('Default', 'team'))
+    except:
+        print(f"TeamNotFound")
+
+    return team
 
 
 if __name__ == '__main__':

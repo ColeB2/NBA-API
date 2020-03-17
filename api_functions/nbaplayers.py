@@ -1,8 +1,6 @@
-from functions import get_data
+from functions import get_data, get_season_year
 
-import sys, os
-sys.path.append(os.path.abspath(os.path.join('.', 'config')))
-from getconfiginfo import get_info
+
 
 def get_player_data(season=None):
     """Gets raw json data for all players
@@ -14,7 +12,7 @@ def get_player_data(season=None):
     Returns:
         Dict of raw json data from data.nba.net.../players.json endpoint
     """
-    if not season: season = get_info(('Default', 'season'))
+    if not season: season = get_season_year()
 
     url_start = 'http://data.nba.net/prod/v1/'
     url = str(url_start) + str(season) + '/players.json'

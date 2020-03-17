@@ -1,8 +1,6 @@
-from functions import get_data, get_today_date
+from functions import get_data, get_today_date, get_season_year, get_team
 
-import sys, os
-sys.path.append(os.path.abspath(os.path.join('.', 'config')))
-from getconfiginfo import get_info
+
 
 def get_schedule_data(season=None, team=None):
     """Gets raw json data of given team schedule for given season.
@@ -14,8 +12,8 @@ def get_schedule_data(season=None, team=None):
     Returns:
         Dict of raw json data from data.nba.net.../schedule.json endpoint
     """
-    if not season: season = get_info(('Default', 'season'))
-    if not team: team = get_info(('Default', 'team'))
+    if not team: season = get_season_year()
+    if not team: team = get_team()
     if ' ' in team:
         team = team.split(' ')[1]
     elif team == '76ers':
@@ -35,8 +33,8 @@ class Schedule():
     """
     def __init__(self, season=None, team=None):
         self.season = season if season != None \
-                           else get_info(('Default', 'season'))
-        self.team = team if team != None else get_info(('Default', 'team'))
+                           else get_season_year()
+        self.team = team if team != None else get_team()
 
         self.raw_data = get_schedule_data(season=self.season, team=self.team)
         self._internal = self.raw_data['_internal']
