@@ -5,9 +5,7 @@ data.nba.net ... standings_division.json, and standings_conference.json
 from functions import get_data, get_team
 from nbateam import TeamInfo
 
-import sys, os
-sys.path.append(os.path.abspath(os.path.join('.', 'config')))
-from getconfiginfo import get_info
+
 
 def get_standings_data(division=False):
     """Gets raw json data for leagues division/conference standings based on
@@ -42,13 +40,16 @@ class Standings(object):
 
     """
     def __init__(self, div_stand=False, division=None, conference=None,
-                team=None):
+                team=None, team_info_obj=None):
         self.div_stand = div_stand
         self.div = division
         self.conf = conference
         self.team = team
 
-        self.TI = TeamInfo()
+        if team_info_obj == None:
+            self.TI = TeamInfo()
+        else:
+            self.TI = team_info_obj
 
         self.raw_data = get_standings_data(division=self.div_stand)
 

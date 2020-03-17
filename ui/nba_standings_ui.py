@@ -15,13 +15,14 @@ class StandingsUI(Widget):
     def __init__(self, division=None, conference=None, div_stand=False,
                 team_info_obj=None):
 
-        self.S = Standings(div_stand=div_stand, division=division,
-                conference=conference)
-        self.DS = None
         if team_info_obj:
             self.TI = team_info_obj
         else:
             self.TI = TeamInfo()
+
+        self.S = Standings(div_stand=div_stand, division=division,
+                conference=conference, team_info_obj=self.TI)
+        self.DS = None
 
         self.standing_headers = [
         'Team','W','L','PCT','GB','HOME','AWAY', 'DIV',
