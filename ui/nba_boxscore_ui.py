@@ -4,6 +4,7 @@ import pyfiglet
 import os, sys
 sys.path.append(os.path.join('.', 'api_functions'))
 from nbagameboxscore import BoxScore
+from functions import get_full_name
 
 
 
@@ -30,6 +31,8 @@ class BoxScoreUI(Widget):
         self.separator = [ f"==", f"========================", f"=====",
         f"======", f"======", f"======", f"===",f"===",f"===", f"===", f"===",
         f"===", f"===", f"===", f"===", f"===" ]
+
+
 
 
     def display(self, horiz=True):
@@ -69,14 +72,19 @@ class BoxScoreUI(Widget):
         """Stat Header"""
         nested_list.append(self.boxscore_headers)
 
+        NAMES = get_full_name()
         """Player Stats"""
         for player in data[0]:
             player_list = []
             for item in self.data_headers:
                 if type(item) is tuple:
                     if item[0] == 'firstName':
-                        player_list.append(f"{player[item[0]]} "\
-                                           f"{player[item[1]]}")
+                        if NAMES == 'True':
+                            player_list.append(f"{player[item[0]]} "\
+                                               f"{player[item[1]]}")
+                        else:
+                            player_list.append(f"{player[item[0]][0:1]}. "\
+                                               f"{player[item[1]]}")
                     else:
                         player_list.append(f"{player[item[0]]}-"
                                            f"{player[item[1]]}")

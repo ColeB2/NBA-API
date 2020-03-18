@@ -72,6 +72,7 @@ class Widget():
 
 
     """VERTICAL DISPLAY METHODS"""
+
     """UTILITY METHODS"""
     def convert_time(self, utc_time):
         """converts UTC timezone string to local time zone string.
@@ -107,6 +108,9 @@ class Widget():
         date_str = calendar.month_abbr[int(date[4:6])] + \
             '/' + date[6:] + '/' + date[2:4]
         return date_str
+
+    def get_full_name(self):
+        pass
 
 
 

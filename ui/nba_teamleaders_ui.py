@@ -4,6 +4,7 @@ import os, sys
 sys.path.append(os.path.join('.', 'api_functions'))
 from nbateamleaders import TeamLeaders
 from nbaplayers import PlayerInfo
+from functions import get_full_name
 
 class TeamLeadersUI(Widget):
     """A class to represent an NBA team's team leaders.
@@ -52,21 +53,28 @@ class TeamLeadersUI(Widget):
         leaders = []
         headers = []
 
+        NAMES = get_full_name()
+        print(NAMES)
         for key, value in data.leaders.items():
             if key in self.data_headers:
                 idx = int(self.data_headers.index(key))
-                if type(value) is list:
+
+                if type(value) is list: ##2+ stat leaders
                     header = f"{self.headers[idx]}: {value[0]['value']}"
                     leader = f""
                     for player in value:
                         first, last = self.PI.get_player_name(player['personId'])
+                        if NAMES == 'False':
+                            first = f"{first[0:1]}."
                         if player == value[-1]:
                             leader += f"{first} {last}"
                         else:
                             leader += f"{first} {last}/"
-                else:
+                else: #single stat leader
                     header = f"{self.headers[idx]}: {value['value']}"
                     first, last = self.PI.get_player_name(value['personId'])
+                    if NAMES == 'False':
+                        first = f"{first[0:1]}."
                     leader = f"{first} {last}"
 
                 headers.append(header)

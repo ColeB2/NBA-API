@@ -61,6 +61,10 @@ def get_color():
     color = get_info(('Default', 'color'))
     return color
 
+def get_full_name():
+    name = get_info(('Default', 'full_names_players'))
+    return name
+
 
 if __name__ == '__main__':
     print(get_today_date())

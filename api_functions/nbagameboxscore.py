@@ -59,6 +59,7 @@ class BoxScore(object):
     def __init__(self, date=None, gameId=None, schedule_obj=None):
         self.date = date
         self.gameId = gameId
+    
 
         self.raw_data = get_boxscore_data(date=self.date, gameId=self.gameId,
             schedule_obj=schedule_obj)
