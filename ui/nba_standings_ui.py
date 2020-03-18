@@ -10,19 +10,36 @@ class StandingsUI(Widget):
     """A class to represent nba divisional standings
 
     Attributes:
+        division: division wanted to search for, can look up if unknown
+        conference: conference the division wanted is located in, can look up.
+        div_stand: Choice to search division or conference endpoint.
+        team_info_obj: TeamInfo Class object, used to prevent making multiple
+            instances.
+
+        S: Standings object, used to hold information for conference standings.
+        DS: Standings object, used to hold information for division standings.
 
     """
     def __init__(self, division=None, conference=None, div_stand=False,
                 team_info_obj=None):
+
+        self.div_stand = div_stand
 
         if team_info_obj:
             self.TI = team_info_obj
         else:
             self.TI = TeamInfo()
 
-        self.S = Standings(div_stand=div_stand, division=division,
-                conference=conference, team_info_obj=self.TI)
+        self.S = None
         self.DS = None
+
+        if self.div_stand == 'conference':
+            self.S = Standings(div_stand=div_stand, division=division,
+                    conference=conference, team_info_obj=self.TI)
+        elif self.div_stand == 'division':
+            self.DS = Standings(div_stand=div_stand, division=division,
+                    conference=conference, team_info_obj=self.TI)
+
 
         self.standing_headers = [
         'Team','W','L','PCT','GB','HOME','AWAY', 'DIV',
@@ -31,20 +48,35 @@ class StandingsUI(Widget):
         self.games_back = 'divGamesBehind' if div_stand else 'gamesBehind'
 
 
-    def display(self, conference=None, division=None):
-        if not conference and not division:
+    def display(self, div_stand=None, conference=None, division=None):
+        if not div_stand: div_stand = self.div_stand
+        if division: div_stand = 'division'
+
+        if div_stand == 'conference':
+            if not self.S:
+                self.S = Standings(div_stand='conference', division=division,
+                        conference=conference)
             self.games_back = 'gamesBehind'
-            self.standing_data = self.S.get_standing_data()
-        elif conference and not division:
-            self.games_back = 'gamesBehind'
-            self.standing_data = self.S.conference[conference]
-        elif division and conference:
-            self.games_back = 'divGamesBehind'
+
+            if not conference and not division: #No info on conf or div
+                self.standing_data = self.S.get_standing_data()
+            elif conference and not division: #know conf but not div
+                self.standing_data = self.S.conference[conference]
+
+        elif div_stand == 'division':
             if not self.DS:
-                self.DS = Standings(div_stand=True, division=division,
-                    conference=conference)
-                self.standing_data = self.DS.get_standing_data()
+                self.DS = Standings(div_stand='division', division=division,
+                        conference=conference)
+            self.games_back = 'divGamesBehind'
+
+            if not division and not conference:
+                print('THAT ONE')
+                conference, division = self.DS._get_conf_division()
+                self.standing_data = self.DS.conference[conference.lower()]\
+                                                       [division.lower()]
+            
             else:
+                print('THIS ONE')
                 self.standing_data = self.DS.conference[conference][division]
 
         self.create_standing_data_keys()

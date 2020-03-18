@@ -38,7 +38,7 @@ class TeamInfo(object):
 
     def get_conf_division(self, team=None, id_option=None):
         if team == None:
-            get_team()
+            team = get_team()
             for teams in self.standard:
                 if teams['urlName'] == team.lower():
                     return (teams['confName'], teams['divName'])
@@ -49,7 +49,7 @@ class TeamInfo(object):
                 if teams['urlName'] == team['urlName']:
                     return (teams['confName'], teams['divName'])
 
-        elif team != None and id_option!= None:
+        elif team != None and id_option != None:
             team = self.get_team(team, id_option='urlName', id_return='urlName')
 
         print('Could not find division')

@@ -19,9 +19,9 @@ def get_standings_data(division=False):
         Dict of raw json data from data.nba.net.../standings_XXX.json endpoint
             XXX is either division or conference.
     """
-    standing = 'division' if division else 'conference'
+    if not division: division = 'conference'
 
-    url = f"https://data.nba.net/prod/v1/current/standings_{standing}.json"
+    url = f"https://data.nba.net/prod/v1/current/standings_{division}.json"
 
     data = get_data(url)
     return data
@@ -36,6 +36,7 @@ class Standings(object):
         conference endpoint. True = Division, False = Conference.
         div: String, corrosponding to the division of data wanted
         conf: String, corrosponding to the conference of data wanted
+        team: String, corrosponding to the team of data wanted
 
 
     """
@@ -63,7 +64,7 @@ class Standings(object):
 
 
     def get_standing_data(self):
-        """Method used to get approrriate data for main dashboard widget.
+        """Method used to get appropriate data for main dashboard widget.
         """
         if self.div and self.conf:
             return self.conference[self.conf.lower()][self.div.lower()]
@@ -71,9 +72,9 @@ class Standings(object):
             return self.conference[self.conf.lower()]
         else:
             data = self._get_conf_division(self.team)
-            if self.div_stand:
+            if self.div_stand == 'division':
                 return self.conference[data[0].lower()][data[1].lower()]
-            else:
+            elif self.div_stand =='conference':
                 return self.conference[data[0].lower()]
 
 
@@ -92,7 +93,7 @@ class Standings(object):
 
 if __name__ == '__main__':
     print('DIVISION STANDINGS')
-    DS = Standings(div_stand=True)
+    DS = Standings(div_stand='division')
     print(f"-----raw_data breakdown---------------------\n{DS.raw_data.keys()}")
     print(f"-----_internal-----------------------------\n{DS._internal.keys()}")
     print(f"-----league-----------------------------------\n{DS.league.keys()}")

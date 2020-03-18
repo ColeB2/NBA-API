@@ -36,7 +36,8 @@ class NBA_UI():
         self.S = ScheduleUI(next=True, last=True, full=False)
         #add to display
         self.TL = TeamLeadersUI(player_info_obj=self.PI)
-        self.ST = StandingsUI(team_info_obj=self.TI)
+        self.ST = StandingsUI(div_stand=get_info(('Default', 'div_stand')),
+                              team_info_obj=self.TI)
 
 
     def run(self, scoreboard=True, boxscore=True, score=True,
@@ -53,7 +54,7 @@ class NBA_UI():
         if boxscore: self.B.display()
         if score: self.S.display()
         if teamleaders: self.TL.display()
-        if standings: self.ST.display()
+        if standings: self.ST.display(div_stand=get_info(('Default', 'div_stand')))
         self.options()
 
 
@@ -98,12 +99,12 @@ class NBA_UI():
             f"\n3: Division Standings \na: Both Conferences \n")
         user_input = input()
         if user_input == '1':
-            self.ST.display(conference='east', division=None)
+            self.ST.display(conference='east', div_stand='conference')
         elif user_input == '2':
-            self.ST.display(conference='west', division=None)
+            self.ST.display(conference='west', div_stand='conference')
         elif user_input == 'a':
-            self.ST.display(conference='east', division=None)
-            self.ST.display(conference='west', division=None)
+            self.ST.display(conference='east', div_stand='conference')
+            self.ST.display(conference='west', div_stand='conference')
         elif user_input == '3':
             print(f"Select a division:"
                 f"\n1: Atlantic \n2: Central \n3: SouthEast \n4: Pacific"
@@ -179,12 +180,19 @@ class NBA_UI():
             print("Color Toggled")
             self.CA.toggle_color()
         elif user_input == '3':
-            #self.dashboard_options_ui()
-            pass
+            self.dashboard_options_ui()
         elif user_input.lower() == 'q:':
             self.quit()
         else:
             self.options()
+
+    def dashboard_options_ui(self):
+        print(f"1: Toggle Conference/Division Standings\n")
+
+        user_input = input()
+        if user_input == '1':
+            self.CA.toggle_standings()
+
 
 
 
