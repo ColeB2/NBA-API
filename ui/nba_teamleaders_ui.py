@@ -54,7 +54,6 @@ class TeamLeadersUI(Widget):
         headers = []
 
         NAMES = get_full_name()
-        print(NAMES)
         for key, value in data.leaders.items():
             if key in self.data_headers:
                 idx = int(self.data_headers.index(key))

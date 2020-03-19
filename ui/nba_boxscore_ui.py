@@ -28,7 +28,13 @@ class BoxScoreUI(Widget):
          'totReb', 'assists', 'steals', 'blocks', 'turnovers', 'pFouls',
          'plusMinus', 'points']
 
-        self.separator = [ f"==", f"========================", f"=====",
+        self.name_sep1 = f"===================="
+        self.name_sep2 = f"--------------------"
+        if get_full_name() == 'True':
+            self.name_sep1 = f"========================"
+            self.name_sep2 = f"------------------------"
+
+        self.separator = [ f"==", f"{self.name_sep1}", f"=====",
         f"======", f"======", f"======", f"===",f"===",f"===", f"===", f"===",
         f"===", f"===", f"===", f"===", f"===" ]
 
@@ -94,9 +100,26 @@ class BoxScoreUI(Widget):
 
         """Team Totals"""
         totals = self.get_totals(data[1])
-        nested_list.extend([self.separator, totals])
+        separator = self.create_separator('=')
+        nested_list.extend([separator, totals])
 
         return nested_list
+
+    def create_separator(self, char):
+        name = self.create_name_separator(char)
+
+        separator = [ f"==", f"{name}", f"=====",
+        f"======", f"======", f"======", f"===",f"===",f"===", f"===", f"===",
+        f"===", f"===", f"===", f"===", f"===" ]
+
+        return separator
+
+    def create_name_separator(self, char):
+        length = 20
+        if get_full_name() == 'True':
+            length = 24
+
+        return f"{int(length)*str(char)}"
 
 
     def get_nested_list(self, data):
@@ -111,8 +134,9 @@ class BoxScoreUI(Widget):
         Args:
             team_totals: dict of given teams totals for the game.
         """
+        name_sep = self.create_name_separator('-')
         totals = [
-            f"--", f"------------------------", f"{team_totals['min']}",
+            f"--", f"{name_sep}", f"{team_totals['min']}",
             f"{team_totals['fgm']}-{team_totals['fga']}",
             f"{team_totals['tpm']}-{team_totals['tpa']}",
             f"{team_totals['ftm']}-{team_totals['fta']}",
