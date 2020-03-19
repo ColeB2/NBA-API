@@ -129,6 +129,14 @@ class ConfigureApp(object):
         with open(self.config_path, 'w') as configfile:
             self.config.write(configfile)
 
+    def toggle_full_name(self):
+        if self.config.get('Default', 'full_names_players') == 'True':
+            self.config.set('Default', 'full_names_players', 'False')
+        else:
+            self.config.set('Default', 'full_names_players', 'True')
+        with open(self.config_path, 'w') as configfile:
+            self.config.write(configfile)
+
 
 
 

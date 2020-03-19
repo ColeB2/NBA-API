@@ -28,16 +28,9 @@ class BoxScoreUI(Widget):
          'totReb', 'assists', 'steals', 'blocks', 'turnovers', 'pFouls',
          'plusMinus', 'points']
 
-        self.name_sep1 = f"===================="
-        self.name_sep2 = f"--------------------"
-        if get_full_name() == 'True':
-            self.name_sep1 = f"========================"
-            self.name_sep2 = f"------------------------"
 
-        self.separator = [ f"==", f"{self.name_sep1}", f"=====",
-        f"======", f"======", f"======", f"===",f"===",f"===", f"===", f"===",
-        f"===", f"===", f"===", f"===", f"===" ]
-
+        self.boxscore_headersSM = []
+        self.data_headersSM = []
 
 
 
