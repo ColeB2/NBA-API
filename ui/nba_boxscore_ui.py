@@ -29,10 +29,6 @@ class BoxScoreUI(Widget):
          'plusMinus', 'points']
 
 
-        self.boxscore_headersSM = []
-        self.data_headersSM = []
-
-
 
     def display(self, horiz=True):
         """Prints the score and boxscore of the game to the console.
@@ -69,21 +65,26 @@ class BoxScoreUI(Widget):
         """
         nested_list = []
         """Stat Header"""
+        boxscore_headers, data_headers = self.set_data_headers(small='False')
+        self.boxscore_headers = boxscore_headers
+        self.data_headers = data_headers
         nested_list.append(self.boxscore_headers)
 
         NAMES = get_full_name()
+
         """Player Stats"""
         for player in data[0]:
             player_list = []
             for item in self.data_headers:
                 if type(item) is tuple:
                     if item[0] == 'firstName':
-                        if NAMES == 'True':
-                            player_list.append(f"{player[item[0]]} "\
-                                               f"{player[item[1]]}")
-                        else:
-                            player_list.append(f"{player[item[0]][0:1]}. "\
-                                               f"{player[item[1]]}")
+                        first, last = f"{player['firstName']} ",\
+                                      f"{player['lastName']}"
+                        if NAMES == 'False':
+                            first = f"{first[0:1]}."
+
+                        player_list.append(f"{first} {last}")
+
                     else:
                         player_list.append(f"{player[item[0]]}-"
                                            f"{player[item[1]]}")
@@ -93,13 +94,13 @@ class BoxScoreUI(Widget):
 
         """Team Totals"""
         totals = self.get_totals(data[1])
-        separator = self.create_separator('=')
+        separator = self.create_separator('=', 19)
         nested_list.extend([separator, totals])
 
         return nested_list
 
-    def create_separator(self, char):
-        name = self.create_name_separator(char)
+    def create_separator(self, char, len_longest_name=19):
+        name = self.create_name_separator(char, len_longest_name)
 
         separator = [ f"==", f"{name}", f"=====",
         f"======", f"======", f"======", f"===",f"===",f"===", f"===", f"===",
@@ -107,12 +108,39 @@ class BoxScoreUI(Widget):
 
         return separator
 
-    def create_name_separator(self, char):
-        length = 20
+    def create_name_separator(self, char, len_longest_name):
         if get_full_name() == 'True':
-            length = 24
+            len_longest_name = 24
+        return f"{int(len_longest_name)*str(char)}"
 
-        return f"{int(length)*str(char)}"
+    def set_data_headers(self, small='True'):
+        if small == 'True':
+            boxscore_headers =  ['Name', 'TR', 'AST', 'STL', 'BLK', 'PTS']
+            data_headers = [('firstName', 'lastName'), 'totReb', 'assists',
+                                  'steals', 'blocks', 'points']
+        else:
+            boxscore_headers = ['NO', 'Name', 'MIN', 'FG', '3PT', 'FT','OR',
+              'DR', 'TR', 'AST', 'STL', 'BLK', 'TOV', 'PF',  '+/-', 'PTS']
+            data_headers = ['jersey', ('firstName', 'lastName'), 'min',
+             ('fgm', 'fga'), ('tpm', 'tpa'), ('ftm', 'fta'), 'offReb', 'defReb',
+             'totReb', 'assists', 'steals', 'blocks', 'turnovers', 'pFouls',
+             'plusMinus', 'points']
+
+        return boxscore_headers, data_headers
+
+    def create_name_str(self, player_name_info, idx):
+        print(f"player_name_info, idx {player_name_info} {idx}")
+        player_name = f""
+        for name in player_name_info:
+            if name == idx[0]:
+                print(name + idx[0])
+                player_name += f"{player_name_info[idx[0]]} "
+            else:
+                player_name += f"{player_name_info[idx[1]]}"
+
+        print(player_name)
+        return player_name
+
 
 
     def get_nested_list(self, data):
@@ -127,7 +155,7 @@ class BoxScoreUI(Widget):
         Args:
             team_totals: dict of given teams totals for the game.
         """
-        name_sep = self.create_name_separator('-')
+        name_sep = self.create_name_separator('-', len_longest_name=19)
         totals = [
             f"--", f"{name_sep}", f"{team_totals['min']}",
             f"{team_totals['fgm']}-{team_totals['fga']}",
