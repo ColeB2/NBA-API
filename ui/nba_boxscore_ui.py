@@ -68,6 +68,7 @@ class BoxScoreUI(Widget):
         boxscore_headers, data_headers = self.set_data_headers(small='False')
         self.boxscore_headers = boxscore_headers
         self.data_headers = data_headers
+
         nested_list.append(self.boxscore_headers)
 
         NAMES = get_full_name()
@@ -113,6 +114,41 @@ class BoxScoreUI(Widget):
             len_longest_name = 24
         return f"{int(len_longest_name)*str(char)}"
 
+    def create_name_separator(self, char, len_longest_name):
+        self.get_longest_name()
+        if get_full_name() == 'True':
+            len_longest_name = 24
+        return f"{int(len_longest_name)*str(char)}"
+
+    def get_longest_name(self):
+        """TODO:
+        FIX, IMPROVE, IMPLMENT"""
+        self.player_names = []
+        if get_full_name() == 'True':
+            for player in self.B.hTeam_player_stats:
+                name = f"{player['firstName']} {player['lastName']}"
+                self.player_names.append(name)
+            for player in self.B.vTeam_player_stats:
+                name = f"{player['firstName']} {player['lastName']}"
+                self.player_names.append(name)
+        else:
+            for player in self.B.hTeam_player_stats:
+                name = f"{player['firstName'][0:1]}. {player['lastName']}"
+                self.player_names.append(name)
+            for player in self.B.vTeam_player_stats:
+                name = f"{player['firstName'][0:1]}. {player['lastName']}"
+                self.player_names.append(name)
+        print(self.player_names)
+        longest_name = int()
+        for player in self.player_names:
+            if len(player) > longest_name:
+                longest_name = len(player)
+        print(longest_name)
+
+
+
+
+
     def set_data_headers(self, small='True'):
         if small == 'True':
             boxscore_headers =  ['Name', 'TR', 'AST', 'STL', 'BLK', 'PTS']
@@ -127,20 +163,6 @@ class BoxScoreUI(Widget):
              'plusMinus', 'points']
 
         return boxscore_headers, data_headers
-
-    def create_name_str(self, player_name_info, idx):
-        print(f"player_name_info, idx {player_name_info} {idx}")
-        player_name = f""
-        for name in player_name_info:
-            if name == idx[0]:
-                print(name + idx[0])
-                player_name += f"{player_name_info[idx[0]]} "
-            else:
-                player_name += f"{player_name_info[idx[1]]}"
-
-        print(player_name)
-        return player_name
-
 
 
     def get_nested_list(self, data):
