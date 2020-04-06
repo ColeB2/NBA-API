@@ -4,7 +4,7 @@ import datetime
 
 import sys, os
 sys.path.append(os.path.abspath(os.path.join('.', 'config')))
-from getconfiginfo import get_info
+from getconfiginfo import get_info, quick_config_reset, ConfigError
 
 
 def get_data(url):
@@ -23,11 +23,13 @@ def get_data(url):
     return data
 
 def get_today_date():
-    """Gets todays date and formats it for api function use."""
+    """Gets todays date and formats it as a string for api function use in the
+        YYYYMMDD format."""
     return ''.join(str(datetime.date.today()).split('-'))
 
 def get_date_before(date=None):
-    """Gets the date before given date"""
+    """Gets the date 1 day before given date and formats it as a string in the
+        YYYYMMDD format"""
     if not date: date = get_today_date()
     date_time_obj = datetime.datetime.strptime(date, '%Y%m%d')
     date = str(date_time_obj - datetime.timedelta(days=1))[:10]
@@ -44,8 +46,11 @@ def get_season_year():
 def get_team():
     try:
         team = get_info(('Default', 'team'))
+        if team == 'None':
+            raise ConfigError
     except:
-        print(f"TeamNotFound")
+        print(f"Reseting config info, re open app")
+        quick_config_reset()
     return team
 
 def handle_team_url_name(team):
