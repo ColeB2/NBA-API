@@ -5,7 +5,6 @@ from functions import get_data, get_today_date, get_date_before,\
     get_season_year, get_team, handle_team_url_name, get_color, get_full_name
 
 import datetime
-
 import unittest
 
 class TestApiFucntions(unittest.TestCase):
