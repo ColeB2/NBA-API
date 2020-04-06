@@ -138,12 +138,10 @@ class BoxScoreUI(Widget):
             for player in self.B.vTeam_player_stats:
                 name = f"{player['firstName'][0:1]}. {player['lastName']}"
                 self.player_names.append(name)
-        print(self.player_names)
         longest_name = int()
         for player in self.player_names:
             if len(player) > longest_name:
                 longest_name = len(player)
-        print(longest_name)
 
 
 
