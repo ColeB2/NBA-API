@@ -12,11 +12,11 @@ class TestApiFucntions(unittest.TestCase):
     """unit test to test funtions found in functions.py"""
 
     def test_get_data_function(self):
-        """Tests the get_data funtion to assure it returns a dictionary of data,
-        with one of the keys being the _internal key."""
+        """Tests the get_data funtion to assure it returns a dictionary,
+            with one of the keys being the _internal key."""
         url = f"http://data.nba.net/10s/prod/v1/today.json"
         data = get_data(url)
-        self.assertNotEqual(len(data.keys()), 0)
+        self.assertIsNotNone(data)
         self.assertIn("_internal", data.keys())
 
     def test_date_functions(self):
@@ -35,9 +35,19 @@ class TestApiFucntions(unittest.TestCase):
         self.assertEqual(today[6:], day)
         self.assertEqual(get_date_before("20120319"), "20120318")
 
-    def test_get_team(self):
-        """Tests get_team function to assert that it gets a team value"""
-        print(get_team())
+    def test_handle_team_url_name(self):
+        """Tests to assure return value for outlier teams are what they need to
+             be. ie trail blazers --> blazera and 76ers --> sixers """
+        self.assertEqual(handle_team_url_name('trail blazers'), 'blazers')
+        self.assertEqual(handle_team_url_name('76ers'), 'sixers')
+
+    def test_get_functions(self):
+        """Tests various get functions to assure they don't return nothing/empty
+            stringss"""
+        self.assertIsNotNone(get_color())
+        self.assertIsNotNone(get_full_name())
+        self.assertIsNotNone(get_team())
+        self.assertIsNotNone(get_season_year())
 
 
 
