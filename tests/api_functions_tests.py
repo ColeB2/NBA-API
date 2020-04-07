@@ -1,5 +1,6 @@
 import sys, os
 sys.path.append(os.path.abspath(os.path.join('.', 'api_functions')))
+sys.path.append(os.path.abspath(os.path.join('..', 'api_functions')))
 
 from functions import get_data, get_today_date, get_date_before,\
     get_season_year, get_team, handle_team_url_name, get_color, get_full_name

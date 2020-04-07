@@ -4,6 +4,7 @@ import datetime
 
 import sys, os
 sys.path.append(os.path.abspath(os.path.join('.', 'config')))
+sys.path.append(os.path.abspath(os.path.join('..', 'config')))
 from getconfiginfo import get_info, quick_config_reset, ConfigError
 
 
