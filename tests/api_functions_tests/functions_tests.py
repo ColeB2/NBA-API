@@ -8,6 +8,7 @@ from functions import get_data, get_today_date, get_date_before,\
 import datetime
 import unittest
 
+
 class TestApiFucntions(unittest.TestCase):
     """unit test to test funtions found in functions.py"""
 
@@ -48,7 +49,6 @@ class TestApiFucntions(unittest.TestCase):
         self.assertIsNotNone(get_full_name())
         self.assertIsNotNone(get_team())
         self.assertIsNotNone(get_season_year())
-
 
 
 if __name__ == '__main__':
