@@ -16,6 +16,13 @@ def get_boxscore_data(date=None, gameId=None, schedule_obj=None):
     Returns:
         Dict of raw json data from the data.nba.net _boxscore.json endpoint
     """
+    "TODO: clean up reused code below"
+    if date and not gameId:
+        if schedule_obj:
+            gameId = schedule_obj.get_gameId(date=date)
+        else:
+            gameId, date = S().get_gameId(date=date)
+
     if not date or not gameId:
         if schedule_obj:
             gameId, date = schedule_obj.last_game_id_date
@@ -59,7 +66,7 @@ class BoxScore(object):
     def __init__(self, date=None, gameId=None, schedule_obj=None):
         self.date = date
         self.gameId = gameId
-    
+
 
         self.raw_data = get_boxscore_data(date=self.date, gameId=self.gameId,
             schedule_obj=schedule_obj)
