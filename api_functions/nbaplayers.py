@@ -26,8 +26,9 @@ class PlayerInfo(object):
     Attributes:
     """
 
-    def __init__(self):
-        self.raw_data = get_player_data()
+    def __init__(self, season=None):
+        self.season = season
+        self.raw_data = get_player_data(self.season)
         self._internal = self.raw_data['_internal']
 
         self.league = self.raw_data['league']
