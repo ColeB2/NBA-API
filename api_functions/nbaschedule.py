@@ -86,7 +86,7 @@ class Schedule():
         games = []
         for game in range(last_game, last_game+(dir*x), dir):
             try:
-                self.standard(game)
+                self.standard[game]
                 games.append(game)
             except IndexError:
                 pass
