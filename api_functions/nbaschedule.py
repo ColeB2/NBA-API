@@ -85,7 +85,8 @@ class Schedule():
         if not prev_game: last_game += dir
         games = []
         for game in range(last_game, last_game+(dir*x), dir):
-            games.append(game)
+            if int(game) <= int(len(self.standard)):
+                games.append(game)
         return games
 
 if __name__ == '__main__':
@@ -124,6 +125,9 @@ if __name__ == '__main__':
 
     print('\n-----LastGame----------------------------------------------------')
     print(S.last_game)
+    print(S.last_game_idx)
+    #TODO handle returning of index out of range.
+    #print(S.standard[111])
     print(S.get_x_games())
 
     print(Schedule(team='hawks').last_game)

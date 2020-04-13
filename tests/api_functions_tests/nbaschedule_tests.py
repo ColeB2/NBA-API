@@ -38,7 +38,8 @@ class TestSchedule(unittest.TestCase):
         self.assertEqual(gameId, '0021800415')
 
     def test_get_x_games(self):
-        """Tests for get_x_games method for Schedule Object"""
+        """Tests get_x_games method for Schedule Object to assure it returns
+            the correct index values"""
         next_info = self.S.get_x_games()
         self.assertEqual(next_info, [110,111,112,113,114])
         prev_info = self.S.get_x_games(x=3, next=False, prev_game=False)
