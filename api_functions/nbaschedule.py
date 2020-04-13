@@ -85,8 +85,11 @@ class Schedule():
         if not prev_game: last_game += dir
         games = []
         for game in range(last_game, last_game+(dir*x), dir):
-            if int(game) <= int(len(self.standard)):
+            try:
+                self.standard(game)
                 games.append(game)
+            except IndexError:
+                pass
         return games
 
 if __name__ == '__main__':
