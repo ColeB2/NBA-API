@@ -41,11 +41,13 @@ class TestSchedule(unittest.TestCase):
         """Tests get_x_games method for Schedule Object to assure it returns
             the correct index values"""
         next_info = self.S.get_x_games()
-        self.assertEqual(next_info, [110,111,112,113,114])
+        self.assertEqual(next_info, [110])
         prev_info = self.S.get_x_games(x=3, next=False, prev_game=False)
         self.assertEqual(prev_info, [109,108,107])
         info2 = self.S.get_x_games(x=0)
         self.assertEqual(info2, [])
+        info3 = self.S.get_x_games(last_game=50)
+        self.assertEqual(info3, [50,51,52,53,54])
 
 if __name__ == '__main__':
     unittest.main()
