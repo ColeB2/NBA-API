@@ -34,7 +34,17 @@ class TestSchedule(unittest.TestCase):
 
     def test_get_gameId(self):
         """Tests get_gameId method for Schedule object"""
-        pass
+        gameId, date = self.S.get_gameId(date=20181212)
+        self.assertEqual(gameId, '0021800415')
+
+    def test_get_x_games(self):
+        """Tests for get_x_games method for Schedule Object"""
+        next_info = self.S.get_x_games()
+        self.assertEqual(next_info, [110,111,112,113,114])
+        prev_info = self.S.get_x_games(x=3, next=False, prev_game=False)
+        self.assertEqual(prev_info, [109,108,107])
+        info2 = self.S.get_x_games(x=0)
+        self.assertEqual(info2, [])
 
 if __name__ == '__main__':
     unittest.main()

@@ -68,7 +68,7 @@ class Schedule():
         return gameId, game_date
 
     def get_x_games(self, x=5, next=True, last_game=None, prev_game=True):
-        """Method used to get data of next/last x games.
+        """Method used to get index value of next/prev x games
 
         Args:
             x: number of games to be retrieve
@@ -89,7 +89,7 @@ class Schedule():
         return games
 
 if __name__ == '__main__':
-    S = Schedule()
+    S = Schedule(season='2018')
 
     y = S.get_gameId(date=20200120)
     print('Id by date: 20200120: ' + str(y))
