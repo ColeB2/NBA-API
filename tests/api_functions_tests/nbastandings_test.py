@@ -13,21 +13,34 @@ class TestStandings(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
-        self.S = Standings(div_stand='True')
+        self.CS = Standings(div_stand='conference')
+        self.DS = Standings(div_stand='division')
 
     def test_conference_data(self):
-        print(self.S.east)
-        print(self.S.west)
+        """Tests to assure conference east and west data is correct. Does so by
+            testing to see that Division standings is a dictionary of div names,
+            and that conference standings is a list of teams."""
+        self.assertEqual(type(self.CS.east), list)
+        self.assertEqual(type(self.CS.west), list)
+        east_div = ['southeast', 'atlantic', 'central']
+        for div in east_div:
+            self.assertIn(div, self.DS.east.keys())
+        west_div = ['southwest', 'pacific', 'northwest']
+        for div in west_div:
+            self.assertIn(div, self.DS.west.keys())
+
 
     def test_get_standing_data(self):
-        info = self.S.get_standing_data()
-        print(f"conf{self.S.conf} div{self.S.div}")
+        info = self.CS.get_standing_data()
+        print(f"conf{self.CS.conf} div{self.CS.div}")
         print(f"info {info}")
+        info2 = self.DS.get_standing_data()
+        print(f"info2 {info2}")
 
 
     def test__get_conf_division(self):
-        info = self.S._get_conf_division(team='raptors')
-        info2 = self.S._get_conf_division(team='blazers')
+        info = self.CS._get_conf_division(team='raptors')
+        info2 = self.DS._get_conf_division(team='blazers')
         self.assertEqual(info, ('East','Atlantic'))
         self.assertEqual(info2, ('West', 'Northwest'))
 

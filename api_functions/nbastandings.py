@@ -12,8 +12,8 @@ def get_standings_data(division=False):
     arguments.
 
     Args:
-        division: Boolean value, True if want division standings data.
-        conference: Boolean value, True if want conference standings data.
+        division: string, 'division' to return division standings, 'conference'
+            to return conference standings
 
     Returns:
         Dict of raw json data from data.nba.net.../standings_XXX.json endpoint
