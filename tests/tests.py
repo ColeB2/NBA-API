@@ -1,12 +1,13 @@
 import unittest
 
 from api_functions_tests import functions_tests, nbaboxscore_tests,\
-    nbaplayers_tests, nbaschedule_tests, nbascore_tests, nbastandings_test
+    nbaplayers_tests, nbaschedule_tests, nbascore_tests, nbastandings_test,\
+    nbateam_test
 
 
 if __name__ == '__main__':
     test_modules_to_run = [functions_tests, nbaboxscore_tests, nbaplayers_tests,
-        nbaschedule_tests, nbascore_tests, nbastandings_test]
+        nbaschedule_tests, nbascore_tests, nbastandings_test, nbateam_test]
 
     loader = unittest.TestLoader()
 

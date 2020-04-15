@@ -30,12 +30,8 @@ class TestStandings(unittest.TestCase):
             self.assertIn(div, self.DS.west.keys())
 
     def test_get_standing_data(self):
-
         info = self.CS.get_standing_data()
-        print(f"conf{self.CS.conf} div{self.CS.div}")
-        print(f"info {info}")
         info2 = self.DS.get_standing_data()
-        print(f"info2 {info2}")
 
     def test_more_get_Standing_data(self):
         """Further testing to to test inputs of self.div and self.conf in
