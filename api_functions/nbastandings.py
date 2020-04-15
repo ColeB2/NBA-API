@@ -70,6 +70,13 @@ class Standings(object):
             return self.conference[self.conf.lower()][self.div.lower()]
         elif self.conf:
             return self.conference[self.conf.lower()]
+        elif self.div:
+            east = ['atlantic', 'central', 'southeast']
+            if self.div.lower() in east:
+                conf = 'east'
+            else:
+                conf = 'west'
+            return self.conference[conf.lower()][self.div.lower()]
         else:
             data = self._get_conf_division(self.team)
             if self.div_stand == 'division':

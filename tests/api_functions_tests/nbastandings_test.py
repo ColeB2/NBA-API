@@ -6,7 +6,7 @@ from nbastandings import get_standings_data, Standings
 
 class TestStandings(unittest.TestCase):
 
-    def test_get_standing_data(self):
+    def test_get_standings_data(self):
         data = get_standings_data()
         self.assertIsNotNone(data)
         self.assertIn("_internal", data.keys())
@@ -29,13 +29,39 @@ class TestStandings(unittest.TestCase):
         for div in west_div:
             self.assertIn(div, self.DS.west.keys())
 
-
     def test_get_standing_data(self):
+
         info = self.CS.get_standing_data()
         print(f"conf{self.CS.conf} div{self.CS.div}")
         print(f"info {info}")
         info2 = self.DS.get_standing_data()
         print(f"info2 {info2}")
+
+    def test_more_get_Standing_data(self):
+        """Further testing to to test inputs of self.div and self.conf in
+            Standing obj and out get_standing_data handles it. Does so by
+            acquiring data 3 different ways, and testing correct team is in the
+            diviion that is returned"""
+        Stand1 = Standings(div_stand='division', division='Atlantic', conference='East')
+        stand1 = None
+        for team in Stand1.get_standing_data():
+            if team['teamSitesOnly']['teamKey'] == 'Toronto':
+                stand1 = team['teamSitesOnly']['teamKey']
+        self.assertEqual('Toronto', stand1)
+        Stand2 = Standings(div_stand='division', division='Pacific')
+        stand2 = None
+        for team in Stand2.get_standing_data():
+            if team['teamSitesOnly']['teamKey'] == 'Los Angeles':
+                stand2 = team['teamSitesOnly']['teamKey']
+        self.assertEqual('Los Angeles', stand2)
+
+        Stand3 = Standings(div_stand='division', division='Southwest', conference='West')
+        stand3 = None
+        for team in Stand3.get_standing_data():
+            if team['teamSitesOnly']['teamKey'] == 'Houston':
+                stand3 = team['teamSitesOnly']['teamKey']
+        self.assertEqual('Houston', stand3)
+
 
 
     def test__get_conf_division(self):
