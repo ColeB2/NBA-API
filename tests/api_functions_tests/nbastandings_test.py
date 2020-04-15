@@ -30,11 +30,7 @@ class TestStandings(unittest.TestCase):
             self.assertIn(div, self.DS.west.keys())
 
     def test_get_standing_data(self):
-        info = self.CS.get_standing_data()
-        info2 = self.DS.get_standing_data()
-
-    def test_more_get_Standing_data(self):
-        """Further testing to to test inputs of self.div and self.conf in
+        """testing to to test inputs of self.div and self.conf in
             Standing obj and out get_standing_data handles it. Does so by
             acquiring data 3 different ways, and testing correct team is in the
             diviion that is returned"""
@@ -61,6 +57,8 @@ class TestStandings(unittest.TestCase):
 
 
     def test__get_conf_division(self):
+        """Tests to assure return values of _get_conf_division are correct.
+            Does so by check values of raptors and blazers."""
         info = self.CS._get_conf_division(team='raptors')
         info2 = self.DS._get_conf_division(team='blazers')
         self.assertEqual(info, ('East','Atlantic'))
