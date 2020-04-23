@@ -45,8 +45,6 @@ class TeamInfo(object):
 
         elif team != None and id_option == None:
             team = self.get_team(team)
-            print(team)
-            print(f"TEAM DATA{team['urlName']}")
             for teams in self.standard:
                 if teams['urlName'] == team['urlName'].lower():
                     return (teams['confName'], teams['divName'])
