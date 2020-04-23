@@ -45,12 +45,14 @@ class TeamInfo(object):
 
         elif team != None and id_option == None:
             team = self.get_team(team)
+            print(team)
+            print(f"TEAM DATA{team['urlName']}")
             for teams in self.standard:
-                if teams['urlName'] == team['urlName']:
+                if teams['urlName'] == team['urlName'].lower():
                     return (teams['confName'], teams['divName'])
 
         elif team != None and id_option != None:
-            team = self.get_team(team, id_option='urlName', id_return='urlName')
+            team = self.get_team(team, id_option=id_option, id_return=id_option)
 
         print('Could not find division')
 
@@ -71,7 +73,7 @@ class TeamInfo(object):
         for team in self.standard:
             if team['isNBAFranchise'] == True:
                 for ID in self.identifiers:
-                    if team[ID] == identifier:
+                    if team[ID].lower() == identifier.lower():
                         if id_return:
                             return team[str(id_return)]
                         else:
