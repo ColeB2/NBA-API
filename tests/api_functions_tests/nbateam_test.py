@@ -31,5 +31,24 @@ class TestTeamInfo(unittest.TestCase):
         res = self.TI.get_conf_division(team='blazers')
         self.assertEqual(res, ('West','Northwest'))
 
+    def test_create_nba_list(self):
+        res = self.TI.create_nba_list()
+        for team in res:
+            self.assertEqual(len(team), 3)
+
+    def test_create_nba_list_2(self):
+        """Tests to assure all 30 NBA teams(labeled by tri code) and in the
+            teaminfo object list to assure the create_nba_list function is
+            working correctly"""
+        nba_teams = ['ATL', 'BOS', 'BKN', 'CHA', 'CHI', 'CLE', 'DAL', 'DEN',
+            'DET', 'GSW', 'HOU', 'IND', 'LAC', 'LAL', 'MEM', 'MIA', 'MIL',
+            'MIN', 'NOP', 'NYK', 'OKC', 'ORL', 'PHI', 'PHX', 'POR', 'SAC',
+            'SAS', 'TOR', 'UTA', 'WAS']
+
+        for team in nba_teams:
+            self.assertIn(team, self.TI.teamsTRI)
+
+
+
 if __name__ == '__main__':
     unittest.main()

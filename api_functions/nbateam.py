@@ -50,7 +50,7 @@ class TeamInfo(object):
                     return (teams['confName'], teams['divName'])
 
         elif team != None and id_option != None:
-            team = self.get_team(team, id_option=id_option, id_return=id_option)
+            team = self.get_team(team, id_option=id_option, id_return=None)
 
         print('Could not find division')
 
