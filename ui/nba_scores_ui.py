@@ -24,6 +24,9 @@ class ScoreBoardUI(Widget):
         self.SB = ScoreBoard(date=date)
         self.YSB = ScoreBoard(date=get_date_before(date))
 
+        if type(self.SB.raw_data) is not dict:
+            self.BROKE = True
+
 
 
     def display(self, horiz=True):
@@ -35,12 +38,29 @@ class ScoreBoardUI(Widget):
             false, will display it vertically.
 
         """
-        if horiz:
+        if hasattr(self, 'BROKE'):
+            if type(self.SB.raw_data) is tuple:
+                print(f"{self.SB.raw_data[1]}")
+            else:
+                print(f"{self.SB.raw_data}")
+        elif horiz:
+            self.display_horizontally()
+        else:
+            self.display_vertically()
+
+    def display_horizontally(self):
+        try:
             self.horizontal_display((self.YSB, self.SB),
                                      self.horizontal_display_date,
                                      extra_args=(self.YSB, self.SB))
-        else:
+        except Exception as e:
+            print(f"Exception found{e}")
+
+    def display_vertically(self):
+        try:
             self.vertical_display()
+        except Exception as e:
+            print(f"Exception found{e}")
 
 
 

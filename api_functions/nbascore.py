@@ -16,7 +16,10 @@ def get_score_data(date=None):
     url_start = 'http://data.nba.net/prod/v1/'
     url = str(url_start) + str(date) + str('/scoreboard.json')
 
-    data = get_data(url)
+    try:
+        data = get_data(url)
+    except Exception as e:
+        data = (None, e)
     return data
 
 class ScoreBoard():
@@ -27,13 +30,14 @@ class ScoreBoard():
     """
     def __init__(self, date=None):
         self.date = date if date != None else get_today_date()
-
         self.raw_data = get_score_data(date=self.date)
-        self._internal = self.raw_data['_internal']
 
-        self.num_games = self.raw_data['numGames']
+        if type(self.raw_data) is dict:
+            self._internal = self.raw_data['_internal']
 
-        self.games = self.raw_data['games'] #list of games
+            self.num_games = self.raw_data['numGames']
+
+            self.games = self.raw_data['games'] #list of games
 
 if __name__ == '__main__':
 
