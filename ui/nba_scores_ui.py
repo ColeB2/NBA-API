@@ -40,9 +40,9 @@ class ScoreBoardUI(Widget):
         """
         if hasattr(self, 'BROKE'):
             if type(self.SB.raw_data) is tuple:
-                print(f"{self.SB.raw_data[1]}")
+                print(f"Error Loading ScoreBoard: {self.SB.raw_data[1]}")
             else:
-                print(f"{self.SB.raw_data}")
+                print(f"Error Loading ScoreBoard: {self.SB.raw_data}")
         elif horiz:
             self.display_horizontally()
         else:
@@ -54,13 +54,13 @@ class ScoreBoardUI(Widget):
                                      self.horizontal_display_date,
                                      extra_args=(self.YSB, self.SB))
         except Exception as e:
-            print(f"Exception found{e}")
+            print(f"Error Loading ScoreBoard: {e}")
 
     def display_vertically(self):
         try:
             self.vertical_display()
         except Exception as e:
-            print(f"Exception found{e}")
+            print(f"Error Loading ScoreBoard: {e}")
 
 
 
