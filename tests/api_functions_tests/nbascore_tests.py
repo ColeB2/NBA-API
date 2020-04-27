@@ -9,7 +9,10 @@ class TestScoreBoard(unittest.TestCase):
     def test_get_score_data(self):
         data = get_score_data()
         self.assertIsNotNone(data)
-        self.assertIn("_internal", data.keys())
+        if type(data) is dict:
+            self.assertIn("_internal", data.keys())
+        else:
+            self.assertEqual("HTTP Error 404: Not Found", str(data[1]))
 
     @classmethod
     def setUpClass(self):
